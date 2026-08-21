@@ -276,7 +276,7 @@ export interface Stat {
 export const STATS: Stat[] = [
   { end: 32, suffix: '%', label: 'mehr qualifizierte Anfragen' },
   { end: 180, suffix: '+', label: 'umgesetzte Projekte' },
-  { end: 12, suffix: ' Jahre', label: 'kombinierte Erfahrung' },
+  { end: 12, suffix: '+', label: 'Jahre kombinierte Erfahrung' },
   { end: 60, suffix: '+', label: 'betreute Unternehmen' },
 ];
 
