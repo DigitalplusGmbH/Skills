@@ -36,8 +36,8 @@ export default function WorldSection({ world }: { world: World }) {
     const pin = pinRef.current;
     if (!pin) return;
 
-    const scenes = Array.from(pin.querySelectorAll<HTMLElement>('.scene'));
-    const dots = Array.from(pin.querySelectorAll<HTMLElement>('.scene-dot'));
+    const items = Array.from(pin.querySelectorAll<HTMLElement>('.world-scene-item'));
+    const railFill = pin.querySelector<HTMLElement>('.world-scene-rail-fill');
 
     const trigger = ScrollTrigger.create({
       trigger: pin,
@@ -45,11 +45,9 @@ export default function WorldSection({ world }: { world: World }) {
       end: 'bottom bottom',
       scrub: 0.5,
       onUpdate: (self) => {
-        const idx = Math.min(Math.floor(self.progress * scenes.length), scenes.length - 1);
-        scenes.forEach((scene, i) => {
-          scene.style.opacity = i === idx ? '1' : '0';
-        });
-        dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+        const idx = Math.min(Math.floor(self.progress * items.length), items.length - 1);
+        items.forEach((item, i) => item.classList.toggle('active', i === idx));
+        if (railFill) railFill.style.height = `${self.progress * 100}%`;
       },
     });
 
@@ -90,16 +88,15 @@ export default function WorldSection({ world }: { world: World }) {
           </div>
 
           <div className="pin-swap-right">
-            {world.scenes.map((scene) => (
-              <div className="scene" key={scene.title}>
-                <span className="scene-index">{String(world.scenes.indexOf(scene) + 1).padStart(2, '0')}</span>
-                <span className="scene-title">{scene.title}</span>
-                <p className="scene-desc">{scene.description}</p>
-              </div>
-            ))}
-            <div className="scene-dots">
+            <div className="world-scene-rail">
+              <span className="world-scene-rail-fill" />
+            </div>
+            <div className="world-scene-list">
               {world.scenes.map((scene, i) => (
-                <span key={scene.title} className={`scene-dot ${i === 0 ? 'active' : ''}`} />
+                <div className={`world-scene-item ${i === 0 ? 'active' : ''}`} key={scene.title}>
+                  <h4 className="world-scene-title">{scene.title}</h4>
+                  <p className="world-scene-desc">{scene.description}</p>
+                </div>
               ))}
             </div>
           </div>
