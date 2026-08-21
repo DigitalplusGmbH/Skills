@@ -36,20 +36,43 @@ export default function WorldSection({ world }: { world: World }) {
     const pin = pinRef.current;
     if (!pin) return;
 
-    const items = Array.from(pin.querySelectorAll<HTMLElement>('.world-scene-item'));
-    const railFill = pin.querySelector<HTMLElement>('.world-scene-rail-fill');
+    const cards = Array.from(pin.querySelectorAll<HTMLElement>('.world-scene-card'));
+    const count = cards.length;
+    if (!count) return;
+
+    const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+    const applyProgress = (p: number) => {
+      cards.forEach((card, i) => {
+        // entry: the card drops in from above into the foreground.
+        // recede: it starts pushing back the instant the *next* card
+        // begins entering, so the two motions stay in lockstep — the
+        // last card has no successor, so it never recedes.
+        const entry = clamp01(p * count - i + 1);
+        const recede = i === count - 1 ? 0 : clamp01(p * count - i);
+
+        const translateY = (1 - entry) * -70 + recede * 10;
+        const scale = 0.9 + entry * 0.1 - recede * 0.06;
+        const opacity = entry - recede * 0.45;
+
+        card.style.transform = `translateY(${translateY}px) scale(${scale})`;
+        card.style.opacity = String(opacity);
+        card.style.zIndex = String(100 + i);
+      });
+    };
 
     const trigger = ScrollTrigger.create({
       trigger: pin,
       start: 'top top',
       end: 'bottom bottom',
       scrub: 0.5,
-      onUpdate: (self) => {
-        const idx = Math.min(Math.floor(self.progress * items.length), items.length - 1);
-        items.forEach((item, i) => item.classList.toggle('active', i === idx));
-        if (railFill) railFill.style.height = `${self.progress * 100}%`;
-      },
+      onUpdate: (self) => applyProgress(self.progress),
     });
+
+    // onUpdate only fires on a scroll event within the trigger's range —
+    // seed the initial state immediately so cards aren't left at their
+    // CSS-default (fully opaque, stacked) appearance before the user scrolls.
+    applyProgress(trigger.progress);
 
     return () => trigger.kill();
   }, [ready, reduceMotion, isMobile]);
@@ -88,14 +111,11 @@ export default function WorldSection({ world }: { world: World }) {
           </div>
 
           <div className="pin-swap-right">
-            <div className="world-scene-rail">
-              <span className="world-scene-rail-fill" />
-            </div>
-            <div className="world-scene-list">
+            <div className="world-scene-stack">
               {world.scenes.map((scene, i) => (
-                <div className={`world-scene-item ${i === 0 ? 'active' : ''}`} key={scene.title}>
-                  <h4 className="world-scene-title">{scene.title}</h4>
-                  <p className="world-scene-desc">{scene.description}</p>
+                <div className="world-scene-card" key={scene.title} style={{ zIndex: 100 + i }}>
+                  <h4 className="world-scene-card-title">{scene.title}</h4>
+                  <p className="world-scene-card-desc">{scene.description}</p>
                 </div>
               ))}
             </div>
