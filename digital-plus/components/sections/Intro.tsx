@@ -2,6 +2,7 @@
 
 import { useReveal } from '@/hooks/useReveal';
 import { ABOUT } from '@/lib/content';
+import ScrollFloatHeading from '../ui/ScrollFloatHeading';
 
 function ValueCard({ value }: { value: (typeof ABOUT.values)[number] }) {
   const ref = useReveal<HTMLDivElement>();
@@ -16,17 +17,19 @@ function ValueCard({ value }: { value: (typeof ABOUT.values)[number] }) {
 }
 
 export default function Intro() {
-  const headingRef = useReveal<HTMLDivElement>();
+  const headingRef = useReveal<HTMLSpanElement>();
   const textRef = useReveal<HTMLDivElement>();
 
   return (
     <section id="ueber-uns" className="section">
       <div className="container">
-        <div ref={headingRef} className="reveal" style={{ maxWidth: 640, marginBottom: '2.5rem' }}>
-          <span className="eyebrow">Über uns</span>
-          <h2 className="h2-section" style={{ marginTop: '1rem' }}>
-            Drei Welten. <span className="gradient-text">Eine Strategie.</span>
-          </h2>
+        <div style={{ maxWidth: 640, marginBottom: '2.5rem' }}>
+          <span ref={headingRef} className="eyebrow reveal">
+            Über uns
+          </span>
+          <div style={{ marginTop: '1rem' }}>
+            <ScrollFloatHeading text="Drei Welten. Eine Strategie." gradientFrom={2} />
+          </div>
         </div>
 
         <div ref={textRef} className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

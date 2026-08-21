@@ -1,13 +1,21 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useReveal } from '@/hooks/useReveal';
-import { CASE_STUDIES } from '@/lib/content';
+import { usePerfFlags } from '@/hooks/usePerfFlags';
+import { CASE_STUDIES, type CaseStudy } from '@/lib/content';
+import ScrollFloatHeading from '../ui/ScrollFloatHeading';
+import Button from '../ui/Button';
 
-function CaseCard({ caseStudy }: { caseStudy: (typeof CASE_STUDIES)[number] }) {
-  const ref = useReveal<HTMLDivElement>();
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
+function CaseCard({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
-    <div ref={ref} className="reveal card art-card card-spotlight">
+    <div className="card art-card card-spotlight h-scroll-card">
       <div className="art-top">
         <span className="rivet-tl" />
         <span className="rivet-tr" />
@@ -45,21 +53,62 @@ function CaseCard({ caseStudy }: { caseStudy: (typeof CASE_STUDIES)[number] }) {
 }
 
 export default function CaseStudies() {
-  const headingRef = useReveal<HTMLDivElement>();
+  const headingRef = useReveal<HTMLSpanElement>();
+  const pinRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const { isMobile, isLowCore, reduceMotion, ready } = usePerfFlags();
+
+  useEffect(() => {
+    if (!ready || reduceMotion || isMobile || isLowCore) return;
+    const pin = pinRef.current;
+    const track = trackRef.current;
+    if (!pin || !track) return;
+
+    const getDistance = () => Math.max(track.scrollWidth - pin.offsetWidth, 0);
+
+    const tween = gsap.to(track, {
+      x: () => -getDistance(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: pin,
+        start: 'top top',
+        end: () => `+=${getDistance()}`,
+        scrub: 1,
+        pin: true,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, [ready, reduceMotion, isMobile, isLowCore]);
 
   return (
-    <section id="projekte" className="section">
+    <section id="projekte" className="section" style={{ paddingBottom: 0 }}>
       <div className="container">
-        <div ref={headingRef} className="reveal" style={{ maxWidth: 640, marginBottom: '3rem' }}>
-          <span className="eyebrow">Selected Work</span>
-          <h2 className="h2-section" style={{ marginTop: '1rem' }}>
-            Ausgewählte Projekte
-          </h2>
+        <div style={{ maxWidth: 640, marginBottom: '3rem' }}>
+          <span ref={headingRef} className="eyebrow reveal">
+            Selected Work
+          </span>
+          <div style={{ marginTop: '1rem' }}>
+            <ScrollFloatHeading text="Ausgewählte Projekte" />
+          </div>
         </div>
-        <div className="grid-cases">
+      </div>
+
+      <div className="h-scroll-pin" ref={pinRef}>
+        <div className="h-scroll-track" ref={trackRef}>
           {CASE_STUDIES.map((caseStudy) => (
             <CaseCard key={caseStudy.client + caseStudy.category} caseStudy={caseStudy} />
           ))}
+          <div className="h-scroll-end">
+            <p className="h3-card">Ihr Projekt könnte das nächste sein.</p>
+            <Button href="#kontakt" variant="primary" magnetic>
+              Projekt starten
+            </Button>
+          </div>
         </div>
       </div>
     </section>

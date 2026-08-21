@@ -2,18 +2,21 @@
 
 import { useReveal } from '@/hooks/useReveal';
 import { FAQS } from '@/lib/content';
+import ScrollFloatHeading from '../ui/ScrollFloatHeading';
 
 export default function FAQ() {
-  const headingRef = useReveal<HTMLDivElement>();
+  const headingRef = useReveal<HTMLSpanElement>();
 
   return (
     <section className="section section-alt">
       <div className="container">
-        <div ref={headingRef} className="reveal" style={{ maxWidth: 640, marginBottom: '2.5rem' }}>
-          <span className="eyebrow">Häufige Fragen</span>
-          <h2 className="h2-section" style={{ marginTop: '1rem' }}>
-            Bevor Sie fragen müssen
-          </h2>
+        <div style={{ maxWidth: 640, marginBottom: '2.5rem' }}>
+          <span ref={headingRef} className="eyebrow reveal">
+            Häufige Fragen
+          </span>
+          <div style={{ marginTop: '1rem' }}>
+            <ScrollFloatHeading text="Bevor Sie fragen müssen" />
+          </div>
         </div>
 
         <div className="faq-list" style={{ maxWidth: 760 }}>

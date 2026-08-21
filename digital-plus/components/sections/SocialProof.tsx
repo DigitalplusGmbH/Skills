@@ -2,6 +2,7 @@
 
 import { useReveal } from '@/hooks/useReveal';
 import { FEATURED_TESTIMONIAL, TESTIMONIALS } from '@/lib/content';
+import ScrollFloatHeading from '../ui/ScrollFloatHeading';
 
 function Stars({ count }: { count: number }) {
   return (
@@ -16,16 +17,18 @@ function Stars({ count }: { count: number }) {
 }
 
 export default function SocialProof() {
-  const ref = useReveal<HTMLDivElement>();
+  const ref = useReveal<HTMLSpanElement>();
 
   return (
     <section className="section">
       <div className="container">
-        <div ref={ref} className="reveal" style={{ maxWidth: 640, marginBottom: '3rem' }}>
-          <span className="eyebrow">Stimmen</span>
-          <h2 className="h2-section" style={{ marginTop: '1rem' }}>
-            Was Kunden sagen
-          </h2>
+        <div style={{ maxWidth: 640, marginBottom: '3rem' }}>
+          <span ref={ref} className="eyebrow reveal">
+            Stimmen
+          </span>
+          <div style={{ marginTop: '1rem' }}>
+            <ScrollFloatHeading text="Was Kunden sagen" />
+          </div>
         </div>
 
         <div className="grid-testimonials">

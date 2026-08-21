@@ -4,6 +4,7 @@ import './globals.css';
 import { LenisProvider } from '@/hooks/useLenis';
 import Nav from '@/components/Nav';
 import CustomCursor from '@/components/CustomCursor';
+import ScrollProgress from '@/components/ScrollProgress';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -76,9 +77,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <noscript>
+          <style>{'.sf-word { opacity: 1 !important; }'}</style>
+        </noscript>
         <a href="#main" className="skip-link">
           Zum Inhalt springen
         </a>
+        <ScrollProgress />
         <LenisProvider>
           <Nav />
           <main id="main">{children}</main>

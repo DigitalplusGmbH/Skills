@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PROCESS_STEPS } from '@/lib/content';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
 import { useReveal } from '@/hooks/useReveal';
+import ScrollFloatHeading from '../ui/ScrollFloatHeading';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -13,7 +14,7 @@ if (typeof window !== 'undefined') {
 
 export default function Process() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const headingRef = useReveal<HTMLDivElement>();
+  const headingRef = useReveal<HTMLSpanElement>();
   const { reduceMotion, ready } = usePerfFlags();
 
   useEffect(() => {
@@ -48,11 +49,13 @@ export default function Process() {
   return (
     <section className="section section-alt">
       <div className="container">
-        <div ref={headingRef} className="reveal" style={{ maxWidth: 640 }}>
-          <span className="eyebrow">Ablauf</span>
-          <h2 className="h2-section" style={{ marginTop: '1rem' }}>
-            Vier Schritte, ein System
-          </h2>
+        <div style={{ maxWidth: 640 }}>
+          <span ref={headingRef} className="eyebrow reveal">
+            Ablauf
+          </span>
+          <div style={{ marginTop: '1rem' }}>
+            <ScrollFloatHeading text="Vier Schritte, ein System" />
+          </div>
         </div>
 
         <div className="process-track" ref={trackRef}>
