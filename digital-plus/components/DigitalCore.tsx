@@ -30,14 +30,19 @@ function CoreMesh() {
   return (
     <mesh ref={meshRef}>
       <torusKnotGeometry args={[1.15, 0.36, 220, 32]} />
+      {/* No environment map: an opaque material either disappears (light base
+          on a light page) or renders as a flat dark mass (unlit regions have
+          nothing to reflect). Transmission sidesteps both — it samples
+          whatever is actually behind it, so the shape stays tonally close to
+          the page while iridescence and clearcoat still pop as colour. */}
       <meshPhysicalMaterial
-        transmission={0.9}
-        thickness={1.6}
-        roughness={0.15}
+        color="#ffffff"
+        transmission={0.94}
+        thickness={1.4}
+        roughness={0.1}
         iridescence={1}
         iridescenceIOR={1.3}
         clearcoat={1}
-        color="#ffffff"
       />
     </mesh>
   );
@@ -62,7 +67,7 @@ function AmbientParticles({ count = 140 }: { count?: number }) {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.035} color="#8b9bff" transparent opacity={0.55} />
+      <pointsMaterial size={0.035} color="#5b3fd6" transparent opacity={0.6} />
     </points>
   );
 }
@@ -70,7 +75,8 @@ function AmbientParticles({ count = 140 }: { count?: number }) {
 export default function DigitalCore() {
   return (
     <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 45 }} gl={{ alpha: true, antialias: true }}>
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={0.9} />
+      <directionalLight position={[2, 4, 5]} intensity={0.8} />
       <pointLight position={[3, 3, 3]} intensity={6} color="#00a8ff" />
       <pointLight position={[-3, -2, 3]} intensity={6} color="#ff2bd6" />
       <pointLight position={[0, 3, -3]} intensity={4} color="#7c3aed" />

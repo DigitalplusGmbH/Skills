@@ -4,41 +4,41 @@
 
 :root {
   /* Backgrounds */
-  --bg: #07080d;
-  --surface: #101117;
-  --surface-alt: #14151f;
-  --surface-hover: #1a1c28;
+  --bg: #f8f9fb;
+  --surface: #ffffff;
+  --surface-alt: #eef0f4;
+  --surface-hover: #e4e7ed;
 
   /* Borders */
-  --border: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.18);
+  --border: rgba(10, 12, 20, 0.09);
+  --border-hover: rgba(10, 12, 20, 0.18);
 
   /* Text */
-  --text: #ffffff;
-  --text-secondary: #a8abb8;
-  --text-tertiary: #6e7180;
+  --text: #0b0c10;
+  --text-secondary: #52565f;
+  --text-tertiary: #82858e;
 
   /* Accent — global default */
-  --accent: #2563ff;
-  --accent-hover: #5286ff;
+  --accent: #2554e6;
+  --accent-hover: #1a3fbd;
 
-  /* Welten-Akzente */
-  --world-leads: #00a8ff;
-  --world-leads-rgb: 0, 168, 255;
-  --world-creative: #ff2bd6;
-  --world-creative-rgb: 255, 43, 214;
-  --world-it: #7c3aed;
-  --world-it-rgb: 124, 58, 237;
+  /* Welten-Akzente (etwas vertieft für Kontrast auf hellem Grund) */
+  --world-leads: #0091d4;
+  --world-leads-rgb: 0, 145, 212;
+  --world-creative: #d6169f;
+  --world-creative-rgb: 214, 22, 159;
+  --world-it: #6d28d9;
+  --world-it-rgb: 109, 40, 217;
 
-  --gradient-signature: linear-gradient(120deg, #00a8ff 0%, #7c3aed 50%, #ff2bd6 100%);
+  --gradient-signature: linear-gradient(120deg, #0091d4 0%, #6d28d9 50%, #d6169f 100%);
 
-  --bg-rgb: 7, 8, 13;
-  --accent-rgb: 37, 99, 255;
-  --surface-rgb: 16, 17, 23;
+  --bg-rgb: 248, 249, 251;
+  --accent-rgb: 37, 84, 230;
+  --surface-rgb: 255, 255, 255;
 
-  --success: #22c55e;
-  --error: #f43f5e;
-  --warning: #f59e0b;
+  --success: #16a34a;
+  --error: #e11d48;
+  --warning: #d97706;
 
   /* --font-display-nf / --font-body-nf are injected by next/font (see app/layout.tsx).
      var() with an undefined custom property and NO fallback makes the whole
@@ -160,7 +160,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   -webkit-text-fill-color: transparent; color: transparent;
   text-shadow: none;
 }
-.hero-glow { text-shadow: 0 0 40px rgba(124, 58, 237, 0.35); }
+.hero-glow { text-shadow: none; }
 
 /* Ghost title (Pattern 5) */
 .ghost-title { position: relative; display: inline-block; }
@@ -213,7 +213,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 }
 .card:hover {
   border-color: var(--border-hover); transform: translateY(-4px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.25);
+  box-shadow: 0 20px 45px rgba(15, 15, 25, 0.10), 0 0 0 1px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.2);
 }
 .card:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
 
@@ -324,7 +324,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 }
 .world-orb:hover, .world-orb:focus-visible {
   border-color: var(--world-accent); transform: translateY(-6px);
-  box-shadow: 0 0 0 1px var(--world-accent), 0 0 48px rgba(var(--world-accent-rgb), 0.35);
+  box-shadow: 0 0 0 1px var(--world-accent), 0 0 40px rgba(var(--world-accent-rgb), 0.22);
 }
 .world-orb[aria-pressed='true'] { border-color: var(--world-accent); background: rgba(var(--world-accent-rgb), 0.08); }
 .world-orb .world-orb-number { font-family: var(--font-display); font-size: 0.75rem; color: var(--text-tertiary); letter-spacing: 0.12em; }
@@ -365,8 +365,8 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: radial-gradient(
     ellipse 620px 520px at 50% 48%,
-    rgba(var(--bg-rgb), 0.62) 0%,
-    rgba(var(--bg-rgb), 0.4) 45%,
+    rgba(var(--bg-rgb), 0.4) 0%,
+    rgba(var(--bg-rgb), 0.22) 45%,
     transparent 72%
   ), radial-gradient(circle at 50% 45%, transparent 55%, var(--bg) 92%);
 }
@@ -393,7 +393,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   position: absolute; background: rgba(var(--surface-rgb), 0.75); border: 1px solid var(--border); border-radius: 14px;
   padding: 12px 14px; width: var(--w, 200px); transform-style: preserve-3d; will-change: transform, filter;
   transition: filter 0.5s var(--ease-cinema), border-color 0.5s ease;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35); backdrop-filter: blur(6px);
+  box-shadow: 0 14px 34px rgba(15, 15, 25, 0.12); backdrop-filter: blur(6px);
   top: calc(50% + var(--y, 0) * 1px); left: calc(50% + var(--x, 0) * 1px);
   transform: translate3d(-50%, -50%, var(--z, 0px)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--rz, 0deg));
   filter: blur(var(--blur, 0px)); opacity: calc(1 - var(--blur, 0) * 0.08);
@@ -460,21 +460,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .stat-value { font-family: var(--font-display); font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 700; color: var(--text); }
 .stat-suffix { font-size: 0.75rem; color: var(--text-tertiary); display: block; margin-top: 0.25rem; }
 .stat-label { color: var(--text-secondary); font-size: 0.9375rem; margin-top: 0.5rem; }
-
-/* ==========================================================================
-   Process timeline
-   ========================================================================== */
-
-.process-track { position: relative; margin-top: 4rem; }
-.process-line { position: relative; height: 2px; background: var(--border); border-radius: 999px; overflow: hidden; }
-.process-signal {
-  position: absolute; top: 0; left: 0; height: 100%; width: 100%;
-  background: var(--gradient-signature); transform-origin: left; transform: scaleX(0);
-}
-.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2rem; }
-.process-step-index { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--accent); }
-.process-step-title { font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; margin-top: 0.5rem; }
-.process-step-desc { color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem; }
 
 /* ==========================================================================
    Social proof
@@ -615,7 +600,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 @media (max-width: 900px) {
   .pin-swap-inner { grid-template-columns: 1fr; }
   .pin-swap-right { height: 42vh; }
-  .process-steps { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -635,7 +619,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   .webgl-layer { opacity: 0.5; }
   .star-card:nth-child(n+5) { display: none; }
   .custom-cursor, .cursor-glow { display: none; }
-  .process-steps { grid-template-columns: 1fr; }
   .final-cta { margin-inline: 1rem; }
 }
 

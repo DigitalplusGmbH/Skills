@@ -3,7 +3,6 @@ import Intro from '@/components/sections/Intro';
 import WorldSection from '@/components/sections/WorldSection';
 import CaseStudies from '@/components/sections/CaseStudies';
 import Numbers from '@/components/sections/Numbers';
-import Process from '@/components/sections/Process';
 import SocialProof from '@/components/sections/SocialProof';
 import FAQ from '@/components/sections/FAQ';
 import FinalCTA from '@/components/sections/FinalCTA';
@@ -20,7 +19,6 @@ export default function HomePage() {
       ))}
       <CaseStudies />
       <Numbers />
-      <Process />
       <SocialProof />
       <FAQ />
       <FinalCTA />

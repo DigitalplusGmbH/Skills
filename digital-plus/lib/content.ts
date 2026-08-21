@@ -222,35 +222,6 @@ export const NAV_ITEMS = [
   { label: 'Kontakt', href: '#kontakt' },
 ];
 
-export interface ProcessStep {
-  index: string;
-  title: string;
-  description: string;
-}
-
-export const PROCESS_STEPS: ProcessStep[] = [
-  {
-    index: '01',
-    title: 'Verstehen',
-    description: 'Wir analysieren Marktumfeld, Zielgruppe und bestehende Systeme, bevor wir eine einzige Empfehlung aussprechen.',
-  },
-  {
-    index: '02',
-    title: 'Strategie',
-    description: 'Aus der Analyse entsteht ein Plan, der Leads, Creative und IT als ein System denkt — nicht als drei getrennte Baustellen.',
-  },
-  {
-    index: '03',
-    title: 'Umsetzung',
-    description: 'Kampagnen, Design und Infrastruktur werden parallel aufgebaut und laufend gegen die Strategie geprüft.',
-  },
-  {
-    index: '04',
-    title: 'Optimierung',
-    description: 'Daten aus dem laufenden Betrieb fließen zurück in Kampagnen, Kreation und technische Konfiguration.',
-  },
-];
-
 export interface CaseStudy {
   client: string;
   category: string;
