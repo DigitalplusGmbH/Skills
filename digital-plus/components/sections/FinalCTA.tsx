@@ -17,7 +17,7 @@ export default function FinalCTA() {
         <div className="final-cta-content">
           <span className="eyebrow">Nächster Schritt</span>
           <h2 className="h2-section">Welche Welt bringt Ihr Unternehmen weiter?</h2>
-          <p className="body-lg" style={{ textAlign: 'center' }}>
+          <p className="body-lg" style={{ textAlign: 'center', alignSelf: 'stretch' }}>
             Ihr nächstes Projekt beginnt mit einem Gespräch — nicht mit einem Formular.
           </p>
 
