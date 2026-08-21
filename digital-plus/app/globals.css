@@ -40,10 +40,13 @@
   --error: #f43f5e;
   --warning: #f59e0b;
 
-  /* --font-display-nf / --font-body-nf are injected by next/font (see app/layout.tsx);
-     the named fallbacks below cover the rare case where that variable is unset. */
-  --font-display: var(--font-display-nf), 'Space Grotesk', 'Inter', -apple-system, sans-serif;
-  --font-body: var(--font-body-nf), 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* --font-display-nf / --font-body-nf are injected by next/font (see app/layout.tsx).
+     var() with an undefined custom property and NO fallback makes the whole
+     declaration invalid at compute time (not just that list entry) — so the
+     fallback argument here is required, not decorative, for any build where
+     the -nf variable isn't defined (e.g. a static export without next/font). */
+  --font-display: var(--font-display-nf, 'Space Grotesk'), 'Inter', -apple-system, sans-serif;
+  --font-body: var(--font-body-nf, 'Inter'), -apple-system, BlinkMacSystemFont, sans-serif;
 
   --ease-cinema: cubic-bezier(0.16, 1, 0.3, 1);
   --container-max: 1360px;
