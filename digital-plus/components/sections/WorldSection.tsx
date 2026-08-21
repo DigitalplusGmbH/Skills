@@ -4,15 +4,31 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Button from '../ui/Button';
-import type { World } from '@/lib/content';
+import type { ServiceDetail, World } from '@/lib/content';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
+import { useReveal } from '@/hooks/useReveal';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+function ServiceDetailCard({ detail }: { detail: ServiceDetail }) {
+  const ref = useReveal<HTMLDivElement>();
+  return (
+    <div ref={ref} className="card card-spotlight reveal">
+      <h3 className="h3-card" style={{ fontSize: '1.0625rem' }}>
+        {detail.name}
+      </h3>
+      <p className="body-lg" style={{ marginTop: '0.6rem', fontSize: '0.9375rem' }}>
+        {detail.description}
+      </p>
+    </div>
+  );
+}
+
 export default function WorldSection({ world }: { world: World }) {
   const pinRef = useRef<HTMLDivElement>(null);
+  const detailHeadingRef = useReveal<HTMLDivElement>();
   const { reduceMotion, isMobile, ready } = usePerfFlags();
 
   useEffect(() => {
@@ -87,6 +103,20 @@ export default function WorldSection({ world }: { world: World }) {
               ))}
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="container" style={{ marginTop: 'clamp(3rem, 6vw, 5rem)' }}>
+        <div ref={detailHeadingRef} className="reveal" style={{ maxWidth: 680, marginBottom: '2rem' }}>
+          <p className="body-lg">{world.bodyExtra}</p>
+        </div>
+        <h3 className="h3-card" style={{ marginBottom: '1.5rem' }}>
+          Leistungen im Detail
+        </h3>
+        <div className="grid-features">
+          {world.serviceDetails.map((detail) => (
+            <ServiceDetailCard key={detail.name} detail={detail} />
+          ))}
         </div>
       </div>
     </section>

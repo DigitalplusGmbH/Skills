@@ -5,6 +5,7 @@ import CaseStudies from '@/components/sections/CaseStudies';
 import Numbers from '@/components/sections/Numbers';
 import Process from '@/components/sections/Process';
 import SocialProof from '@/components/sections/SocialProof';
+import FAQ from '@/components/sections/FAQ';
 import FinalCTA from '@/components/sections/FinalCTA';
 import Footer from '@/components/Footer';
 import { WORLDS } from '@/lib/content';
@@ -21,6 +22,7 @@ export default function HomePage() {
       <Numbers />
       <Process />
       <SocialProof />
+      <FAQ />
       <FinalCTA />
       <Footer />
     </>
