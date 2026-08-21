@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { PROCESS_STEPS } from '@/lib/content';
+import { PROCESS_STEPS, type ProcessStep } from '@/lib/content';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
 import { useReveal } from '@/hooks/useReveal';
 import ScrollFloatHeading from '../ui/ScrollFloatHeading';
@@ -12,35 +12,39 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+function Step({ step }: { step: ProcessStep }) {
+  const ref = useReveal<HTMLDivElement>();
+  return (
+    <div ref={ref} className="reveal process-step">
+      <span className="process-step-index">{step.index}</span>
+      <h3 className="process-step-title">{step.title}</h3>
+      <p className="process-step-desc">{step.description}</p>
+    </div>
+  );
+}
+
 export default function Process() {
-  const trackRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
   const headingRef = useReveal<HTMLSpanElement>();
   const { reduceMotion, ready } = usePerfFlags();
 
   useEffect(() => {
     if (!ready) return;
-    const track = trackRef.current;
-    if (!track) return;
-    const signal = track.querySelector<HTMLElement>('.process-signal');
-    const steps = Array.from(track.querySelectorAll<HTMLElement>('.process-step'));
-    if (!signal) return;
+    const line = lineRef.current;
+    const signal = line?.querySelector<HTMLElement>('.process-signal');
+    if (!line || !signal) return;
 
     if (reduceMotion) {
       signal.style.transform = 'scaleX(1)';
-      steps.forEach((s) => s.classList.add('active'));
       return;
     }
 
     const trigger = ScrollTrigger.create({
-      trigger: track,
-      start: 'top 70%',
-      end: 'bottom 60%',
-      scrub: 0.6,
-      onUpdate: (self) => {
-        gsap.set(signal, { scaleX: self.progress });
-        const activeCount = Math.ceil(self.progress * steps.length);
-        steps.forEach((step, i) => step.classList.toggle('active', i < activeCount));
-      },
+      trigger: line,
+      start: 'top 75%',
+      end: 'bottom 45%',
+      scrub: 0.8,
+      onUpdate: (self) => gsap.set(signal, { scaleX: self.progress }),
     });
 
     return () => trigger.kill();
@@ -58,17 +62,13 @@ export default function Process() {
           </div>
         </div>
 
-        <div className="process-track" ref={trackRef}>
-          <div className="process-line">
+        <div className="process-track">
+          <div className="process-line" ref={lineRef}>
             <div className="process-signal" />
           </div>
           <div className="process-steps">
             {PROCESS_STEPS.map((step) => (
-              <div key={step.index} className="process-step">
-                <span className="process-step-index">{step.index}</span>
-                <h3 className="process-step-title">{step.title}</h3>
-                <p className="process-step-desc">{step.description}</p>
-              </div>
+              <Step key={step.index} step={step} />
             ))}
           </div>
         </div>

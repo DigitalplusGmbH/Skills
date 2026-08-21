@@ -222,7 +222,13 @@ export const NAV_ITEMS = [
   { label: 'Kontakt', href: '#kontakt' },
 ];
 
-export const PROCESS_STEPS = [
+export interface ProcessStep {
+  index: string;
+  title: string;
+  description: string;
+}
+
+export const PROCESS_STEPS: ProcessStep[] = [
   {
     index: '01',
     title: 'Verstehen',
