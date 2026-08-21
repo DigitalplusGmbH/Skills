@@ -43,17 +43,17 @@ export default function ScrollFloatHeading({
 
     const tween = gsap.fromTo(
       spans,
-      { opacity: 0, y: 36, filter: 'blur(10px)' },
+      { opacity: 0, y: 56, filter: 'blur(16px)' },
       {
         opacity: 1,
         y: 0,
         filter: 'blur(0px)',
-        stagger: 0.06,
+        stagger: 0.08,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 88%',
-          end: 'top 55%',
+          start: 'top 98%',
+          end: 'top 25%',
           scrub: 0.6,
         },
       },

@@ -20,6 +20,25 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
   const [ctx, setCtx] = useState<LenisContextValue>({ scrollTo: () => {} });
 
   useEffect(() => {
+    // Every ScrollTrigger on the page measures element positions relative to
+    // the CURRENT layout. Web fonts swapping in (font-display: swap) after
+    // that measurement shifts text metrics and reflows content below —
+    // silently invalidating start/end offsets for anything further down the
+    // page. Refreshing once fonts settle (and once more after full load, as
+    // a catch-all for images/WebGL canvas sizing) keeps every trigger honest.
+    const refresh = () => ScrollTrigger.refresh();
+    const fontsReady = (document as any).fonts?.ready as Promise<unknown> | undefined;
+    fontsReady?.then(refresh).catch(() => {});
+    window.addEventListener('load', refresh);
+    const timeoutId = window.setTimeout(refresh, 1200);
+
+    return () => {
+      window.removeEventListener('load', refresh);
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
+
+  useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) {
       return;
