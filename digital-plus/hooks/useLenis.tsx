@@ -44,7 +44,8 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+    // Lower lerp = more glide, less snap — a heavier, calmer scroll feel.
+    const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 0.85, smoothWheel: true });
     lenisRef.current = lenis;
 
     function raf(time: number) {

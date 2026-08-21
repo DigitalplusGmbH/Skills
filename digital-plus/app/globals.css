@@ -149,8 +149,10 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   pointer-events: none;
 }
 
-/* ScrollFloat headings — word-by-word blur/float-in, scrubbed by GSAP ScrollTrigger */
-.sf-word { display: inline-block; opacity: 0; will-change: transform, filter; }
+/* ScrollFloat headings — each word slides up out of an overflow-hidden mask,
+   scrubbed by GSAP ScrollTrigger. No blur/pop: a calm curtain reveal. */
+.sf-word-mask { display: inline-block; overflow: hidden; vertical-align: top; }
+.sf-word { display: inline-block; will-change: transform, opacity; }
 
 .gradient-text {
   background: var(--gradient-signature);

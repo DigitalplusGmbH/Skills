@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
@@ -18,6 +18,11 @@ interface ScrollFloatHeadingProps {
   gradientFrom?: number;
 }
 
+/**
+ * A calm "curtain" reveal: each word slides up out of an overflow-hidden mask
+ * as the heading scrolls into view — no blur, no snap. Deliberately slow and
+ * smooth (long scrub window, soft easing) rather than a flashy pop-in.
+ */
 export default function ScrollFloatHeading({
   text,
   as = 'h2',
@@ -37,24 +42,23 @@ export default function ScrollFloatHeading({
     if (spans.length === 0) return;
 
     if (reduceMotion) {
-      gsap.set(spans, { opacity: 1, y: 0, filter: 'blur(0px)' });
+      gsap.set(spans, { yPercent: 0, opacity: 1 });
       return;
     }
 
     const tween = gsap.fromTo(
       spans,
-      { opacity: 0, y: 56, filter: 'blur(16px)' },
+      { yPercent: 115, opacity: 0.4 },
       {
+        yPercent: 0,
         opacity: 1,
-        y: 0,
-        filter: 'blur(0px)',
-        stagger: 0.08,
-        ease: 'power3.out',
+        stagger: 0.09,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: el,
           start: 'top 98%',
-          end: 'top 25%',
-          scrub: 0.6,
+          end: 'top 20%',
+          scrub: 0.9,
         },
       },
     );
@@ -77,12 +81,15 @@ export default function ScrollFloatHeading({
       {words.map((word, i) => {
         const isGradient = gradientFrom !== undefined && i >= gradientFrom;
         return (
-          <span key={i}>
+          <span className="sf-word-mask" key={i}>
             <span className={`sf-word ${isGradient ? 'gradient-text' : ''}`}>{word}</span>
-            {i < words.length - 1 ? ' ' : ''}
           </span>
         );
-      })}
+      }).reduce<ReactNode[]>((acc, node, i) => {
+        if (i > 0) acc.push(' ');
+        acc.push(node);
+        return acc;
+      }, [])}
     </Tag>
   );
 }
