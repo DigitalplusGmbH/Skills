@@ -635,10 +635,10 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .custom-cursor.is-visible { opacity: 1; }
 .custom-cursor.is-active { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: var(--text); color: var(--bg); mix-blend-mode: normal; }
 .cursor-glow {
-  position: fixed; width: 420px; height: 420px; border-radius: 50%; pointer-events: none; z-index: 1;
+  position: fixed; top: 0; left: 0; width: 420px; height: 420px; border-radius: 50%; pointer-events: none; z-index: 1;
   background: radial-gradient(circle, rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.08) 0%, transparent 70%);
   opacity: 0;
-  transform: translate(-50%, -50%); transition: opacity 0.3s ease;
+  transform: translate3d(0, 0, 0) translate(-50%, -50%); transition: opacity 0.3s ease;
 }
 .cursor-glow.is-visible { opacity: 1; }
 

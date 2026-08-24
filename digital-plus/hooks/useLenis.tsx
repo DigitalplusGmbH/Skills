@@ -48,12 +48,9 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 0.85, smoothWheel: true });
     lenisRef.current = lenis;
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    const rafId = requestAnimationFrame(raf);
-
+    // Drive Lenis off GSAP's ticker (already a single rAF loop shared by every
+    // GSAP animation on the page) instead of a second, separate rAF loop —
+    // running lenis.raf() twice per frame doubled its work for no benefit.
     lenis.on('scroll', ScrollTrigger.update);
     const ticker = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(ticker);
@@ -64,7 +61,6 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     });
 
     return () => {
-      cancelAnimationFrame(rafId);
       gsap.ticker.remove(ticker);
       lenis.destroy();
     };

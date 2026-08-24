@@ -16,10 +16,10 @@ export default function CustomCursor() {
     if (!cursor || !glow) return;
 
     function onMove(e: PointerEvent) {
-      cursor!.style.left = `${e.clientX}px`;
-      cursor!.style.top = `${e.clientY}px`;
-      glow!.style.left = `${e.clientX}px`;
-      glow!.style.top = `${e.clientY}px`;
+      // translate3d (not left/top) keeps this on the compositor instead of
+      // forcing a layout recalc on every pointer move.
+      cursor!.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      glow!.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
       cursor!.classList.add('is-visible');
       glow!.classList.add('is-visible');
     }
