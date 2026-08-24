@@ -20,6 +20,8 @@ export default function CustomCursor() {
       cursor!.style.top = `${e.clientY}px`;
       glow!.style.left = `${e.clientX}px`;
       glow!.style.top = `${e.clientY}px`;
+      cursor!.classList.add('is-visible');
+      glow!.classList.add('is-visible');
     }
 
     function onOver(e: PointerEvent) {

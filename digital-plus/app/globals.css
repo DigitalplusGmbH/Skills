@@ -278,11 +278,11 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: transform 0.3s ease, opacity 0.3s ease; }
 
 .nav-mobile {
-  position: fixed; inset: 0; z-index: 99; background: var(--bg);
+  position: fixed; inset: 0; z-index: 99; background: var(--bg); overflow: hidden;
   display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
-  transform: translateY(-100%); transition: transform 0.4s var(--ease-cinema);
+  transform: translateY(-100%); visibility: hidden; transition: transform 0.4s var(--ease-cinema), visibility 0.4s;
 }
-.nav-mobile.open { transform: translateY(0); }
+.nav-mobile.open { transform: translateY(0); visibility: visible; }
 .nav-mobile .nav-link { font-size: 1.5rem; }
 
 /* ==========================================================================
@@ -603,16 +603,22 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .custom-cursor {
   position: fixed; top: 0; left: 0; width: 32px; height: 32px; margin: -16px 0 0 -16px;
   border: 1.5px solid var(--text); border-radius: 50%; pointer-events: none; z-index: 9999;
-  transition: width 0.2s ease, height 0.2s ease, margin 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  opacity: 0;
+  transition: width 0.2s ease, height 0.2s ease, margin 0.2s ease, border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
   mix-blend-mode: difference; display: flex; align-items: center; justify-content: center;
   font-size: 0.5625rem; letter-spacing: 0.08em; text-transform: uppercase; color: transparent;
 }
+/* Hidden until the first pointermove reports a real position — otherwise it
+   renders at its default (0,0) top-left corner for a frame before JS moves it. */
+.custom-cursor.is-visible { opacity: 1; }
 .custom-cursor.is-active { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: var(--text); color: var(--bg); mix-blend-mode: normal; }
 .cursor-glow {
   position: fixed; width: 420px; height: 420px; border-radius: 50%; pointer-events: none; z-index: 1;
   background: radial-gradient(circle, rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.08) 0%, transparent 70%);
+  opacity: 0;
   transform: translate(-50%, -50%); transition: opacity 0.3s ease;
 }
+.cursor-glow.is-visible { opacity: 1; }
 
 /* ==========================================================================
    Reduced motion
