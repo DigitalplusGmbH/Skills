@@ -20,8 +20,13 @@ interface ScrollFloatHeadingProps {
 
 /**
  * A calm "curtain" reveal: each word slides up out of an overflow-hidden mask
- * as the heading scrolls into view — no blur, no snap. Deliberately slow and
- * smooth (long scrub window, soft easing) rather than a flashy pop-in.
+ * as the heading scrolls into view — no blur, no snap. Fires once over a short
+ * fixed duration rather than scrubbing with scroll position: a mask reveal
+ * necessarily clips words vertically through mid-glyph while in transit, so a
+ * scroll-linked version leaves that half-clipped (near-illegible) state on
+ * screen for as long as the reader scrolls slowly or pauses. A one-shot
+ * animation guarantees it resolves in well under a second regardless of how
+ * the user scrolls.
  */
 export default function ScrollFloatHeading({
   text,
@@ -52,13 +57,14 @@ export default function ScrollFloatHeading({
       {
         yPercent: 0,
         opacity: 1,
+        duration: 0.9,
         stagger: 0.09,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 98%',
-          end: 'top 20%',
-          scrub: 0.9,
+          start: 'top 90%',
+          toggleActions: 'play none none none',
+          once: true,
         },
       },
     );
