@@ -5,6 +5,7 @@ import { LenisProvider } from '@/hooks/useLenis';
 import Nav from '@/components/Nav';
 import CustomCursor from '@/components/CustomCursor';
 import ScrollProgress from '@/components/ScrollProgress';
+import WorldTint from '@/components/WorldTint';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -90,6 +91,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Zum Inhalt springen
         </a>
         <ScrollProgress />
+        <WorldTint />
+        <div className="grain-overlay" aria-hidden="true" />
         <LenisProvider>
           <Nav />
           <main id="main">{children}</main>

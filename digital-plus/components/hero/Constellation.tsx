@@ -70,7 +70,14 @@ export default function Constellation() {
       frame = requestAnimationFrame(() => {
         inners.forEach((el, i) => {
           const depth = Math.abs(CARDS[i]?.z ?? 0) / 400;
-          gsap.to(el, { x: dx * 18 * depth, duration: 0.9, ease: 'power3.out', overwrite: 'auto' });
+          gsap.to(el, {
+            x: dx * 18 * depth,
+            rotationY: dx * 7 * depth,
+            rotationX: -dy * 7 * depth,
+            duration: 0.9,
+            ease: 'power3.out',
+            overwrite: 'auto',
+          });
         });
       });
     }
