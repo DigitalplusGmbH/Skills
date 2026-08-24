@@ -33,12 +33,16 @@ export default function SocialProof() {
 
         <div className="grid-testimonials">
           <div className="card testimonial-featured">
-            <Stars count={FEATURED_TESTIMONIAL.rating} />
-            <p className="quote">{FEATURED_TESTIMONIAL.quote}</p>
-            <p className="attribution">
-              {FEATURED_TESTIMONIAL.author} — {FEATURED_TESTIMONIAL.role}
-            </p>
-            <span className="placeholder-flag">Platzhalter — echte Google-Bewertung einsetzen</span>
+            <div>
+              <Stars count={FEATURED_TESTIMONIAL.rating} />
+              <p className="quote">{FEATURED_TESTIMONIAL.quote}</p>
+            </div>
+            <div>
+              <p className="attribution">
+                {FEATURED_TESTIMONIAL.author} — {FEATURED_TESTIMONIAL.role}
+              </p>
+              <span className="placeholder-flag">Platzhalter — echte Google-Bewertung einsetzen</span>
+            </div>
           </div>
 
           <div className="testimonial-list">
