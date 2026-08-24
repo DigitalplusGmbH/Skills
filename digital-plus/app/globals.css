@@ -536,9 +536,13 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Social proof
    ========================================================================== */
 
+/* justify-content: center (not space-between) — the featured card's height
+   is stretched by CSS grid to match the taller testimonial-list column, and
+   with a short quote that left a large dead gap shoved between the quote
+   and the attribution line instead of even breathing room around both. */
 .testimonial-featured {
   padding: 2.5rem; height: 100%; display: flex; flex-direction: column;
-  justify-content: space-between; gap: 1.5rem; overflow: hidden;
+  justify-content: center; gap: 1.5rem; overflow: hidden;
 }
 .testimonial-featured::before {
   content: '\201C'; position: absolute; top: -0.5rem; right: 1.5rem; z-index: 0;
