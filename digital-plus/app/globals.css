@@ -529,8 +529,11 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    ========================================================================== */
 
 .stat-card { text-align: center; padding: 2rem 1rem; }
-.stat-value { font-family: var(--font-display); font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 700; color: var(--text); }
-.stat-label { color: var(--text-secondary); font-size: 0.9375rem; margin-top: 0.5rem; }
+/* Both are plain inline spans in the markup, so margin-top on stat-label had
+   no effect and the label ran on the same line as the number, wrapping
+   wherever it happened to run out of width instead of stacking cleanly. */
+.stat-value { display: block; font-family: var(--font-display); font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 700; color: var(--text); }
+.stat-label { display: block; color: var(--text-secondary); font-size: 0.9375rem; margin-top: 0.5rem; }
 
 /* ==========================================================================
    Social proof
