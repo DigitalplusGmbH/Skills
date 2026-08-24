@@ -646,6 +646,13 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   .world-selector { grid-template-columns: repeat(3, minmax(140px, 1fr)); }
 }
 
+@media (max-width: 1024px) {
+  /* The "Der Weg" scroll journey (wavy path + travelling marker) is a
+     desktop-scroll flourish — hide it outright on mobile/tablet rather
+     than shipping its static fallback list there. */
+  .journey-section { display: none; }
+}
+
 @media (max-width: 900px) {
   .pin-swap-inner { grid-template-columns: 1fr; }
   /* The full text nav (6 links + logo + CTA) starts wrapping mid-phrase
