@@ -338,7 +338,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Hero — Constellation + Digital Core
    ========================================================================== */
 
-.hero { position: relative; height: 100vh; min-height: 640px; overflow: hidden; background: var(--bg); }
+.hero { position: relative; min-height: max(640px, 100vh); overflow: hidden; background: var(--bg); }
 .webgl-layer { position: absolute; inset: 0; z-index: 0; }
 .webgl-layer canvas { width: 100%; height: 100%; display: block; }
 .hero-vignette {
@@ -353,9 +353,12 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   ), radial-gradient(circle at 50% 45%, transparent 55%, var(--bg) 92%);
 }
 .hero-content {
-  position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column;
+  position: relative; z-index: 2; min-height: 100%; display: flex; flex-direction: column;
   align-items: center; justify-content: center; text-align: center; gap: 2rem;
-  padding: 0 var(--container-pad);
+  /* Guarantees clearance below the fixed nav (transparent until scrolled) and above
+     the absolutely-positioned .hero-scroll-cue, even when the stacked content is
+     taller than the viewport on wide-but-short screens. */
+  padding: 6rem var(--container-pad) 6rem;
 }
 .hero-eyebrow { color: var(--text-tertiary); font-size: 0.8125rem; letter-spacing: 0.16em; text-transform: uppercase; }
 .hero-title { max-width: 960px; }
