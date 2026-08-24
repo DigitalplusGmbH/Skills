@@ -258,6 +258,28 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   animation: artShift 20s ease-in-out infinite alternate;
 }
 @keyframes artShift { to { background-position: 100% 100%; } }
+
+/* Each case study leans into its own world's color as the dominant blob
+   instead of every card blending all three identically — ties the card
+   back to its category tag at a glance. */
+.art-top[data-world='leads'] {
+  background:
+    radial-gradient(circle at 30% 35%, var(--world-leads) 0%, transparent 55%),
+    radial-gradient(circle at 75% 70%, var(--world-creative) 0%, transparent 42%),
+    radial-gradient(circle at 60% 15%, var(--world-it) 0%, transparent 35%);
+}
+.art-top[data-world='creative'] {
+  background:
+    radial-gradient(circle at 65% 30%, var(--world-creative) 0%, transparent 55%),
+    radial-gradient(circle at 25% 75%, var(--world-leads) 0%, transparent 42%),
+    radial-gradient(circle at 80% 80%, var(--world-it) 0%, transparent 35%);
+}
+.art-top[data-world='it'] {
+  background:
+    radial-gradient(circle at 40% 65%, var(--world-it) 0%, transparent 55%),
+    radial-gradient(circle at 75% 25%, var(--world-creative) 0%, transparent 42%),
+    radial-gradient(circle at 20% 20%, var(--world-leads) 0%, transparent 35%);
+}
 .art-card .rivet-tl, .art-card .rivet-tr, .art-card .rivet-bl, .art-card .rivet-br {
   content: ''; position: absolute; width: 6px; height: 6px;
   background: var(--surface-alt); border: 1px solid var(--border); transform: rotate(45deg); z-index: 2;

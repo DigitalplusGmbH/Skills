@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useReveal } from '@/hooks/useReveal';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
-import { CASE_STUDIES, type CaseStudy } from '@/lib/content';
+import { CASE_STUDIES, type CaseStudy, type WorldKey } from '@/lib/content';
 import ScrollFloatHeading from '../ui/ScrollFloatHeading';
 import Button from '../ui/Button';
 
@@ -13,10 +13,16 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+function worldFromCategory(category: string): WorldKey {
+  if (category.startsWith('Creative')) return 'creative';
+  if (category.startsWith('IT')) return 'it';
+  return 'leads';
+}
+
 function CaseCard({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
     <div className="card art-card card-spotlight h-scroll-card">
-      <div className="art-top">
+      <div className="art-top" data-world={worldFromCategory(caseStudy.category)}>
         <span className="rivet-tl" />
         <span className="rivet-tr" />
         <span className="rivet-bl" />
