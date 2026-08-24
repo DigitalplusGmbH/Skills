@@ -466,7 +466,13 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .journey-pin { height: 320vh; }
 .journey-pin-inner { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; }
 
-.journey-track { position: relative; width: 100%; aspect-ratio: 1200 / 220; margin-top: clamp(2rem, 4vw, 3rem); }
+/* Height used to scale with width via aspect-ratio, which is exactly wrong
+   here: the sticky stage is capped at 100vh, so a wide-but-short window
+   (very common for an unmaximized browser) made the track balloon taller
+   just as the available vertical room shrank, pushing the eyebrow/headline
+   above the visible viewport. The svg's preserveAspectRatio="none" already
+   lets it stretch freely, so drive height from vh instead of width. */
+.journey-track { position: relative; width: 100%; height: clamp(90px, 18vh, 220px); margin-top: clamp(1.25rem, 3vw, 2.5rem); }
 .journey-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .journey-path-bg { fill: none; stroke: var(--border); stroke-width: 2; }
 .journey-path {
@@ -487,7 +493,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   color: var(--text-secondary); white-space: nowrap; margin-top: 0.6rem;
 }
 
-.journey-caption { position: relative; margin-top: clamp(2.5rem, 5vw, 3.5rem); min-height: 4.5rem; }
+.journey-caption { position: relative; margin-top: clamp(1.5rem, 3vw, 2.5rem); min-height: 4.5rem; }
 .journey-caption-item {
   position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s ease;
   display: flex; align-items: baseline; gap: 1rem;
