@@ -642,11 +642,14 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 
 @media (max-width: 900px) {
   .pin-swap-inner { grid-template-columns: 1fr; }
+  /* The full text nav (6 links + logo + CTA) starts wrapping mid-phrase
+     below ~900px (e.g. "IT & Sicherheit" onto two lines) well before the
+     768px breakpoint used elsewhere — switch to the hamburger menu here. */
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
 }
 
 @media (max-width: 768px) {
-  .nav-links { display: none; }
-  .nav-toggle { display: block; }
   .grid-stats { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .world-selector { grid-template-columns: 1fr; max-width: 320px; }

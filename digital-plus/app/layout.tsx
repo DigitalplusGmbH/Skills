@@ -39,6 +39,12 @@ export const metadata: Metadata = {
     locale: 'de_CH',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Digital Plus — Leads. Creative. IT & Sicherheit.',
+    description:
+      'Drei Welten, ein digitaler Partner: Performance-Marketing, Branding und IT-Infrastruktur aus einer Hand.',
+  },
   alternates: {
     canonical: siteUrl,
   },
