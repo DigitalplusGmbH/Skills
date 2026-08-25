@@ -765,3 +765,30 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 @media (hover: none) {
   .custom-cursor, .cursor-glow { display: none; }
 }
+
+/* ==========================================================================
+   Easter egg — type "carti"
+   ========================================================================== */
+
+.easter-egg-overlay {
+  position: fixed; inset: 0; z-index: 10000; pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+  background: #050005;
+  animation: eggFade 2.6s ease forwards;
+}
+.easter-egg-text {
+  font-family: var(--font-display); font-weight: 700; letter-spacing: 0.02em;
+  font-size: clamp(2.5rem, 10vw, 7rem); color: #ff0033;
+  text-shadow: 0 0 30px rgba(255, 0, 51, 0.8), 0 0 80px rgba(255, 0, 51, 0.5);
+  animation: eggPulse 0.6s ease-in-out infinite alternate;
+}
+@keyframes eggFade {
+  0% { opacity: 0; }
+  8% { opacity: 1; }
+  82% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes eggPulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
