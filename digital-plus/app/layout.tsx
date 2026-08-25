@@ -6,6 +6,7 @@ import Nav from '@/components/Nav';
 import CustomCursor from '@/components/CustomCursor';
 import ScrollProgress from '@/components/ScrollProgress';
 import WorldTint from '@/components/WorldTint';
+import { SITE_URL } from '@/lib/content';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -21,10 +22,8 @@ const inter = Inter({
   display: 'swap',
 });
 
-const siteUrl = 'https://www.digitalplus-platzhalter.ch';
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Digital Plus — Leads. Creative. IT & Sicherheit.',
     template: '%s — Digital Plus',
@@ -35,7 +34,7 @@ export const metadata: Metadata = {
     title: 'Digital Plus — Leads. Creative. IT & Sicherheit.',
     description:
       'Drei Welten, ein digitaler Partner: Performance-Marketing, Branding und IT-Infrastruktur aus einer Hand.',
-    url: siteUrl,
+    url: SITE_URL,
     siteName: 'Digital Plus',
     locale: 'de_CH',
     type: 'website',
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
       'Drei Welten, ein digitaler Partner: Performance-Marketing, Branding und IT-Infrastruktur aus einer Hand.',
   },
   alternates: {
-    canonical: siteUrl,
+    canonical: SITE_URL,
   },
 };
 
@@ -57,14 +56,14 @@ const jsonLd = {
     {
       '@type': 'Organization',
       name: 'Digital Plus',
-      url: siteUrl,
+      url: SITE_URL,
       description:
         'Digitalagentur mit drei Kompetenzwelten: Leads (Performance-Marketing), Creative (Design & Branding) und IT & Sicherheit.',
     },
     {
       '@type': 'LocalBusiness',
       name: 'Digital Plus',
-      url: siteUrl,
+      url: SITE_URL,
       address: {
         '@type': 'PostalAddress',
         streetAddress: '[Platzhalter]',
@@ -85,7 +84,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <noscript>
-          <style>{'.sf-word { opacity: 1 !important; }'}</style>
+          <style>
+            {
+              '.sf-word, .reveal, .reveal-scale, .hero-title .split-word span { opacity: 1 !important; transform: none !important; }'
+            }
+          </style>
         </noscript>
         <a href="#main" className="skip-link">
           Zum Inhalt springen

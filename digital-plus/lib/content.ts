@@ -1,3 +1,7 @@
+// Single source of truth for the production domain — swap this one line
+// before launch instead of hunting down every file that references it.
+export const SITE_URL = 'https://www.digitalplus-platzhalter.ch';
+
 export type WorldKey = 'leads' | 'creative' | 'it';
 
 export interface WorldScene {

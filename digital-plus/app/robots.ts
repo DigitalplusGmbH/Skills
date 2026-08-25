@@ -1,10 +1,9 @@
 import type { MetadataRoute } from 'next';
-
-const siteUrl = 'https://www.digitalplus-platzhalter.ch';
+import { SITE_URL } from '@/lib/content';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/' },
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

@@ -41,6 +41,20 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) {
+      // No Lenis instance in this branch, but nav links, world-orb buttons and
+      // CTAs all call scrollTo() expecting it to actually move the page —
+      // without this, the default no-op context makes every one of them dead.
+      setCtx({
+        scrollTo: (target, options) => {
+          const el = typeof target === 'string' ? document.querySelector(target) : target;
+          if (typeof target === 'number') {
+            window.scrollTo({ top: target + (options?.offset ?? 0) });
+          } else if (el instanceof HTMLElement) {
+            const top = el.getBoundingClientRect().top + window.scrollY + (options?.offset ?? -80);
+            window.scrollTo({ top });
+          }
+        },
+      });
       return;
     }
 

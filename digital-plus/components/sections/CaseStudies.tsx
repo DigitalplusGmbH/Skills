@@ -8,6 +8,7 @@ import { usePerfFlags } from '@/hooks/usePerfFlags';
 import { CASE_STUDIES, type CaseStudy, type WorldKey } from '@/lib/content';
 import ScrollFloatHeading from '../ui/ScrollFloatHeading';
 import Button from '../ui/Button';
+import { handleSpotlightMove } from '@/lib/spotlight';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -21,7 +22,7 @@ function worldFromCategory(category: string): WorldKey {
 
 function CaseCard({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
-    <div className="card art-card card-spotlight h-scroll-card">
+    <div className="card art-card card-spotlight h-scroll-card" onPointerMove={handleSpotlightMove}>
       <div className="art-top" data-world={worldFromCategory(caseStudy.category)}>
         <span className="rivet-tl" />
         <span className="rivet-tr" />

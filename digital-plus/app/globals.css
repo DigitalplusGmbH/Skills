@@ -16,7 +16,10 @@
   /* Text */
   --text: #0b0c10;
   --text-secondary: #52565f;
-  --text-tertiary: #82858e;
+  /* #82858e read at ~3.5:1 against --bg, under the 4.5:1 AA floor for
+     normal-size text (this is used for the eyebrow labels, footer copyright
+     line, etc. — not decorative). Darkened to clear AA with a small margin. */
+  --text-tertiary: #6b6e78;
 
   /* Accent — global default */
   --accent: #2554e6;
@@ -593,6 +596,15 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .journey-caption-number { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--accent); }
 .journey-caption-text { font-size: 1.125rem; color: var(--text-secondary); max-width: 46ch; }
 
+/* Static mobile/tablet fallback for the scroll-scrubbed wave above — hidden
+   on desktop by default, swapped in at the 1024px breakpoint below. */
+.journey-mobile-fallback { display: none; }
+.journey-mobile-list { display: flex; flex-direction: column; gap: 1.5rem; list-style: none; padding: 0; }
+.journey-mobile-list li { display: flex; align-items: flex-start; gap: 1rem; }
+.journey-mobile-number { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--world-accent, var(--accent)); flex-shrink: 0; }
+.journey-mobile-name { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1.0625rem; }
+.journey-mobile-text { color: var(--text-secondary); font-size: 0.9375rem; margin-top: 0.25rem; }
+
 /* ==========================================================================
    Numbers / Stats
    ========================================================================== */
@@ -778,9 +790,10 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 
 @media (max-width: 1024px) {
   /* The "Der Weg" scroll journey (wavy path + travelling marker) is a
-     desktop-scroll flourish — hide it outright on mobile/tablet rather
-     than shipping its static fallback list there. */
-  .journey-section { display: none; }
+     desktop-scroll flourish — swap it for the plain static list instead of
+     losing the headline and each world's microcopy on mobile/tablet. */
+  .journey-pin { display: none; }
+  .journey-mobile-fallback { display: block; padding-top: clamp(1.5rem, 4vw, 3rem); }
 }
 
 @media (max-width: 900px) {

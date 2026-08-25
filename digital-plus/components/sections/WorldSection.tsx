@@ -8,6 +8,7 @@ import LeadsCalculator from './LeadsCalculator';
 import type { ServiceDetail, World } from '@/lib/content';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
 import { useReveal } from '@/hooks/useReveal';
+import { handleSpotlightMove } from '@/lib/spotlight';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -16,7 +17,7 @@ if (typeof window !== 'undefined') {
 function ServiceDetailCard({ detail }: { detail: ServiceDetail }) {
   const ref = useReveal<HTMLDivElement>();
   return (
-    <div ref={ref} className="card card-spotlight reveal">
+    <div ref={ref} className="card card-spotlight reveal" onPointerMove={handleSpotlightMove}>
       <h3 className="h3-card" style={{ fontSize: '1.0625rem' }}>
         {detail.name}
       </h3>

@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
+import { useLenis } from '@/hooks/useLenis';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ export default function Button({
 }: ButtonProps) {
   const ref = useRef<HTMLAnchorElement & HTMLButtonElement>(null);
   const { noHover, reduceMotion } = usePerfFlags();
+  const { scrollTo } = useLenis();
 
   function handlePointerMove(e: React.PointerEvent) {
     if (!magnetic || noHover || reduceMotion || !ref.current) return;
@@ -50,6 +52,7 @@ export default function Button({
   );
 
   if (href) {
+    const isSamePageAnchor = href.startsWith('#');
     return (
       <a
         ref={ref}
@@ -58,6 +61,14 @@ export default function Button({
         data-cursor="view"
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
+        onClick={
+          isSamePageAnchor
+            ? (e) => {
+                e.preventDefault();
+                scrollTo(href);
+              }
+            : undefined
+        }
       >
         {content}
       </a>

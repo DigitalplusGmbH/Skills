@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Constellation from './Constellation';
@@ -42,10 +42,32 @@ export default function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const { scrollTo } = useLenis();
   const { reduceMotion, ready } = usePerfFlags();
+  const [activeWorld, setActiveWorld] = useState<string | null>(null);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => titleRef.current?.classList.add('in-view'));
     return () => cancelAnimationFrame(id);
+  }, []);
+
+  useEffect(() => {
+    const sections = WORLDS.map((world) => document.getElementById(world.key)).filter(
+      (el): el is HTMLElement => el !== null,
+    );
+    if (!sections.length) return;
+
+    // Narrow the observed viewport to a thin band around its vertical center,
+    // so "active" tracks whichever world section is actually centered on
+    // screen rather than merely present anywhere in the viewport.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveWorld(entry.target.id);
+        });
+      },
+      { rootMargin: '-45% 0px -45% 0px' },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -108,6 +130,7 @@ export default function Hero() {
               className="world-orb"
               data-world={world.key}
               data-cursor="OPEN"
+              aria-pressed={activeWorld === world.key}
               onClick={() => scrollTo(`#${world.key}`)}
             >
               {WORLD_IMAGES[world.key] ? (

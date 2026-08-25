@@ -2,6 +2,12 @@
 
 > Drei Welten, ein digitales Universum: Swiss Precision meets Future Digital Technology.
 
+> **Hinweis:** Die Palette weiter unten beschreibt das ursprünglich geplante Dark-Theme.
+> Das ausgelieferte Design (`app/globals.css`) wechselte zu einem hellen Theme
+> (`--bg: #f8f9fb`, `--text: #0b0c10`, …) — dieses Dokument wurde danach nicht
+> nachgezogen. Für die tatsächlichen Farb-Tokens ist `app/globals.css` die
+> verlässliche Quelle, nicht die Werte unten.
+
 ## 1. Visual Theme & Atmosphere
 
 **Style**: Dark Editorial Tech — Schweizer Präzision trifft kybernetische Zukunftstechnologie.

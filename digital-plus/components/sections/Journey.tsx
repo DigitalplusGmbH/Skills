@@ -131,6 +131,30 @@ export default function Journey() {
           </div>
         </div>
       </div>
+
+      {/* The wavy scroll-scrubbed marker above is a desktop flourish — CSS
+          swaps it out for this plain list below 1024px instead of just
+          hiding the section outright, so the headline and each world's
+          microcopy still reach mobile/tablet visitors. */}
+      <div className="journey-mobile-fallback">
+        <div className="container">
+          <span className="eyebrow">Der Weg</span>
+          <h2 className="h2-section" style={{ marginTop: '1rem', marginBottom: '1.5rem' }}>
+            Von der ersten Anfrage bis zur sicheren Infrastruktur.
+          </h2>
+          <ol className="journey-mobile-list">
+            {WORLDS.map((world) => (
+              <li key={world.key} data-world={world.key}>
+                <span className="journey-mobile-number">{world.number}</span>
+                <div>
+                  <span className="journey-mobile-name">{world.name}</span>
+                  <p className="journey-mobile-text">{world.microcopy}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
     </section>
   );
 }
