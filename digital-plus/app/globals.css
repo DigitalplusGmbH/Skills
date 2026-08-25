@@ -691,10 +691,14 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .custom-cursor.is-visible { opacity: 1; }
 .custom-cursor.is-active { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: var(--text); color: var(--bg); mix-blend-mode: normal; }
 .cursor-glow {
-  position: fixed; top: 0; left: 0; width: 420px; height: 420px; border-radius: 50%; pointer-events: none; z-index: 1;
-  background: radial-gradient(circle, rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.08) 0%, transparent 70%);
+  position: fixed; top: 0; left: 0; width: 900px; height: 900px; border-radius: 50%; pointer-events: none; z-index: 1;
+  background: radial-gradient(circle, rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.05) 0%, transparent 70%);
   opacity: 0;
-  transform: translate3d(0, 0, 0) translate(-50%, -50%); transition: opacity 0.3s ease;
+  transform: translate3d(0, 0, 0) translate(-50%, -50%);
+  /* The transform target updates on every pointermove, but the transition
+     means it's always easing toward the latest position rather than
+     snapping — a soft ambient trail instead of a rigid cursor-follower. */
+  transition: opacity 0.4s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .cursor-glow.is-visible { opacity: 1; }
 
