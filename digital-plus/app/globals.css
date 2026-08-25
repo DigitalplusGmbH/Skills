@@ -248,7 +248,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 /* Abstract gradient art card (Pattern 6) */
 .art-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; position: relative; }
 .art-top {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   background:
     radial-gradient(circle at 30% 40%, var(--world-creative) 0%, transparent 50%),
     radial-gradient(circle at 70% 60%, var(--world-leads) 0%, transparent 45%),
