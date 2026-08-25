@@ -15,11 +15,13 @@ if (typeof window !== 'undefined') {
 }
 
 // Real photo/illustration per world, where available — falls back to the
-// line icon (WorldIcon) for worlds that don't have one yet.
+// line icon (WorldIcon) for worlds that don't have one yet. Relative (no
+// leading slash) so the offline static export still finds them under file://,
+// where there's no domain root for an absolute path to resolve against.
 const WORLD_IMAGES: Partial<Record<string, string>> = {
-  leads: '/images/world-leads.webp',
-  creative: '/images/world-creative.webp',
-  it: '/images/world-it.webp',
+  leads: 'images/world-leads.webp',
+  creative: 'images/world-creative.webp',
+  it: 'images/world-it.webp',
 };
 
 function SplitWords({ text }: { text: string }) {
