@@ -18,6 +18,7 @@ if (typeof window !== 'undefined') {
 // line icon (WorldIcon) for worlds that don't have one yet.
 const WORLD_IMAGES: Partial<Record<string, string>> = {
   leads: '/images/world-leads.webp',
+  creative: '/images/world-creative.webp',
 };
 
 function SplitWords({ text }: { text: string }) {
