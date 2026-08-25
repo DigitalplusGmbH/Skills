@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Constellation from './Constellation';
+import WorldIcon from './WorldIcon';
 import WebGLScene from '../WebGLScene';
 import { WORLDS } from '@/lib/content';
 import { useLenis } from '@/hooks/useLenis';
@@ -99,6 +100,7 @@ export default function Hero() {
               data-cursor="OPEN"
               onClick={() => scrollTo(`#${world.key}`)}
             >
+              <WorldIcon world={world.key} />
               <span className="world-orb-number">{world.eyebrow}</span>
               <span className="world-orb-name">{world.name}</span>
               <span className="world-orb-micro">{world.microcopy}</span>
