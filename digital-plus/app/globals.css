@@ -554,7 +554,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    after Journey doesn't need its own full top padding stacked on top of
    that already-long sticky exit scroll. */
 .journey-section + .world-section { padding-top: clamp(1.5rem, 3vw, 3rem); }
-.journey-pin { height: 120vh; }
+.journey-pin { height: 220vh; }
 .journey-pin-inner { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; }
 
 /* Height used to scale with width via aspect-ratio, which is exactly wrong
