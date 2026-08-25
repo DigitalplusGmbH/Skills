@@ -123,7 +123,13 @@ export default function WorldSection({ world }: { world: World }) {
         </div>
       </div>
 
-      <div className="container" style={{ marginTop: 'clamp(3rem, 6vw, 5rem)' }}>
+      {/* pin-swap-inner is a sticky, 100vh-tall box that only fully clears the
+          viewport right at the exact scroll position where this container
+          begins — a zero-tolerance boundary. Sub-pixel rounding (e.g. from
+          fractional OS display scaling) can tip that over into a visible
+          overlap of the still-departing button/tags and this text. A modest
+          buffer absorbs that without adding a noticeable "dead" gap. */}
+      <div className="container" style={{ marginTop: 'clamp(6rem, 12vw, 12rem)' }}>
         <div ref={detailHeadingRef} className="reveal" style={{ maxWidth: 680, marginBottom: '2rem' }}>
           <p className="body-lg">{world.bodyExtra}</p>
         </div>
