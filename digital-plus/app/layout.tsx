@@ -6,7 +6,6 @@ import Nav from '@/components/Nav';
 import CustomCursor from '@/components/CustomCursor';
 import ScrollProgress from '@/components/ScrollProgress';
 import WorldTint from '@/components/WorldTint';
-import EasterEgg from '@/components/EasterEgg';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -99,7 +98,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main id="main">{children}</main>
         </LenisProvider>
         <CustomCursor />
-        <EasterEgg />
       </body>
     </html>
   );
