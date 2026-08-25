@@ -19,6 +19,7 @@ if (typeof window !== 'undefined') {
 const WORLD_IMAGES: Partial<Record<string, string>> = {
   leads: '/images/world-leads.webp',
   creative: '/images/world-creative.webp',
+  it: '/images/world-it.webp',
 };
 
 function SplitWords({ text }: { text: string }) {
