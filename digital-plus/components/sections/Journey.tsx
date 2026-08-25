@@ -62,7 +62,14 @@ export default function Journey() {
     const trigger = ScrollTrigger.create({
       trigger: pin,
       start: 'top top',
-      end: 'bottom bottom',
+      // Plain 'bottom bottom' finishes the scrub exactly one viewport-height
+      // before the pin fully scrolls away — that trailing viewport is always
+      // spent sliding a frozen, already-finished frame off-screen, which is
+      // what reads as a dead gap before the next section. Extending the end
+      // point partway into that trailing scroll keeps the animation live
+      // for more of it, while stopping well short of the caption itself
+      // scrolling out of view.
+      end: () => `+=${pin.getBoundingClientRect().height - window.innerHeight + 300}`,
       scrub: 0.5,
       onUpdate: (self) => {
         const progress = self.progress;
