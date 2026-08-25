@@ -14,6 +14,12 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Real photo/illustration per world, where available — falls back to the
+// line icon (WorldIcon) for worlds that don't have one yet.
+const WORLD_IMAGES: Partial<Record<string, string>> = {
+  leads: '/images/world-leads.webp',
+};
+
 function SplitWords({ text }: { text: string }) {
   const words = text.split(' ');
   return (
@@ -100,7 +106,11 @@ export default function Hero() {
               data-cursor="OPEN"
               onClick={() => scrollTo(`#${world.key}`)}
             >
-              <WorldIcon world={world.key} />
+              {WORLD_IMAGES[world.key] ? (
+                <img className="world-orb-image" src={WORLD_IMAGES[world.key]} alt="" />
+              ) : (
+                <WorldIcon world={world.key} />
+              )}
               <span className="world-orb-number">{world.eyebrow}</span>
               <span className="world-orb-name">{world.name}</span>
               <span className="world-orb-micro">{world.microcopy}</span>
