@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Button from '../ui/Button';
+import LeadsCalculator from './LeadsCalculator';
 import type { ServiceDetail, World } from '@/lib/content';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
 import { useReveal } from '@/hooks/useReveal';
@@ -133,7 +134,8 @@ export default function WorldSection({ world }: { world: World }) {
         <div ref={detailHeadingRef} className="reveal" style={{ maxWidth: 680, marginBottom: '2rem' }}>
           <p className="body-lg">{world.bodyExtra}</p>
         </div>
-        <h3 className="h3-card" style={{ marginBottom: '1.5rem' }}>
+        {world.key === 'leads' && <LeadsCalculator />}
+        <h3 className="h3-card" style={{ marginBottom: '1.5rem', marginTop: world.key === 'leads' ? '3rem' : 0 }}>
           Leistungen im Detail
         </h3>
         <div className="grid-features">
