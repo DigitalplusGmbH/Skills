@@ -346,46 +346,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 }
 
 /* ==========================================================================
-   World Orbs (Hero selector)
-   ========================================================================== */
-
-.world-orb {
-  position: relative; overflow: hidden;
-  border: 1px solid var(--border); background: rgba(var(--surface-rgb), 0.6);
-  backdrop-filter: blur(8px); border-radius: 20px; padding: 1.5rem 1.5rem 1.25rem;
-  cursor: pointer; text-align: left; width: 100%;
-  box-shadow: 0 12px 30px rgba(15, 15, 25, 0.06);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s var(--ease-cinema);
-}
-/* A always-on colored top edge + faint corner wash ties each card to its
-   world accent at rest, instead of only revealing color on hover. */
-.world-orb::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--world-accent);
-}
-.world-orb::after {
-  content: ''; position: absolute; top: -30%; right: -20%; width: 65%; height: 65%;
-  background: radial-gradient(circle, rgba(var(--world-accent-rgb), 0.16) 0%, transparent 70%);
-  pointer-events: none;
-}
-.world-orb:hover, .world-orb:focus-visible {
-  border-color: var(--world-accent); transform: translateY(-6px);
-  box-shadow: 0 0 0 1px var(--world-accent), 0 0 40px rgba(var(--world-accent-rgb), 0.22);
-}
-.world-orb[aria-pressed='true'] { border-color: var(--world-accent); background: rgba(var(--world-accent-rgb), 0.08); }
-.world-orb-icon {
-  position: relative; z-index: 1; width: 26px; height: 26px; color: var(--world-accent);
-}
-.world-orb-image {
-  position: relative; z-index: 1; display: block;
-  width: calc(100% + 3rem); margin: -1.5rem -1.5rem 0.9rem; max-width: none;
-  aspect-ratio: 16 / 11; object-fit: cover;
-}
-.world-orb .world-orb-number { position: relative; z-index: 1; display: block; font-family: var(--font-display); font-size: 0.75rem; color: var(--text-tertiary); letter-spacing: 0.12em; margin-top: 0.9rem; }
-.world-orb .world-orb-name { position: relative; z-index: 1; display: block; font-family: var(--font-display); font-size: 1.375rem; font-weight: 600; margin-top: 0.25rem; }
-.world-orb .world-orb-micro { position: relative; z-index: 1; display: block; font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.5rem; min-height: 2.4em; }
-
-/* ==========================================================================
    Worlds Showcase (decision grid — big image cards linking into each world)
    ========================================================================== */
 
@@ -535,8 +495,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
     radial-gradient(circle at 50% 85%, rgba(var(--world-creative-rgb), 0.18) 0%, transparent 50%);
   background-color: var(--bg);
 }
-
-.world-selector { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(3, minmax(180px, 240px)); gap: 1.25rem; margin-top: 1rem; }
 
 /* ==========================================================================
    World Sections — Left Pin / Right Swap
@@ -853,7 +811,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   .grid-testimonials { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1.2fr 1fr 1fr; }
   .star-card:nth-child(n+9) { display: none; }
-  .world-selector { grid-template-columns: repeat(3, minmax(140px, 1fr)); }
 }
 
 @media (max-width: 1024px) {
@@ -887,7 +844,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 @media (max-width: 768px) {
   .grid-stats { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .world-selector { grid-template-columns: 1fr; max-width: 320px; }
 
   .webgl-layer { opacity: 0.5; }
   .star-card:nth-child(n+5) { display: none; }

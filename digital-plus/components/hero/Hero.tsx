@@ -1,28 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Constellation from './Constellation';
-import WorldIcon from './WorldIcon';
 import WebGLScene from '../WebGLScene';
-import { WORLDS } from '@/lib/content';
-import { useLenis } from '@/hooks/useLenis';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-// Real photo/illustration per world, where available — falls back to the
-// line icon (WorldIcon) for worlds that don't have one yet. Relative (no
-// leading slash) so the offline static export still finds them under file://,
-// where there's no domain root for an absolute path to resolve against.
-const WORLD_IMAGES: Partial<Record<string, string>> = {
-  leads: 'images/world-leads.webp',
-  creative: 'images/world-creative.webp',
-  it: 'images/world-it.webp',
-};
 
 function SplitWords({ text }: { text: string }) {
   const words = text.split(' ');
@@ -40,34 +27,11 @@ function SplitWords({ text }: { text: string }) {
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const { scrollTo } = useLenis();
   const { reduceMotion, ready } = usePerfFlags();
-  const [activeWorld, setActiveWorld] = useState<string | null>(null);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => titleRef.current?.classList.add('in-view'));
     return () => cancelAnimationFrame(id);
-  }, []);
-
-  useEffect(() => {
-    const sections = WORLDS.map((world) => document.getElementById(world.key)).filter(
-      (el): el is HTMLElement => el !== null,
-    );
-    if (!sections.length) return;
-
-    // Narrow the observed viewport to a thin band around its vertical center,
-    // so "active" tracks whichever world section is actually centered on
-    // screen rather than merely present anywhere in the viewport.
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveWorld(entry.target.id);
-        });
-      },
-      { rootMargin: '-45% 0px -45% 0px' },
-    );
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -121,29 +85,6 @@ export default function Hero() {
           System — statt drei Anbieter zu koordinieren, erhalten Sie Strategie, Umsetzung und Infrastruktur aus
           einer Hand.
         </p>
-
-        <div className="world-selector" role="group" aria-label="Welt wählen">
-          {WORLDS.map((world) => (
-            <button
-              key={world.key}
-              type="button"
-              className="world-orb"
-              data-world={world.key}
-              data-cursor="OPEN"
-              aria-pressed={activeWorld === world.key}
-              onClick={() => scrollTo(`#${world.key}`)}
-            >
-              {WORLD_IMAGES[world.key] ? (
-                <img className="world-orb-image" src={WORLD_IMAGES[world.key]} alt="" />
-              ) : (
-                <WorldIcon world={world.key} />
-              )}
-              <span className="world-orb-number">{world.eyebrow}</span>
-              <span className="world-orb-name">{world.name}</span>
-              <span className="world-orb-micro">{world.microcopy}</span>
-            </button>
-          ))}
-        </div>
       </div>
 
       <div className="hero-scroll-cue">
