@@ -400,7 +400,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 }
 .worlds-showcase-card::before {
   content: ''; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(180deg, rgba(6, 8, 14, 0.05) 0%, rgba(6, 8, 14, 0.35) 35%, rgba(6, 8, 14, 0.72) 58%, rgba(6, 8, 14, 0.96) 100%);
+  background: linear-gradient(180deg, rgba(6, 8, 14, 0.1) 0%, rgba(6, 8, 14, 0.4) 30%, rgba(6, 8, 14, 0.8) 55%, rgba(6, 8, 14, 0.97) 100%);
 }
 .worlds-showcase-card::after {
   content: ''; position: absolute; inset: 0; border-top: 3px solid var(--world-accent); pointer-events: none;
@@ -409,7 +409,15 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .worlds-showcase-card:hover, .worlds-showcase-card:focus-visible {
   transform: translateY(-6px); box-shadow: 0 26px 60px rgba(15, 15, 25, 0.28), 0 0 0 1px var(--world-accent);
 }
-.worlds-showcase-content { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(1.25rem, 2.5vw, 2rem); }
+.worlds-showcase-content { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(1.25rem, 2.5vw, 2rem); }
+/* Own scrim behind the text block — the card-wide gradient above isn't
+   reliably dark enough where it overlaps bright/detailed real photos
+   (e.g. the Creative card's mood-board wall), so this guarantees contrast
+   independent of what's directly behind it. */
+.worlds-showcase-content::before {
+  content: ''; position: absolute; inset: -1.5rem -1rem -1rem; z-index: -1;
+  background: linear-gradient(180deg, transparent 0%, rgba(4, 6, 11, 0.65) 35%, rgba(4, 6, 11, 0.92) 100%);
+}
 .worlds-showcase-pill {
   display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.75rem; border-radius: 999px;
   background: rgba(8, 11, 17, 0.65); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);

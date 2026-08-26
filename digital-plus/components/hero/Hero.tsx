@@ -102,7 +102,7 @@ export default function Hero() {
   }, [ready, reduceMotion]);
 
   return (
-    <section id="top" ref={heroRef} className="hero" data-world="leads">
+    <section ref={heroRef} className="hero" data-world="leads">
       <WebGLScene className="webgl-layer" fallbackClassName="webgl-fallback" />
       <Constellation />
       <div className="hero-vignette" />

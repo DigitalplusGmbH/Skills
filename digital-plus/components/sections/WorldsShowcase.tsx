@@ -6,9 +6,9 @@ import { handleSpotlightMove } from '@/lib/spotlight';
 import { WORLDS, WORLDS_SHOWCASE_INTRO } from '@/lib/content';
 
 const WORLD_IMAGES: Record<string, string> = {
-  leads: 'images/world-leads.webp',
-  creative: 'images/world-creative.webp',
-  it: 'images/world-it.webp',
+  leads: 'images/showcase-leads.webp',
+  creative: 'images/showcase-creative.webp',
+  it: 'images/showcase-it.webp',
 };
 
 function WorldCard({ world }: { world: (typeof WORLDS)[number] }) {
@@ -55,7 +55,7 @@ export default function WorldsShowcase() {
   const headingRef = useReveal<HTMLDivElement>();
 
   return (
-    <section className="section" aria-label="Digital Plus Leistungswelten">
+    <section id="top" className="section" aria-label="Digital Plus Leistungswelten">
       <div className="container">
         <div ref={headingRef} className="reveal" style={{ maxWidth: 780, marginBottom: '2.5rem' }}>
           <span className="eyebrow">{WORLDS_SHOWCASE_INTRO.eyebrow}</span>

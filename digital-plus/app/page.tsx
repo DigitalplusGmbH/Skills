@@ -14,9 +14,9 @@ import { WORLDS } from '@/lib/content';
 export default function HomePage() {
   return (
     <>
+      <WorldsShowcase />
       <Hero />
       <Intro />
-      <WorldsShowcase />
       <Journey />
       {WORLDS.map((world) => (
         <WorldSection key={world.key} world={world} />
