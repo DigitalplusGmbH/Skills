@@ -74,7 +74,7 @@ export const WORLDS: World[] = [
     showcase: {
       pill: 'Wachstum und Anfragen',
       description: 'SEO, Kampagnen und digitale Prozesse für qualifizierte Anfragen und messbare Resultate.',
-      tags: ['SEO', 'Google Ads', 'Meta Ads', 'Leadformulare'],
+      tags: ['SEO', 'Google Ads', 'Meta Ads', 'Formulare'],
       goLabel: 'Lead-Welt öffnen',
     },
     ghostWord: 'GROWTH',
