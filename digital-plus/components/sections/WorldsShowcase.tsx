@@ -4,6 +4,7 @@ import { useReveal } from '@/hooks/useReveal';
 import { useLenis } from '@/hooks/useLenis';
 import { handleSpotlightMove } from '@/lib/spotlight';
 import { WORLDS, WORLDS_SHOWCASE_INTRO } from '@/lib/content';
+import ScrollFloatHeading from '../ui/ScrollFloatHeading';
 
 const WORLD_IMAGES: Record<string, string> = {
   leads: 'images/showcase-leads.webp',
@@ -52,17 +53,22 @@ function WorldCard({ world }: { world: (typeof WORLDS)[number] }) {
 }
 
 export default function WorldsShowcase() {
-  const headingRef = useReveal<HTMLDivElement>();
+  const eyebrowRef = useReveal<HTMLSpanElement>();
+  const leadRef = useReveal<HTMLParagraphElement>();
 
   return (
     <section id="top" className="section" aria-label="Digital Plus Leistungswelten">
       <div className="container">
-        <div ref={headingRef} className="reveal" style={{ maxWidth: 780, marginBottom: '2.5rem' }}>
-          <span className="eyebrow">{WORLDS_SHOWCASE_INTRO.eyebrow}</span>
-          <h2 className="h2-section" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
-            {WORLDS_SHOWCASE_INTRO.heading}
-          </h2>
-          <p className="body-lg">{WORLDS_SHOWCASE_INTRO.lead}</p>
+        <div style={{ maxWidth: 780, marginBottom: '2.5rem' }}>
+          <span ref={eyebrowRef} className="eyebrow reveal">
+            {WORLDS_SHOWCASE_INTRO.eyebrow}
+          </span>
+          <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+            <ScrollFloatHeading text={WORLDS_SHOWCASE_INTRO.heading} gradientFrom={5} />
+          </div>
+          <p ref={leadRef} className="body-lg reveal">
+            {WORLDS_SHOWCASE_INTRO.lead}
+          </p>
         </div>
 
         <div className="worlds-showcase-grid">
