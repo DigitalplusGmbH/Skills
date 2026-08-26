@@ -386,6 +386,66 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .world-orb .world-orb-micro { position: relative; z-index: 1; display: block; font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.5rem; min-height: 2.4em; }
 
 /* ==========================================================================
+   Worlds Showcase (decision grid — big image cards linking into each world)
+   ========================================================================== */
+
+.worlds-showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2vw, 1.75rem); }
+.worlds-showcase-card {
+  position: relative; display: block; overflow: hidden; padding: 0;
+  min-height: clamp(420px, 46vw, 520px); border-radius: 20px; text-decoration: none; color: #fff;
+}
+.worlds-showcase-image {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2;
+  transition: transform 0.7s var(--ease-cinema), filter 0.5s ease;
+}
+.worlds-showcase-card::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(6, 8, 14, 0.05) 0%, rgba(6, 8, 14, 0.35) 35%, rgba(6, 8, 14, 0.72) 58%, rgba(6, 8, 14, 0.96) 100%);
+}
+.worlds-showcase-card::after {
+  content: ''; position: absolute; inset: 0; border-top: 3px solid var(--world-accent); pointer-events: none;
+}
+.worlds-showcase-card:hover .worlds-showcase-image { transform: scale(1.05); filter: saturate(1.08); }
+.worlds-showcase-card:hover, .worlds-showcase-card:focus-visible {
+  transform: translateY(-6px); box-shadow: 0 26px 60px rgba(15, 15, 25, 0.28), 0 0 0 1px var(--world-accent);
+}
+.worlds-showcase-content { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(1.25rem, 2.5vw, 2rem); }
+.worlds-showcase-pill {
+  display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.75rem; border-radius: 999px;
+  background: rgba(8, 11, 17, 0.65); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.1em;
+}
+.worlds-showcase-dot { display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--world-accent); box-shadow: 0 0 14px var(--world-accent); }
+.worlds-showcase-name { font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1; margin: 0.9rem 0 0.6rem; letter-spacing: -0.02em; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45); }
+.worlds-showcase-desc { font-size: 0.9375rem; line-height: 1.55; color: rgba(255, 255, 255, 0.92); max-width: 32ch; margin: 0 0 1.25rem; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55); }
+.worlds-showcase-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+.worlds-showcase-tags span {
+  padding: 0.4rem 0.6rem; border-radius: 8px; font-size: 0.75rem;
+  background: rgba(8, 11, 17, 0.55); border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.worlds-showcase-go {
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 1rem; font-weight: 700; font-size: 0.9375rem;
+}
+.worlds-showcase-arrow {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--world-accent); color: #071019; font-style: normal; font-size: 1.25rem;
+  transition: transform 0.3s ease;
+}
+.worlds-showcase-card:hover .worlds-showcase-arrow { transform: translateX(4px) rotate(-6deg); }
+
+@media (max-width: 1024px) {
+  .worlds-showcase-grid { grid-template-columns: 1fr 1fr; }
+  .worlds-showcase-grid a[data-world='it'] { grid-column: 1 / -1; min-height: 380px; }
+}
+@media (max-width: 640px) {
+  .worlds-showcase-grid { grid-template-columns: 1fr; }
+  .worlds-showcase-grid a[data-world='it'] { grid-column: auto; }
+  .worlds-showcase-card { min-height: 400px; }
+}
+
+/* ==========================================================================
    Grids
    ========================================================================== */
 

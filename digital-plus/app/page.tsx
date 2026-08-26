@@ -1,5 +1,6 @@
 import Hero from '@/components/hero/Hero';
 import Intro from '@/components/sections/Intro';
+import WorldsShowcase from '@/components/sections/WorldsShowcase';
 import Journey from '@/components/sections/Journey';
 import WorldSection from '@/components/sections/WorldSection';
 import CaseStudies from '@/components/sections/CaseStudies';
@@ -15,6 +16,7 @@ export default function HomePage() {
     <>
       <Hero />
       <Intro />
+      <WorldsShowcase />
       <Journey />
       {WORLDS.map((world) => (
         <WorldSection key={world.key} world={world} />

@@ -30,6 +30,13 @@ export interface World {
   ctaHref: string;
   scenes: WorldScene[];
   ghostWord: string;
+  /** Short copy for the WorldsShowcase decision-grid card. */
+  showcase: {
+    pill: string;
+    description: string;
+    tags: string[];
+    goLabel: string;
+  };
 }
 
 export const WORLDS: World[] = [
@@ -64,6 +71,12 @@ export const WORLDS: World[] = [
     ],
     ctaLabel: 'Mehr über Leads',
     ctaHref: '#kontakt',
+    showcase: {
+      pill: 'Wachstum und Anfragen',
+      description: 'SEO, Kampagnen und digitale Prozesse für qualifizierte Anfragen und messbare Resultate.',
+      tags: ['SEO', 'Google Ads', 'Meta Ads', 'Leadformulare'],
+      goLabel: 'Lead-Welt öffnen',
+    },
     ghostWord: 'GROWTH',
     scenes: [
       { title: 'Datenströme', description: 'Kampagnen aus Google, Meta und organischer Suche laufen in einem gemeinsamen Datenmodell zusammen — sichtbar in Echtzeit, nicht erst im Monatsreport.' },
@@ -103,6 +116,12 @@ export const WORLDS: World[] = [
     ],
     ctaLabel: 'Creative entdecken',
     ctaHref: '#kontakt',
+    showcase: {
+      pill: 'Marke und Gestaltung',
+      description: 'Webdesign, Branding, Video und Content für einen eigenständigen und starken Auftritt.',
+      tags: ['Webdesign', 'Branding', 'Video', 'Content'],
+      goLabel: 'Creative-Welt öffnen',
+    },
     ghostWord: 'IMPACT',
     scenes: [
       { title: 'Schwebende Designobjekte', description: 'Jedes Projekt beginnt mit einem klaren Designsystem — Farbe, Form, Typografie — bevor die erste Seite entsteht.' },
@@ -142,6 +161,12 @@ export const WORLDS: World[] = [
     ],
     ctaLabel: 'IT-Lösungen ansehen',
     ctaHref: '#kontakt',
+    showcase: {
+      pill: 'Systeme und Sicherheit',
+      description: 'Sichere Infrastruktur, Cloud, CRM, Automatisierungen und persönliche technische Betreuung.',
+      tags: ['IT-Support', 'Cloud', 'CRM', 'Sicherheit'],
+      goLabel: 'IT-Welt öffnen',
+    },
     ghostWord: 'SECURE',
     scenes: [
       { title: 'Serverstrukturen', description: 'Infrastruktur, die mitwächst — von der Cloud-Basis bis zum lokalen Backup, dokumentiert und überwacht.' },
@@ -151,6 +176,12 @@ export const WORLDS: World[] = [
     ],
   },
 ];
+
+export const WORLDS_SHOWCASE_INTRO = {
+  eyebrow: 'Wachstum · Gestaltung · Technologie',
+  heading: 'Welche Lösung braucht Ihr Unternehmen als Nächstes?',
+  lead: 'Jede Welt hat ihren eigenen Fokus und ihr eigenes Team. Wählen Sie den Bereich, der Ihr aktuelles Ziel am besten unterstützt — oder kombinieren Sie alle drei zu einem System.',
+};
 
 export const ABOUT = {
   paragraphs: [
@@ -326,6 +357,6 @@ export const FOOTER_LINKS = {
 
 export const CONTACT = {
   email: '[kontakt@digitalplus-platzhalter.ch]',
-  phone: '[+41 00 000 00 00 — Platzhalter]',
-  address: '[Straße, PLZ Ort — Platzhalter]',
+  phone: '+41 58 510 88 30',
+  address: 'Riedstrasse 8, 8953 Dietikon',
 };
