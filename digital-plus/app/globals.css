@@ -425,9 +425,12 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.1em;
 }
 .worlds-showcase-dot { display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--world-accent); box-shadow: 0 0 14px var(--world-accent); }
-.worlds-showcase-name { font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1; margin: 0.9rem 0 0.6rem; letter-spacing: -0.02em; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45); }
+.worlds-showcase-name { font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1; margin: 0.9rem 0 0.6rem; letter-spacing: -0.02em; color: #fff; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45); }
 .worlds-showcase-desc { font-size: 0.9375rem; line-height: 1.55; color: rgba(255, 255, 255, 0.92); max-width: 32ch; margin: 0 0 1.25rem; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55); }
-.worlds-showcase-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+/* min-height reserves room for two wrapped rows even when a card's tags fit
+   on one — otherwise a card whose longest tag wraps (e.g. "Leadformulare")
+   pushes its own title higher than the other cards' titles sit. */
+.worlds-showcase-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; min-height: 4.85rem; align-content: flex-start; }
 .worlds-showcase-tags span {
   padding: 0.4rem 0.6rem; border-radius: 8px; font-size: 0.75rem;
   background: rgba(8, 11, 17, 0.55); border: 1px solid rgba(255, 255, 255, 0.15);
