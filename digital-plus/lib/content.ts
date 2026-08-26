@@ -74,7 +74,7 @@ export const WORLDS: World[] = [
     showcase: {
       pill: 'Wachstum und Anfragen',
       description: 'SEO, Kampagnen und digitale Prozesse für qualifizierte Anfragen und messbare Resultate.',
-      tags: ['SEO', 'Google Ads', 'Meta Ads', 'Formulare'],
+      tags: ['SEO', 'Google Ads', 'Meta Ads'],
       goLabel: 'Lead-Welt öffnen',
     },
     ghostWord: 'GROWTH',
@@ -119,7 +119,7 @@ export const WORLDS: World[] = [
     showcase: {
       pill: 'Marke und Gestaltung',
       description: 'Webdesign, Branding, Video und Content für einen eigenständigen und starken Auftritt.',
-      tags: ['Webdesign', 'Branding', 'Video', 'Content'],
+      tags: ['Webdesign', 'Branding', 'Video'],
       goLabel: 'Creative-Welt öffnen',
     },
     ghostWord: 'IMPACT',
@@ -164,7 +164,7 @@ export const WORLDS: World[] = [
     showcase: {
       pill: 'Systeme und Sicherheit',
       description: 'Sichere Infrastruktur, Cloud, CRM, Automatisierungen und persönliche technische Betreuung.',
-      tags: ['IT-Support', 'Cloud', 'CRM', 'Sicherheit'],
+      tags: ['IT-Support', 'Cloud', 'Sicherheit'],
       goLabel: 'IT-Welt öffnen',
     },
     ghostWord: 'SECURE',
