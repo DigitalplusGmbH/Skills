@@ -1,4 +1,3 @@
-import Hero from '@/components/hero/Hero';
 import Intro from '@/components/sections/Intro';
 import WorldsShowcase from '@/components/sections/WorldsShowcase';
 import Journey from '@/components/sections/Journey';
@@ -15,7 +14,6 @@ export default function HomePage() {
   return (
     <>
       <WorldsShowcase />
-      <Hero />
       <Intro />
       <Journey />
       {WORLDS.map((world) => (

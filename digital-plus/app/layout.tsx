@@ -86,7 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <noscript>
           <style>
             {
-              '.sf-word, .reveal, .reveal-scale, .hero-title .split-word span { opacity: 1 !important; transform: none !important; }'
+              '.sf-word, .reveal, .reveal-scale { opacity: 1 !important; transform: none !important; }'
             }
           </style>
         </noscript>

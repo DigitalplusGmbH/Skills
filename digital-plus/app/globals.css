@@ -183,8 +183,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   -webkit-text-fill-color: transparent; color: transparent;
   text-shadow: none;
 }
-.hero-glow { text-shadow: none; }
-
 /* Ghost title (Pattern 5) */
 .ghost-title { position: relative; display: inline-block; }
 .ghost-title::before {
@@ -431,60 +429,11 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .reveal-scale.in-view { opacity: 1; transform: scale(1); }
 
 /* ==========================================================================
-   Hero — Constellation + Digital Core
+   WebGL background (shared by FinalCTA)
    ========================================================================== */
 
-.hero { position: relative; min-height: max(640px, 100vh); overflow: hidden; background: var(--bg); }
 .webgl-layer { position: absolute; inset: 0; z-index: 0; }
 .webgl-layer canvas { width: 100%; height: 100%; display: block; }
-.hero-vignette {
-  /* Darkens the zone behind the hero copy (where cards must never compete with
-     text) while leaving the flanks — where the constellation actually lives — clear. */
-  position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(
-    ellipse 620px 520px at 50% 48%,
-    rgba(var(--bg-rgb), 0.4) 0%,
-    rgba(var(--bg-rgb), 0.22) 45%,
-    transparent 72%
-  ), radial-gradient(circle at 50% 45%, transparent 55%, var(--bg) 92%);
-}
-.hero-content {
-  position: relative; z-index: 2; min-height: 100%; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center; gap: 2rem;
-  /* Guarantees clearance below the fixed nav (transparent until scrolled) and above
-     the absolutely-positioned .hero-scroll-cue, even when the stacked content is
-     taller than the viewport on wide-but-short screens. */
-  padding: 6rem var(--container-pad) 6rem;
-}
-.hero-eyebrow { color: var(--text-tertiary); font-size: 0.8125rem; letter-spacing: 0.16em; text-transform: uppercase; }
-.hero-title { max-width: 960px; }
-.hero-title .split-word { display: inline-block; overflow: hidden; }
-.hero-title .split-word span {
-  display: inline-block; transform: translateY(110%); opacity: 0;
-  transition: transform 0.8s var(--ease-cinema), opacity 0.8s var(--ease-cinema);
-}
-.hero-title.in-view .split-word span { transform: translateY(0); opacity: 1; }
-.hero-sub { color: var(--text-secondary); font-size: clamp(1rem, 1.4vw, 1.25rem); max-width: 620px; }
-.hero-scroll-cue { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 2; color: var(--text-tertiary); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-.hero-scroll-cue .line { width: 1px; height: 32px; background: linear-gradient(to bottom, var(--text-tertiary), transparent); animation: scrollCue 2s ease-in-out infinite; }
-@keyframes scrollCue { 0%, 100% { transform: scaleY(1); opacity: 0.6; } 50% { transform: scaleY(1.4); opacity: 1; } }
-
-.constellation { position: absolute; inset: 0; z-index: 1; perspective: 1400px; transform-style: preserve-3d; pointer-events: none; }
-.star-card {
-  position: absolute; background: rgba(var(--surface-rgb), 0.75); border: 1px solid var(--border); border-radius: 14px;
-  padding: 12px 14px; width: var(--w, 200px); transform-style: preserve-3d; will-change: transform, filter;
-  transition: filter 0.5s var(--ease-cinema), border-color 0.5s ease;
-  box-shadow: 0 14px 34px rgba(15, 15, 25, 0.12); backdrop-filter: blur(6px);
-  top: calc(50% + var(--y, 0) * 1px); left: calc(50% + var(--x, 0) * 1px);
-  transform: translate3d(-50%, -50%, var(--z, 0px)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--rz, 0deg));
-  filter: blur(var(--blur, 0px)); opacity: calc(1 - var(--blur, 0) * 0.08);
-}
-.star-card .star-card-label { font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--world-accent, var(--text-tertiary)); }
-.star-card .star-card-title { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; margin-top: 0.35rem; color: var(--text); }
-/* GSAP writes idle-float + pointer-parallax transforms here, kept separate from the
-   static 3D placement transform on .star-card itself so the two never overwrite each other. */
-.star-card-inner { will-change: transform; }
-
 .webgl-layer.dim { opacity: 0.45; }
 
 .webgl-fallback {
@@ -799,7 +748,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
     transition-duration: 0.01ms !important;
   }
   .reveal, .reveal-scale { opacity: 1 !important; transform: none !important; }
-  .hero-title .split-word span { opacity: 1 !important; transform: none !important; }
 }
 
 /* ==========================================================================
@@ -810,7 +758,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   .grid-stats { grid-template-columns: repeat(2, 1fr); }
   .grid-testimonials { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1.2fr 1fr 1fr; }
-  .star-card:nth-child(n+9) { display: none; }
 }
 
 @media (max-width: 1024px) {
@@ -846,7 +793,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
 
   .webgl-layer { opacity: 0.5; }
-  .star-card:nth-child(n+5) { display: none; }
   .custom-cursor, .cursor-glow { display: none; }
   .final-cta { margin-inline: 1rem; }
 }
