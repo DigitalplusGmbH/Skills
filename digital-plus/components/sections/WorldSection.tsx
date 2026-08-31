@@ -56,9 +56,18 @@ export default function WorldSection({ world }: { world: World }) {
         const translateY = (1 - entry) * -70 + recede * 10;
         const scale = 0.9 + entry * 0.1 - recede * 0.06;
         const opacity = entry - recede * 0.45;
+        // The receding card only fades to 0.55 opacity (by design, so the stack
+        // still reads as a stack) — at that opacity its own title/description
+        // text stayed crisp enough to visibly overlap the incoming card's text
+        // for a wide scroll band, reading as garbled double-exposed copy on
+        // every transition. Blurring it as it recedes keeps the depth effect
+        // but makes the outgoing text illegible-on-purpose instead of
+        // illegible-by-accident.
+        const blur = recede * 6;
 
         card.style.transform = `translateY(${translateY}px) scale(${scale})`;
         card.style.opacity = String(opacity);
+        card.style.filter = blur > 0.05 ? `blur(${blur.toFixed(1)}px)` : 'none';
         card.style.zIndex = String(100 + i);
       });
     };
@@ -116,6 +125,9 @@ export default function WorldSection({ world }: { world: World }) {
             <div className="world-scene-stack">
               {world.scenes.map((scene, i) => (
                 <div className="world-scene-card" key={scene.title} style={{ zIndex: 100 + i }}>
+                  <span className="world-scene-card-number" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
                   <h4 className="world-scene-card-title">{scene.title}</h4>
                   <p className="world-scene-card-desc">{scene.description}</p>
                 </div>
@@ -132,17 +144,36 @@ export default function WorldSection({ world }: { world: World }) {
           overlap of the still-departing button/tags and this text. A modest
           buffer absorbs that without adding a noticeable "dead" gap. */}
       <div className="container" style={{ marginTop: 'clamp(6rem, 12vw, 12rem)' }}>
-        <div ref={detailHeadingRef} className="reveal" style={{ maxWidth: 680, marginBottom: '2rem' }}>
-          <p className="body-lg">{world.bodyExtra}</p>
+        {/* The pin-swap hero directly above is a confident two-column
+            composition (copy left, animated card stack right) — dropping
+            straight into a single narrow text column here left roughly half
+            the 1360px container empty beside it once the pin released. This
+            decorative panel gives every world (not just Leads, which used to
+            get its visual weight from the calculator alone) a matching
+            right-hand anchor instead of an abandoned column. */}
+        <div className="world-detail-grid">
+          <div>
+            <div ref={detailHeadingRef} className="reveal">
+              <p className="body-lg">{world.bodyExtra}</p>
+            </div>
+            {world.key === 'leads' && <LeadsCalculator />}
+          </div>
+          <div className="world-detail-visual" data-world={world.key} aria-hidden="true">
+            <span className="world-detail-visual-number">{world.number}</span>
+            <span className="world-detail-visual-word">{world.ghostWord}</span>
+          </div>
         </div>
-        {world.key === 'leads' && <LeadsCalculator />}
-        <h3 className="h3-card" style={{ marginBottom: '1.5rem', marginTop: world.key === 'leads' ? '3rem' : 0 }}>
-          Leistungen im Detail
-        </h3>
-        <div className="grid-features">
-          {world.serviceDetails.map((detail) => (
-            <ServiceDetailCard key={detail.name} detail={detail} />
-          ))}
+
+        <div style={{ marginTop: 'clamp(3rem, 6vw, 5rem)' }}>
+          <span className="eyebrow">Angebot</span>
+          <h3 className="h3-card" style={{ marginTop: '0.75rem', marginBottom: '1.5rem' }}>
+            Leistungen im Detail
+          </h3>
+          <div className="grid-features grid-features-services">
+            {world.serviceDetails.map((detail) => (
+              <ServiceDetailCard key={detail.name} detail={detail} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

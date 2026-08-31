@@ -20,15 +20,14 @@ function worldFromCategory(category: string): WorldKey {
   return 'leads';
 }
 
-function CaseCard({ caseStudy }: { caseStudy: CaseStudy }) {
+function CaseCard({ caseStudy, index }: { caseStudy: CaseStudy; index: number }) {
   return (
-    <div className="card art-card card-spotlight h-scroll-card" onPointerMove={handleSpotlightMove}>
-      <div className="art-top" data-world={worldFromCategory(caseStudy.category)}>
-        <span className="rivet-tl" />
-        <span className="rivet-tr" />
-        <span className="rivet-bl" />
-        <span className="rivet-br" />
-      </div>
+    <div
+      className={`card art-card card-spotlight h-scroll-card${caseStudy.placeholder ? ' is-placeholder' : ''}`}
+      onPointerMove={handleSpotlightMove}
+    >
+      <div className="art-top" data-world={worldFromCategory(caseStudy.category)} data-variant={index % 3} />
+      {caseStudy.placeholder && <span className="art-card-badge">Bald verfügbar</span>}
       <div style={{ padding: '1.5rem' }}>
         <span className="tag">{caseStudy.category}</span>
         <h3 className="h3-card" style={{ marginTop: '1rem' }}>
@@ -48,12 +47,12 @@ function CaseCard({ caseStudy }: { caseStudy: CaseStudy }) {
         </p>
         <div className="pin-swap-services" style={{ marginTop: '1rem' }}>
           {caseStudy.services.map((service) => (
-            <span key={service} className="tag" style={{ background: 'transparent' }}>
+            <span key={service} className="tag tag-outline">
               {service}
             </span>
           ))}
         </div>
-        <span className="placeholder-flag">Platzhalter-Case — durch echtes Projekt ersetzen</span>
+        {caseStudy.placeholder && <span className="placeholder-flag">Platzhalter-Case — durch echtes Projekt ersetzen</span>}
       </div>
     </div>
   );
@@ -97,7 +96,7 @@ export default function CaseStudies() {
       <div className="container">
         <div style={{ maxWidth: 640, marginBottom: '3rem' }}>
           <span ref={headingRef} className="eyebrow reveal">
-            Selected Work
+            Ausgewählte Arbeiten
           </span>
           <div style={{ marginTop: '1rem' }}>
             <ScrollFloatHeading text="Ausgewählte Projekte" />
@@ -107,8 +106,8 @@ export default function CaseStudies() {
 
       <div className="h-scroll-pin" ref={pinRef}>
         <div className="h-scroll-track" ref={trackRef}>
-          {CASE_STUDIES.map((caseStudy) => (
-            <CaseCard key={caseStudy.client + caseStudy.category} caseStudy={caseStudy} />
+          {CASE_STUDIES.map((caseStudy, index) => (
+            <CaseCard key={caseStudy.client + caseStudy.category} caseStudy={caseStudy} index={index} />
           ))}
           <div className="h-scroll-end">
             <p className="h3-card">Ihr Projekt könnte das nächste sein.</p>

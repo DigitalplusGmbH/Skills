@@ -12,8 +12,14 @@ if (typeof window !== 'undefined') {
 
 const NODE_X = [150, 600, 1050];
 
+// Ends right at the IT peak instead of continuing into a decorative tail —
+// the marker's arrival at the third node is the section's payoff, so scroll
+// progress reaching 1 should coincide with that arrival instead of spending
+// the pin's last ~10-15% animating past it with nothing left to say. The
+// unused viewBox space beyond x=1050 becomes a right-hand margin that
+// mirrors the left-hand margin before the first node (both ~12.5% of width).
 const PATH_D =
-  'M0,170 C75,170 75,50 150,50 C225,50 300,190 375,190 C450,190 525,50 600,50 C675,50 750,190 825,190 C900,190 975,50 1050,50 C1125,50 1125,170 1200,170';
+  'M0,170 C75,170 75,50 150,50 C225,50 300,190 375,190 C450,190 525,50 600,50 C675,50 750,190 825,190 C900,190 975,50 1050,50';
 
 export default function Journey() {
   const pinRef = useRef<HTMLDivElement>(null);
@@ -96,9 +102,20 @@ export default function Journey() {
 
             <div className="journey-track">
               <svg className="journey-svg" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  {/* userSpaceOnUse over the full 1200-wide viewBox means the traveling
+                      marker — filled with this same gradient — samples whatever color
+                      sits at its own x position, so it visibly shifts blue → magenta →
+                      violet as it crosses each world instead of staying one flat hue. */}
+                  <linearGradient id="journeyGradient" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stopColor="var(--world-leads)" />
+                    <stop offset="50%" stopColor="var(--world-creative)" />
+                    <stop offset="100%" stopColor="var(--world-it)" />
+                  </linearGradient>
+                </defs>
                 <path className="journey-path-bg" d={PATH_D} />
                 <path ref={pathRef} className="journey-path" d={PATH_D} />
-                <circle ref={markerRef} className="journey-marker" r="9" cx="0" cy="170" />
+                <circle ref={markerRef} className="journey-marker" r="7" cx="0" cy="170" />
               </svg>
 
               <div className="journey-nodes">

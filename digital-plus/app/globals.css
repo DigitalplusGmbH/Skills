@@ -21,9 +21,16 @@
      line, etc. — not decorative). Darkened to clear AA with a small margin. */
   --text-tertiary: #6b6e78;
 
-  /* Accent — global default */
-  --accent: #2554e6;
-  --accent-hover: #1a3fbd;
+  /* Accent — global default (used outside any [data-world] scope: nav CTA,
+     focus rings, links). Previously an unrelated indigo (#2554e6) sitting
+     right next to --world-leads' cyan-blue (#0091d4) everywhere both appear
+     (most visibly in the Journey section) — four competing primary hues
+     instead of a deliberate triad-plus-neutral. Shifted into the same blue
+     family as --world-leads rather than aliased to it outright: #0091d4
+     itself only clears ~3.5:1 against white, under the 4.5:1 AA floor
+     .btn-primary's white-on-accent text needs — this shade keeps ~4.9:1. */
+  --accent: #0077b6;
+  --accent-hover: #005f8f;
 
   /* Welten-Akzente (etwas vertieft für Kontrast auf hellem Grund) */
   --world-leads: #0091d4;
@@ -36,7 +43,7 @@
   --gradient-signature: linear-gradient(120deg, #0091d4 0%, #6d28d9 50%, #d6169f 100%);
 
   --bg-rgb: 248, 249, 251;
-  --accent-rgb: 37, 84, 230;
+  --accent-rgb: 0, 119, 182;
   --surface-rgb: 255, 255, 255;
 
   --success: #16a34a;
@@ -185,11 +192,14 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 }
 /* Ghost title (Pattern 5) */
 .ghost-title { position: relative; display: inline-block; }
+/* At the old 0.25 opacity / 10px blur / 6px offset, this read as a faint
+   colored haze easy to mistake for an unintended text-shadow bleed rather
+   than a deliberate watermark — committed harder to the effect instead. */
 .ghost-title::before {
   content: attr(data-ghost);
-  position: absolute; left: 6px; top: 6px; z-index: -1;
+  position: absolute; left: 14px; top: 14px; z-index: -1;
   color: var(--world-accent, var(--accent));
-  opacity: 0.25; filter: blur(10px);
+  opacity: 0.38; filter: blur(17px);
 }
 
 /* ==========================================================================
@@ -255,14 +265,19 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
     radial-gradient(circle at 70% 60%, var(--world-leads) 0%, transparent 45%),
     radial-gradient(circle at 50% 80%, var(--world-it) 0%, transparent 40%);
   background-size: 200% 200%;
-  filter: saturate(140%);
+  /* 140% saturation on three overlapping hues washed the middle of every
+     card into a muddy oversaturated lavender — toned down so the blend
+     stays distinct-but-related instead of candy-colored. */
+  filter: saturate(115%);
   animation: artShift 20s ease-in-out infinite alternate;
 }
 @keyframes artShift { to { background-position: 100% 100%; } }
 
 /* Each case study leans into its own world's color as the dominant blob
    instead of every card blending all three identically — ties the card
-   back to its category tag at a glance. */
+   back to its category tag at a glance. data-variant additionally offsets
+   blob centers per card index, so three cards of the same world (visible
+   together in the horizontal scroller) don't render as identical swatches. */
 .art-top[data-world='leads'] {
   background:
     radial-gradient(circle at 30% 35%, var(--world-leads) 0%, transparent 55%),
@@ -281,12 +296,22 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
     radial-gradient(circle at 75% 25%, var(--world-creative) 0%, transparent 42%),
     radial-gradient(circle at 20% 20%, var(--world-leads) 0%, transparent 35%);
 }
-.art-card .rivet-tl, .art-card .rivet-tr, .art-card .rivet-bl, .art-card .rivet-br {
-  content: ''; position: absolute; width: 6px; height: 6px;
-  background: var(--surface-alt); border: 1px solid var(--border); transform: rotate(45deg); z-index: 2;
+.art-top[data-variant='1'] { background-position: 30% 70%; }
+.art-top[data-variant='2'] { background-position: 70% 30%; }
+
+/* Placeholder cases render through the exact same heading/body styles a
+   real client name would — nothing signalled "not live yet" beyond an
+   11px caption at the very bottom, so they read as broken content rather
+   than an intentional coming-soon state. */
+.art-card.is-placeholder { border-style: dashed; border-color: var(--border-hover); }
+.art-card.is-placeholder .art-top { filter: grayscale(0.55) saturate(70%); }
+.art-card.is-placeholder .h3-card { color: var(--text-tertiary); font-style: italic; }
+.art-card-badge {
+  position: absolute; top: 0.75rem; right: 0.75rem; z-index: 2;
+  background: rgba(var(--bg-rgb), 0.92); border: 1px solid var(--border-hover); border-radius: 999px;
+  padding: 0.3rem 0.75rem; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--text-tertiary);
 }
-.rivet-tl { top: 8px; left: 8px; } .rivet-tr { top: 8px; right: 8px; }
-.rivet-bl { bottom: 8px; left: 8px; } .rivet-br { bottom: 8px; right: 8px; }
 
 /* ==========================================================================
    Navigation
@@ -342,6 +367,11 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   color: var(--world-accent, var(--accent));
   border: 1px solid rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.25);
 }
+/* A real, reusable variant instead of an inline style="{background:
+   transparent}" one-off — CaseCard's service tags previously overrode
+   .tag's fill directly, producing two inconsistent pill styles under the
+   same class name. */
+.tag-outline { background: transparent; }
 
 /* ==========================================================================
    Worlds Showcase (decision grid — big image cards linking into each world)
@@ -429,8 +459,13 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    ========================================================================== */
 
 .grid-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+/* Each world ships exactly 7 serviceDetails, which resolves to 4 columns at
+   desktop widths — a 4+3 split leaves one visibly empty cell in the last
+   row. When the very last card is also the 3rd item of a trailing row of 4,
+   span it across the remaining two columns instead of leaving a gap. */
+.grid-features-services > :nth-last-child(1):nth-child(4n+3) { grid-column: span 2; }
 .grid-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-.grid-testimonials { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.grid-testimonials { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
 
 /* ==========================================================================
    Reveal / entrance animation
@@ -442,29 +477,52 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .reveal-scale.in-view { opacity: 1; transform: scale(1); }
 
 /* ==========================================================================
-   WebGL background (shared by FinalCTA)
-   ========================================================================== */
-
-.webgl-layer { position: absolute; inset: 0; z-index: 0; }
-.webgl-layer canvas { width: 100%; height: 100%; display: block; }
-.webgl-layer.dim { opacity: 0.45; }
-
-.webgl-fallback {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 30% 35%, rgba(var(--world-leads-rgb), 0.22) 0%, transparent 55%),
-    radial-gradient(circle at 70% 65%, rgba(var(--world-it-rgb), 0.22) 0%, transparent 55%),
-    radial-gradient(circle at 50% 85%, rgba(var(--world-creative-rgb), 0.18) 0%, transparent 50%);
-  background-color: var(--bg);
-}
-
-/* ==========================================================================
    World Sections — Left Pin / Right Swap
    ========================================================================== */
 
 .world-section { position: relative; }
 .world-section .world-eyebrow-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
 .world-number { font-family: var(--font-display); font-size: 0.875rem; color: var(--world-accent); letter-spacing: 0.1em; }
+/* The service grid's own bottom --section-pad stacking with the next
+   section's top --section-pad produced the same oversized-gap pattern
+   already fixed at the worlds-showcase and Journey handoffs. */
+.world-section + .section { padding-top: clamp(2.5rem, 5vw, 5rem); }
+
+/* Gives every world (not just Leads, which used to get its visual weight
+   from the calculator alone) a right-hand anchor instead of a lone text
+   column abandoned in a much wider container the moment the pin above it
+   releases — the concrete "extrem hässlich" complaint this was built to fix. */
+/* align-items left at its grid default (stretch) deliberately — the Leads
+   instance's left column (bodyExtra + calculator) runs much taller than
+   Creative/IT's (bodyExtra alone), and the visual panel should match
+   whichever height that row actually needs, not stop at its own
+   min-height and leave the remaining row height empty beside it. */
+.world-detail-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2rem, 5vw, 4rem); }
+.world-detail-visual {
+  position: relative; overflow: hidden; min-height: 320px; border-radius: 20px;
+  background: linear-gradient(160deg, var(--surface) 0%, var(--surface-alt) 100%);
+  border: 1px solid var(--border); box-shadow: 0 20px 45px rgba(15, 15, 25, 0.08);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.world-detail-visual::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 28% 28%, rgba(var(--world-accent-rgb), 0.18) 0%, transparent 60%),
+    radial-gradient(circle at 76% 74%, rgba(var(--world-accent-rgb), 0.12) 0%, transparent 55%);
+}
+.world-detail-visual-number {
+  position: relative; font-family: var(--font-display); font-weight: 700; line-height: 1;
+  font-size: clamp(3rem, 7vw, 5rem); color: rgba(var(--world-accent-rgb), 0.22);
+}
+.world-detail-visual-word {
+  position: relative; font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem); letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--world-accent);
+}
+@media (max-width: 900px) {
+  .world-detail-grid { grid-template-columns: 1fr; }
+  .world-detail-visual { display: none; }
+}
 
 .pin-swap { height: 400vh; }
 .pin-swap-inner {
@@ -474,45 +532,89 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .pin-swap-left { max-width: 460px; }
 .pin-swap-services { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
 
-/* Leads-Rechner — live illustrative calculator inside the Leads world's container */
-.leads-calculator { max-width: 560px; }
-.leads-calculator-label { display: block; margin-top: 0.75rem; margin-bottom: 1.25rem; }
+/* Leads-Rechner — live illustrative calculator inside the Leads world's
+   container. Previously styled identically to a plain static content card
+   (flat white, no elevation at rest) — for the one interactive, "live"
+   element on the entire page, that read as a generic tile rather than a
+   tool. Gives it its own register: a signature top edge, elevation at
+   rest, and a faint world-tinted gradient instead of flat white. */
+.leads-calculator {
+  max-width: 560px; position: relative; overflow: hidden; border-radius: 22px;
+  background: linear-gradient(160deg, var(--surface) 0%, rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.05) 100%);
+  border-color: rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.18);
+  box-shadow: 0 16px 40px rgba(15, 15, 25, 0.10);
+}
+.leads-calculator::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gradient-signature);
+}
+.leads-calculator-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; }
+.leads-calculator-icon { width: 16px; height: 16px; color: var(--world-accent, var(--accent)); }
+.leads-calculator-label { display: block; margin-top: 0.75rem; margin-bottom: 1.75rem; }
 
+.range-input-wrap { position: relative; padding-top: 1.75rem; }
+/* Floating value readout above the thumb — the bare slider otherwise gave
+   no feedback beyond a hover scale, easy to mistake for an unstyled native
+   control rather than the page's one crafted interactive element. */
+.range-input-bubble {
+  position: absolute; top: 0; transform: translateX(-50%);
+  background: var(--world-accent, var(--accent)); color: #fff;
+  font-family: var(--font-display); font-size: 0.75rem; font-weight: 700;
+  padding: 0.2rem 0.55rem; border-radius: 8px; pointer-events: none;
+}
+.range-input-bubble::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 4px solid transparent; border-top-color: var(--world-accent, var(--accent));
+}
 .range-input {
-  -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 999px;
+  -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 999px;
   background: linear-gradient(90deg, var(--world-accent, var(--accent)) 0%, var(--world-accent, var(--accent)) var(--fill, 50%), var(--surface-alt) var(--fill, 50%), var(--surface-alt) 100%);
+  box-shadow: inset 0 1px 3px rgba(15, 15, 25, 0.14);
   outline: none; cursor: pointer;
 }
 .range-input::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
   background: var(--surface); border: 3px solid var(--world-accent, var(--accent));
-  box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2); transition: transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2), 0 0 0 6px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.16);
+  transition: transform 0.2s ease; animation: calcThumbPulse 2.4s ease-in-out infinite;
 }
-.range-input::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.range-input::-webkit-slider-thumb:hover, .range-input:active::-webkit-slider-thumb { transform: scale(1.15); animation-play-state: paused; }
 .range-input::-moz-range-thumb {
   width: 22px; height: 22px; border-radius: 50%; background: var(--surface);
-  border: 3px solid var(--world-accent, var(--accent)); box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2);
+  border: 3px solid var(--world-accent, var(--accent));
+  box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2), 0 0 0 6px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.16);
 }
-.range-input::-moz-range-track { height: 6px; border-radius: 999px; background: var(--surface-alt); }
-.range-input::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--world-accent, var(--accent)); }
+.range-input::-moz-range-track { height: 8px; border-radius: 999px; background: var(--surface-alt); box-shadow: inset 0 1px 3px rgba(15, 15, 25, 0.14); }
+.range-input::-moz-range-progress { height: 8px; border-radius: 999px; background: var(--world-accent, var(--accent)); }
+@keyframes calcThumbPulse {
+  0%, 100% { box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2), 0 0 0 6px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.16); }
+  50% { box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2), 0 0 0 10px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.08); }
+}
 
 .leads-calculator-scale {
   display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.5rem;
 }
 
 .leads-calculator-result {
-  display: flex; align-items: center; gap: clamp(0.75rem, 3vw, 1.5rem); margin-top: 1.75rem; flex-wrap: wrap;
+  display: flex; align-items: center; gap: clamp(1rem, 3vw, 2rem); margin-top: 1.75rem; flex-wrap: wrap;
 }
 .leads-calculator-figure {
   display: block; font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; color: var(--text);
 }
-.leads-calculator-figure-accent { color: var(--world-accent, var(--accent)); }
+.leads-calculator-figure-accent { color: var(--world-accent, var(--accent)); font-size: clamp(2.25rem, 5vw, 3rem); }
 .leads-calculator-figure-label { display: block; font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.25rem; }
 .leads-calculator-arrow { font-size: 1.25rem; color: var(--text-tertiary); }
+/* The delta now sits inline with the figure it annotates instead of
+   floating alone at the far right of the row via margin-left:auto. */
+.leads-calculator-figure-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.25rem; }
+.leads-calculator-figure-row .leads-calculator-figure-label { margin-top: 0; }
 .leads-calculator-delta {
-  margin-left: auto; padding: 0.4rem 0.85rem; border-radius: 999px; font-size: 0.8125rem; font-weight: 600;
+  padding: 0.3rem 0.7rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600;
   background: rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.12); color: var(--world-accent, var(--accent));
 }
+/* Separates the legal caveat from the result it's caveating instead of
+   letting it bleed directly under the figures as another line of text. */
+.leads-calculator-disclaimer { display: block; border-top: 1px solid var(--border); padding-top: 0.85rem; margin-top: 1.5rem; }
 
 .pin-swap-right { position: relative; }
 
@@ -528,6 +630,15 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   content: ''; position: absolute; inset: 0;
   background: radial-gradient(circle at 30% 20%, rgba(var(--world-accent-rgb), 0.22), transparent 60%);
   opacity: 0.8;
+}
+/* The card reserves a fixed 60vh/380px height but justify-content:flex-end
+   packs the (usually short) title+description into the bottom ~150-160px —
+   this watermark numeral fills the large empty top area with something
+   instead of a blank gradient, echoing .ghost-title's oversized-type motif. */
+.world-scene-card-number {
+  position: absolute; top: clamp(1rem, 2.5vw, 1.75rem); right: clamp(1.25rem, 3vw, 2rem); z-index: 0;
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(4rem, 9vw, 7rem); line-height: 1;
+  color: rgba(var(--world-accent-rgb), 0.16);
 }
 .world-scene-card-title { position: relative; font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; z-index: 1; }
 .world-scene-card-desc { position: relative; color: var(--text-secondary); font-size: 0.9375rem; max-width: 42ch; z-index: 1; }
@@ -555,6 +666,16 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .journey-section + .world-section { padding-top: clamp(1.5rem, 3vw, 3rem); }
 .journey-pin { height: 220vh; }
 .journey-pin-inner { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+/* Fills the large flat zone below the caption that's otherwise on-screen,
+   unchanging, for the section's whole long pinned scroll — a faint echo of
+   the three world colors instead of empty --bg. */
+.journey-pin-inner::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(40vw 30vh at 15% 92%, rgba(var(--world-leads-rgb), 0.06) 0%, transparent 70%),
+    radial-gradient(40vw 30vh at 50% 96%, rgba(var(--world-creative-rgb), 0.05) 0%, transparent 70%),
+    radial-gradient(40vw 30vh at 85% 92%, rgba(var(--world-it-rgb), 0.06) 0%, transparent 70%);
+}
 
 /* Height used to scale with width via aspect-ratio, which is exactly wrong
    here: the sticky stage is capped at 100vh, so a wide-but-short window
@@ -564,39 +685,71 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    lets it stretch freely, so drive height from vh instead of width. */
 .journey-track { position: relative; width: 100%; height: clamp(140px, 26vh, 300px); margin-top: clamp(1.25rem, 3vw, 2.5rem); }
 .journey-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.journey-path-bg { fill: none; stroke: var(--border); stroke-width: 2; }
+/* A light dotted line instead of the old near-invisible 9%-alpha stroke —
+   reads as a deliberate "road ahead" motif instead of an unfinished/missing
+   stroke, while staying clearly subordinate to the solid traveled line. */
+.journey-path-bg { fill: none; stroke: rgba(10, 12, 20, 0.16); stroke-width: 2.5; stroke-dasharray: 1 7; stroke-linecap: round; }
 .journey-path {
-  fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round;
-  filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), 0.35));
+  fill: none; stroke: url(#journeyGradient); stroke-width: 3; stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.35));
 }
-.journey-marker { fill: var(--accent); filter: drop-shadow(0 0 10px rgba(var(--accent-rgb), 0.55)); }
+.journey-marker { fill: url(#journeyGradient); filter: drop-shadow(0 0 8px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.5)); }
 
 .journey-nodes { position: absolute; inset: 0; }
 .journey-node { position: absolute; top: 22.7%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; }
+/* A visible colored ring even before arrival, instead of a flat gray bullet
+   indistinguishable from a generic list marker — telegraphs each waypoint's
+   world identity from the first frame; "reached" just fills the ring solid. */
 .journey-node-dot {
-  width: 10px; height: 10px; border-radius: 50%; background: var(--border-hover);
-  box-shadow: 0 0 0 4px rgba(var(--world-accent-rgb), 0.12); transition: background 0.4s ease;
+  width: 16px; height: 16px; border-radius: 50%; background: var(--surface);
+  border: 2px solid rgba(var(--world-accent-rgb), 0.45);
+  box-shadow: 0 0 0 4px rgba(var(--world-accent-rgb), 0.12);
+  transition: background 0.4s ease, border-color 0.4s ease;
 }
-.journey-node.reached .journey-node-dot { background: var(--world-accent); }
+.journey-node.reached .journey-node-dot { background: var(--world-accent); border-color: var(--world-accent); }
 .journey-node-label {
   font-family: var(--font-display); font-size: 0.8125rem; font-weight: 600;
-  color: var(--text-secondary); white-space: nowrap; margin-top: 0.6rem;
+  color: var(--text-secondary); white-space: nowrap;
+  /* Clears the marker's own visual footprint (7px radius + ~8px glow) with
+     margin — at the old 0.6rem offset the marker sat directly on top of the
+     label text at every waypoint. */
+  margin-top: 1.75rem;
+  transition: color 0.4s ease, font-weight 0.4s ease;
 }
+.journey-node.reached .journey-node-label { color: var(--text); font-weight: 700; }
 
 .journey-caption { position: relative; margin-top: clamp(1.5rem, 3vw, 2.5rem); min-height: 4.5rem; }
 .journey-caption-item {
-  position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s ease;
+  position: absolute; inset: 0; opacity: 0;
+  /* This crossfade is scroll-scrubbed (toggled continuously as the user
+     scrolls past a node threshold), not a one-shot UI transition — at the
+     old 0.5s duration, the outgoing and incoming captions (different
+     lengths, same position) both sat at mid-opacity for a long, clearly
+     visible stretch, reading as garbled double-exposed text on every single
+     pass at normal scroll speed. Short enough here that the overlap window
+     covers a trivial scroll distance instead of a perceptible one. */
+  transition: opacity 0.15s ease;
   display: flex; align-items: baseline; gap: 1rem;
 }
 .journey-caption-item.active { opacity: 1; }
-.journey-caption-number { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+/* var(--world-accent) resolves from the [data-world] attribute already on
+   this same element (custom properties inherit), matching the mobile
+   fallback's number, which already did this correctly. */
+.journey-caption-number { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--world-accent, var(--accent)); }
 .journey-caption-text { font-size: 1.125rem; color: var(--text-secondary); max-width: 46ch; }
 
 /* Static mobile/tablet fallback for the scroll-scrubbed wave above — hidden
    on desktop by default, swapped in at the 1024px breakpoint below. */
 .journey-mobile-fallback { display: none; }
 .journey-mobile-list { display: flex; flex-direction: column; gap: 1.5rem; list-style: none; padding: 0; }
-.journey-mobile-list li { display: flex; align-items: flex-start; gap: 1rem; }
+.journey-mobile-list li { position: relative; display: flex; align-items: flex-start; gap: 1rem; }
+/* The desktop wave's entire premise is a traveled route between three
+   worlds — without this, the mobile/majority-traffic version drops the
+   "path" metaphor entirely and reads as a generic numbered list. */
+.journey-mobile-list li:not(:last-child)::after {
+  content: ''; position: absolute; left: 0.85rem; top: 2.25rem; bottom: -1.5rem; width: 1.5px;
+  background: var(--border);
+}
 .journey-mobile-number { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--world-accent, var(--accent)); flex-shrink: 0; }
 .journey-mobile-name { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1.0625rem; }
 .journey-mobile-text { color: var(--text-secondary); font-size: 0.9375rem; margin-top: 0.25rem; }
@@ -605,7 +758,18 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Numbers / Stats
    ========================================================================== */
 
-.stat-card { text-align: center; padding: 2rem 1rem; }
+/* Previously no background/border/icon at all — on --surface-alt's flat
+   field, four bare digits read as an unstyled skeleton rather than a
+   finished trust-building section, especially arriving right after three
+   heavily choreographed pinned world sections. */
+.stat-card {
+  text-align: center; padding: 2.5rem 1.5rem; position: relative;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+}
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 32px; height: 3px; border-radius: 0 0 2px 2px; background: var(--gradient-signature);
+}
 /* Both are plain inline spans in the markup, so margin-top on stat-label had
    no effect and the label ran on the same line as the number, wrapping
    wherever it happened to run out of width instead of stacking cleanly. */
@@ -616,13 +780,14 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Social proof
    ========================================================================== */
 
-/* justify-content: center (not space-between) — the featured card's height
-   is stretched by CSS grid to match the taller testimonial-list column, and
-   with a short quote that left a large dead gap shoved between the quote
-   and the attribution line instead of even breathing room around both. */
+/* grid-testimonials now uses align-items:start (was the grid default,
+   stretch) so this card sizes to its own short content instead of being
+   force-stretched to match the taller testimonial-list column beside it —
+   that stretch was producing ~150px of dead space above the stars and
+   ~300px below the attribution line on a genuinely short quote. */
 .testimonial-featured {
-  padding: 2.5rem; height: 100%; display: flex; flex-direction: column;
-  justify-content: center; gap: 1.5rem; overflow: hidden;
+  padding: 2.5rem; display: flex; flex-direction: column;
+  gap: 1.5rem; overflow: hidden;
 }
 .testimonial-featured::before {
   content: '\201C'; position: absolute; top: -0.5rem; right: 1.5rem; z-index: 0;
@@ -642,6 +807,9 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .testimonial-featured .placeholder-flag { position: relative; z-index: 1; }
 .testimonial-stars { display: flex; gap: 0.2rem; margin-bottom: 1.25rem; color: var(--warning); }
 .testimonial-list { display: flex; flex-direction: column; gap: 1rem; }
+/* Marks these as quotes at a glance instead of reading identically to a
+   plain service-detail blurb card. */
+.testimonial-card { border-left: 2px solid var(--accent); }
 .testimonial-card .quote { font-size: 0.9375rem; color: var(--text-secondary); }
 .testimonial-card .attribution { margin-top: 1rem; font-size: 0.8125rem; color: var(--text-tertiary); }
 .placeholder-flag { display: inline-block; margin-top: 1rem; font-size: 0.6875rem; color: var(--text-tertiary); letter-spacing: 0.05em; }
@@ -650,20 +818,41 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    FAQ accordion
    ========================================================================== */
 
+/* Sticky left column pairs the heading with a right-hand list instead of a
+   single ~760px-wide block sitting alone in the full container — at desktop
+   widths that block left roughly 40-45% of the row as dead grey space. */
+.faq-grid { display: grid; grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+.faq-heading { position: sticky; top: 7rem; }
+.faq-list { display: flex; flex-direction: column; }
+@media (max-width: 900px) {
+  .faq-grid { grid-template-columns: 1fr; }
+  .faq-heading { position: static; margin-bottom: 2rem; }
+}
+
 .faq-item {
   border-bottom: 1px solid var(--border);
-  padding-block: 1.5rem;
+  transition: background 0.2s ease;
+  border-radius: 12px;
 }
 .faq-item:first-child { border-top: 1px solid var(--border); }
+/* Full-width clickable row had no hover cue at all — felt inert until
+   clicked. Negative margin/padding lets the highlight bleed slightly past
+   the row's own text without disturbing the shared border-bottom rule. */
+.faq-item:hover { background: rgba(var(--accent-rgb), 0.035); }
 .faq-question {
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  cursor: pointer; list-style: none; font-family: var(--font-display);
+  width: 100%; padding-block: 1.5rem; margin: 0; background: none; border: none;
+  cursor: pointer; font-family: var(--font-display); text-align: left;
   font-size: 1.0625rem; font-weight: 600; color: var(--text);
 }
-.faq-question::-webkit-details-marker { display: none; }
 .faq-icon { flex-shrink: 0; font-size: 1.25rem; color: var(--accent); transition: transform 0.3s var(--ease-cinema); }
-.faq-item[open] .faq-icon { transform: rotate(45deg); }
-.faq-answer { margin-top: 1rem; color: var(--text-secondary); max-width: 62ch; }
+.faq-question[aria-expanded='true'] .faq-icon { transform: rotate(45deg); }
+/* The 0fr -> 1fr grid-row trick animates height-to-auto without JS
+   measuring the answer's rendered height — .faq-answer-inner's overflow:
+   hidden is what actually clips the collapsed row to zero. */
+.faq-answer-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s var(--ease-cinema); }
+.faq-answer-inner { overflow: hidden; }
+.faq-answer { margin: 0 0 1.5rem; color: var(--text-secondary); max-width: 62ch; }
 .faq-question:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
 /* ==========================================================================
@@ -679,9 +868,13 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   padding-inline: var(--container-pad); will-change: transform;
 }
 .h-scroll-card { width: min(560px, 82vw); flex-shrink: 0; display: flex; flex-direction: column; }
+/* Every other slide in this track is a bordered .art-card — the closing
+   CTA slide had no frame at all, so in a horizontal gallery it read as
+   "ran out of content" rather than a deliberate final card. */
 .h-scroll-end {
   flex-shrink: 0; width: min(380px, 70vw);
   display: flex; flex-direction: column; justify-content: center; gap: 1.5rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem;
 }
 
 @media (max-width: 768px), (prefers-reduced-motion: reduce) {
@@ -704,30 +897,71 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Final CTA
    ========================================================================== */
 
-.final-cta { position: relative; overflow: hidden; text-align: center; border-radius: 32px; margin-inline: var(--container-pad); background: var(--surface); border: 1px solid var(--border); padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 4rem); }
+/* Previously a plain white card with two independent, near-identical
+   low-opacity gradient washes stacked on it (this card's own ::before, plus
+   a reused WebGLScene fallback) — both faint pastels on white cancelled out
+   into a forgettable smear instead of a genuine closing beat. Committing to
+   one high-contrast dark card instead: the same signature hues read far
+   more vivid against near-black than washed against white. */
+.final-cta {
+  position: relative; overflow: hidden; text-align: center; border-radius: 32px;
+  margin-inline: var(--container-pad); padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 4rem);
+  background:
+    radial-gradient(120% 140% at 12% -10%, rgba(0, 145, 212, 0.38) 0%, transparent 55%),
+    radial-gradient(120% 140% at 90% 110%, rgba(214, 22, 159, 0.32) 0%, transparent 55%),
+    #0b0c10;
+  color: #f5f6fa;
+}
 .final-cta::before {
   content: ''; position: absolute; inset: -40%; z-index: 0;
-  background: var(--gradient-signature); opacity: 0.12; filter: blur(60px);
+  background: var(--gradient-signature); opacity: 0.16; filter: blur(70px);
   animation: gradientShift 16s ease infinite;
 }
 @keyframes gradientShift { 0% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(4%, -4%) rotate(8deg); } 100% { transform: translate(0,0) rotate(0deg); } }
 .final-cta-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1.75rem; }
-.final-cta-worlds { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+.final-cta .eyebrow { color: rgba(255, 255, 255, 0.55); }
+.final-cta .h2-section { color: #fff; }
+.final-cta .body-lg { color: rgba(255, 255, 255, 0.72); }
+.final-cta .btn-secondary { border-color: rgba(255, 255, 255, 0.28); color: #fff; }
+.final-cta .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); }
 .final-cta-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+/* Visually demoted below the two real conversion buttons — these just
+   re-scroll to content already passed, and shouldn't compete equally with
+   "Projekt besprechen" for attention at the page's one true CTA moment. */
+.final-cta-worlds { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
+.final-cta-worlds-label { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); margin-right: 0.15rem; }
+.final-cta-worlds .tag {
+  font-size: 0.6875rem; padding: 0.4rem 0.7rem; opacity: 0.75;
+  background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.16); color: #fff;
+  transition: opacity 0.2s ease;
+}
+.final-cta-worlds .tag:hover { opacity: 1; }
 
 /* ==========================================================================
    Footer
    ========================================================================== */
 
-.footer { border-top: 1px solid var(--border); padding-block: 4rem 2rem; }
+/* A signature 2px gradient edge instead of a flat grey hairline — ties the
+   page's last element back to the same accent motif used throughout
+   (world orbs, scroll-progress bar, testimonial/stat cards) instead of the
+   page just running out. */
+.footer { border-top: none; background-image: var(--gradient-signature); background-size: 100% 2px; background-repeat: no-repeat; padding-block: 4rem 2rem; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2.5rem; }
 .footer-col-title { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 1rem; }
 .footer-links { display: flex; flex-direction: column; gap: 0.75rem; }
 .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9375rem; transition: color 0.2s ease; }
 .footer-links a:hover { color: var(--text); }
-.footer-social { display: flex; gap: 1rem; margin-top: 1.25rem; }
-.footer-social a { color: var(--text-secondary); transition: color 0.2s ease; }
-.footer-social a:hover { color: var(--accent); }
+.footer-social { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+/* Text links ("LinkedIn"/"Instagram") rendered with the browser's default
+   underline since .footer-links' text-decoration:none reset didn't apply
+   here — inconsistent with every other footer link two lines below. Real
+   icon buttons read as a designed footer instead of unstyled text links. */
+.footer-social a {
+  width: 36px; height: 36px; display: grid; place-items: center;
+  color: var(--text-secondary); border: 1px solid var(--border); border-radius: 50%;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.footer-social a:hover { color: var(--accent); border-color: var(--accent); }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--text-tertiary); font-size: 0.8125rem; flex-wrap: wrap; gap: 0.75rem; }
 
 /* ==========================================================================
@@ -813,7 +1047,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   .grid-stats { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
 
-  .webgl-layer { opacity: 0.5; }
   .custom-cursor, .cursor-glow { display: none; }
   .final-cta { margin-inline: 1rem; }
 }

@@ -1,36 +1,59 @@
 'use client';
 
+import { useState } from 'react';
 import { useReveal } from '@/hooks/useReveal';
 import { FAQS } from '@/lib/content';
 import ScrollFloatHeading from '../ui/ScrollFloatHeading';
 
+function FaqRow({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
+  return (
+    <div className="faq-item">
+      <button type="button" className="faq-question" aria-expanded={open} onClick={onToggle}>
+        <span>{question}</span>
+        <span className="faq-icon" aria-hidden="true">
+          +
+        </span>
+      </button>
+      {/* grid-template-rows 0fr -> 1fr is the standard CSS-only way to animate
+          height-to-auto — a plain max-height transition would either clip a
+          long answer or leave a jump for a short one. */}
+      <div className="faq-answer-wrap" style={{ gridTemplateRows: open ? '1fr' : '0fr' }}>
+        <div className="faq-answer-inner">
+          <p className="faq-answer">{answer}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function FAQ() {
   const headingRef = useReveal<HTMLSpanElement>();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <section className="section section-alt">
       <div className="container">
-        <div style={{ maxWidth: 640, marginBottom: '2.5rem' }}>
-          <span ref={headingRef} className="eyebrow reveal">
-            Häufige Fragen
-          </span>
-          <div style={{ marginTop: '1rem' }}>
-            <ScrollFloatHeading text="Bevor Sie fragen müssen" />
+        <div className="faq-grid">
+          <div className="faq-heading">
+            <span ref={headingRef} className="eyebrow reveal">
+              Häufige Fragen
+            </span>
+            <div style={{ marginTop: '1rem' }}>
+              <ScrollFloatHeading text="Bevor Sie fragen müssen" />
+            </div>
           </div>
-        </div>
 
-        <div className="faq-list" style={{ maxWidth: 760 }}>
-          {FAQS.map((item) => (
-            <details className="faq-item" key={item.question}>
-              <summary className="faq-question">
-                <span>{item.question}</span>
-                <span className="faq-icon" aria-hidden="true">
-                  +
-                </span>
-              </summary>
-              <p className="faq-answer">{item.answer}</p>
-            </details>
-          ))}
+          <div className="faq-list">
+            {FAQS.map((item, i) => (
+              <FaqRow
+                key={item.question}
+                question={item.question}
+                answer={item.answer}
+                open={openIndex === i}
+                onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

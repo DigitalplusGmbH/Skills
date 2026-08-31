@@ -3,14 +3,30 @@
 import { useReveal } from '@/hooks/useReveal';
 import { FEATURED_TESTIMONIAL, TESTIMONIALS } from '@/lib/content';
 import ScrollFloatHeading from '../ui/ScrollFloatHeading';
+import { handleSpotlightMove } from '@/lib/spotlight';
+
+// Neither Inter nor the body font stack define ★/☆, so both fell back to the
+// platform symbol font, where the filled glyph renders visibly bolder/larger
+// than the empty one — a single SVG path toggling fill vs. stroke keeps both
+// states the same geometry and weight.
+function Star({ filled }: { filled: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <path
+        d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6-5.9-3.3-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"
+        fill={filled ? 'currentColor' : 'none'}
+        stroke="currentColor"
+        strokeWidth={filled ? 0 : 1.5}
+      />
+    </svg>
+  );
+}
 
 function Stars({ count }: { count: number }) {
   return (
     <div className="testimonial-stars" aria-label={`${count} von 5 Sternen`}>
       {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} aria-hidden="true">
-          {i < count ? '★' : '☆'}
-        </span>
+        <Star key={i} filled={i < count} />
       ))}
     </div>
   );
@@ -47,7 +63,7 @@ export default function SocialProof() {
 
           <div className="testimonial-list">
             {TESTIMONIALS.map((testimonial, i) => (
-              <div className="card testimonial-card" key={`testimonial-${i}`}>
+              <div className="card testimonial-card card-spotlight" onPointerMove={handleSpotlightMove} key={`testimonial-${i}`}>
                 <Stars count={testimonial.rating} />
                 <p className="quote">{testimonial.quote}</p>
                 <p className="attribution">

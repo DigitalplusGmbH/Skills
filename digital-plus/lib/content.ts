@@ -356,7 +356,8 @@ export const FOOTER_LINKS = {
 };
 
 export const CONTACT = {
-  email: '[kontakt@digitalplus-platzhalter.ch]',
+  email: 'kontakt@digitalplus-platzhalter.ch',
   phone: '+41 58 510 88 30',
+  phoneHref: '+41585108830',
   address: 'Riedstrasse 8, 8953 Dietikon',
 };

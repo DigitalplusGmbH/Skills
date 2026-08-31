@@ -14,10 +14,16 @@ export default function Footer() {
             </p>
             <div className="footer-social">
               <a href="#" aria-label="LinkedIn">
-                LinkedIn
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M6.94 5a2 2 0 11-4-.002 2 2 0 014 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.68-2.91V8.48z" />
+                </svg>
               </a>
               <a href="#" aria-label="Instagram">
-                Instagram
+                <svg viewBox="0 0 24 24" fill="none" width="16" height="16" aria-hidden="true">
+                  <rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="currentColor" strokeWidth="1.8" />
+                  <circle cx="12" cy="12" r="4.7" stroke="currentColor" strokeWidth="1.8" />
+                  <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" />
+                </svg>
               </a>
             </div>
           </div>
@@ -47,10 +53,15 @@ export default function Footer() {
           <div>
             <p className="footer-col-title">Kontakt</p>
             <ul className="footer-links">
-              <li>{CONTACT.email}</li>
-              <li>{CONTACT.phone}</li>
+              <li>
+                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+              </li>
+              <li>
+                <a href={`tel:${CONTACT.phoneHref}`}>{CONTACT.phone}</a>
+              </li>
               <li>{CONTACT.address}</li>
             </ul>
+            <span className="placeholder-flag">E-Mail-Domain ist ein Platzhalter</span>
           </div>
         </div>
 
@@ -64,13 +75,6 @@ export default function Footer() {
             ))}
           </div>
         </div>
-        <p style={{ marginTop: '1.5rem', fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
-          Motion effects derived from{' '}
-          <a href="https://github.com/DavidHDev/vue-bits" style={{ textDecoration: 'underline' }}>
-            vue-bits
-          </a>{' '}
-          by DavidHDev (MIT).
-        </p>
       </div>
     </footer>
   );
