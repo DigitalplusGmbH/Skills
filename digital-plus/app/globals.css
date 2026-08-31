@@ -163,7 +163,11 @@ button { font-family: inherit; background: none; border: none; color: inherit; }
   padding-inline: var(--container-pad);
 }
 .section { padding-block: var(--section-pad); position: relative; }
-.section-alt { background: var(--surface-alt); }
+/* Used to tint alternating sections with --surface-alt — a second,
+   slightly-darker off-white next to the page's own --bg produced a visible
+   seam where one section met the next. One background for the whole page;
+   cards still read as elevated via --surface (pure white) + border. */
+.section-alt { background: var(--bg); }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 0.5rem;
