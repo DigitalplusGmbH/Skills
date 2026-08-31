@@ -153,7 +153,7 @@ export default function WorldSection({ world }: { world: World }) {
             get its visual weight from the calculator alone) a matching
             right-hand anchor instead of an abandoned column. */}
         <div className="world-detail-grid">
-          <div>
+          <div className="world-detail-text">
             <div ref={detailHeadingRef} className="reveal">
               <p className="body-lg">{world.bodyExtra}</p>
             </div>
@@ -166,7 +166,7 @@ export default function WorldSection({ world }: { world: World }) {
           </div>
         </div>
 
-        <div style={{ marginTop: 'clamp(3rem, 6vw, 5rem)' }}>
+        <div style={{ marginTop: 'clamp(2rem, 4vw, 3.5rem)' }}>
           <span className="eyebrow">Angebot</span>
           <h3 className="h3-card" style={{ marginTop: '0.75rem', marginBottom: '1.5rem' }}>
             Leistungen im Detail

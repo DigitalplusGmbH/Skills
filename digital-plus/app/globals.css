@@ -282,15 +282,24 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 
 /* Shared dot-diamond signet motif (DotDiamond component) — dots start
    scaled-down/invisible and animate in with a per-dot stagger (delay set by
-   useStaggerReveal) the first time the SVG scrolls into view, instead of
-   sitting there fully rendered and static. One-time reveal, not a loop. */
+   useStaggerReveal) the first time the SVG scrolls into view. The wrapping
+   <g> (not the circles) then keeps a slow perpetual rotation — decoupled
+   from the circles' own opacity/scale transition so the two never fight
+   over the same property, and slow/soft enough to read as "alive" rather
+   than spinning, matching the book's one-slow-moving-element allowance for
+   the gradient, extended here to fill a panel that otherwise reads empty. */
 .dot-diamond circle {
   fill: var(--world-accent, var(--accent));
   opacity: 0; transform: scale(0.3);
   transform-box: fill-box; transform-origin: center;
   transition: opacity 0.5s var(--ease-cinema), transform 0.5s var(--ease-cinema);
 }
-.dot-diamond.in-view circle { opacity: var(--dot-o, 1); transform: scale(1); }
+.dot-diamond-spin.in-view circle { opacity: var(--dot-o, 1); transform: scale(1); }
+.dot-diamond-spin {
+  transform-box: fill-box; transform-origin: center;
+  animation: dotDiamondSpin 48s linear infinite;
+}
+@keyframes dotDiamondSpin { to { transform: rotate(360deg); } }
 
 /* Art card top — same flat-surface + dot-diamond language as
    .world-detail-visual, not the three-blob animated gradient blend this used
@@ -312,7 +321,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    11px caption at the very bottom, so they read as broken content rather
    than an intentional coming-soon state. */
 .art-card.is-placeholder { border-style: dashed; border-color: var(--border-hover); }
-.art-card.is-placeholder .dot-diamond.in-view circle { opacity: calc(var(--dot-o, 1) * 0.55); }
+.art-card.is-placeholder .dot-diamond-spin.in-view circle { opacity: calc(var(--dot-o, 1) * 0.55); }
 .art-card.is-placeholder .h3-card { color: var(--text-tertiary); font-style: italic; }
 .art-card-badge {
   position: absolute; top: 0.75rem; right: 0.75rem; z-index: 2;
@@ -511,7 +520,14 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Creative/IT's (bodyExtra alone), and the visual panel should match
    whichever height that row actually needs, not stop at its own
    min-height and leave the remaining row height empty beside it. */
-.world-detail-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2rem, 5vw, 4rem); }
+.world-detail-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(1.5rem, 4vw, 3rem); }
+/* The flip side of that same stretch: on Creative/IT, where the left
+   column's own text is much shorter than the row height the panel sets,
+   the column used to stay top-anchored — the text ending well above the
+   panel's bottom edge, with a dead gap below it before "Leistungen im
+   Detail". Centering the column's own content in the space it's stretched
+   to turns that into an intentional-looking balance instead. */
+.world-detail-text { display: flex; flex-direction: column; justify-content: center; }
 /* Replaces a pastel radial-gradient blob with a giant watermark numeral and
    "ghost word" — an invented treatment with no basis in the brand book and
    the panel the client flagged as ugly. The book's own per-world pages give
@@ -521,10 +537,10 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Systeme und Skalierung") — reused here as a generic dot-diamond, not the
    protected logo file itself. */
 .world-detail-visual {
-  position: relative; overflow: hidden; min-height: 320px; border-radius: 12px;
+  position: relative; overflow: hidden; min-height: 280px; border-radius: 12px;
   border: 1px solid var(--border);
   box-shadow: 0 1px 2px rgba(15, 15, 25, 0.03), 0 8px 20px rgba(15, 15, 25, 0.04);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.75rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
   padding: 2rem;
 }
 .world-detail-visual[data-world='leads'] { background: var(--surface); }

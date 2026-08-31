@@ -38,15 +38,19 @@ const RINGS = [
  * (not the protected logo file). Three concentric rings — echoes the real
  * mark's layered rhombus instead of a flat grid clipped into a diamond.
  * Dots fade/scale in with a stagger the first time this scrolls into view
- * (via useStaggerReveal) — a one-time "content reveal", not a looping
- * animation, per the book's "ruhig, kein permanentes Wackeln" rule.
+ * (via useStaggerReveal), then the whole group keeps a slow, perpetual
+ * rotation — the book's own rule for the gradient is "darf sich bewegen,
+ * aber langsam, weich und nur einmal pro Fläche" (may move, but slowly and
+ * softly, one moving element per surface); this is that one element for an
+ * otherwise mostly-empty panel. The rotation lives on the wrapping <g>, not
+ * on the circles themselves, so it never fights the per-circle reveal
+ * transition (which owns opacity/scale on the circles directly).
  */
 export default function DotDiamond({ className = '' }: { className?: string }) {
-  const ref = useStaggerReveal<SVGSVGElement>(0.35);
+  const ref = useStaggerReveal<SVGGElement>(0.35);
 
   return (
     <svg
-      ref={ref}
       className={`dot-diamond ${className}`}
       viewBox="-50 -50 100 100"
       width="100%"
@@ -54,17 +58,19 @@ export default function DotDiamond({ className = '' }: { className?: string }) {
       preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
     >
-      {RINGS.map((cfg) =>
-        ring(cfg.half).map((p, i) => (
-          <circle
-            key={`${cfg.half}-${i}`}
-            cx={p.x}
-            cy={p.y}
-            r={cfg.radius * p.weight}
-            style={{ ['--dot-o' as string]: cfg.opacity }}
-          />
-        )),
-      )}
+      <g ref={ref} className="dot-diamond-spin">
+        {RINGS.map((cfg) =>
+          ring(cfg.half).map((p, i) => (
+            <circle
+              key={`${cfg.half}-${i}`}
+              cx={p.x}
+              cy={p.y}
+              r={cfg.radius * p.weight}
+              style={{ ['--dot-o' as string]: cfg.opacity }}
+            />
+          )),
+        )}
+      </g>
     </svg>
   );
 }
