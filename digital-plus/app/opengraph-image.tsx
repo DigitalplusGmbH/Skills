@@ -15,7 +15,7 @@ export default function OpengraphImage() {
           justifyContent: 'center',
           alignItems: 'flex-start',
           padding: '90px',
-          background: '#f8f9fb',
+          background: '#f6f8fb',
           fontFamily: 'sans-serif',
         }}
       >
@@ -26,7 +26,7 @@ export default function OpengraphImage() {
             gap: '14px',
             fontSize: 30,
             fontWeight: 700,
-            color: '#0b0c10',
+            color: '#121212',
             marginBottom: '48px',
           }}
         >
@@ -39,14 +39,14 @@ export default function OpengraphImage() {
             fontSize: 76,
             fontWeight: 700,
             lineHeight: 1.15,
-            color: '#0b0c10',
+            color: '#121212',
             maxWidth: '920px',
           }}
         >
           <span style={{ display: 'flex', marginRight: '20px' }}>Leads.</span>
-          <span style={{ display: 'flex', color: '#0091d4', marginRight: '20px' }}>Creative.</span>
-          <span style={{ display: 'flex', color: '#6d28d9', marginRight: '20px' }}>IT &amp;</span>
-          <span style={{ display: 'flex', color: '#d6169f' }}>Sicherheit.</span>
+          <span style={{ display: 'flex', color: '#7c3aed', marginRight: '20px' }}>Creative.</span>
+          <span style={{ display: 'flex', color: '#00c4fb', marginRight: '20px' }}>IT &amp;</span>
+          <span style={{ display: 'flex', color: '#00c4fb' }}>Sicherheit.</span>
         </div>
         <div style={{ display: 'flex', fontSize: 28, color: '#52565f', marginTop: '36px', maxWidth: '820px' }}>
           Ein digitaler Partner für Wachstum, Marke und Infrastruktur.
@@ -59,7 +59,7 @@ export default function OpengraphImage() {
             left: 0,
             width: '100%',
             height: '10px',
-            background: 'linear-gradient(120deg, #0091d4 0%, #6d28d9 50%, #d6169f 100%)',
+            background: 'linear-gradient(135deg, #00c4fb 0%, #2563eb 34%, #7c3aed 62%, #d014f7 100%)',
           }}
         />
       </div>

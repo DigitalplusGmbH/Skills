@@ -3,47 +3,60 @@
    ========================================================================== */
 
 :root {
-  /* Backgrounds */
-  --bg: #f8f9fb;
+  /* Colors, gradient stops and world→accent mapping below are taken verbatim
+     from the Digital Plus Brand & Styling Book v2.0 (Farbwelt / Markenverlauf
+     / Kompetenzwelten chapters) — this is the source of truth, not a design
+     choice made in this file. */
+
+  /* Backgrounds — Hellgrau / Weiss from the Farbwelt palette */
+  --bg: #f6f8fb;
   --surface: #ffffff;
   --surface-alt: #eef0f4;
   --surface-hover: #e4e7ed;
+
+  /* Anthrazit / Schwarz — the two dark neutrals, used for the IT & Support
+     world's dark surfaces and the Final CTA card. */
+  --anthracite: #2b3440;
+  --ink: #121212;
 
   /* Borders */
   --border: rgba(10, 12, 20, 0.09);
   --border-hover: rgba(10, 12, 20, 0.18);
 
   /* Text */
-  --text: #0b0c10;
+  --text: #121212;
   --text-secondary: #52565f;
   /* #82858e read at ~3.5:1 against --bg, under the 4.5:1 AA floor for
      normal-size text (this is used for the eyebrow labels, footer copyright
      line, etc. — not decorative). Darkened to clear AA with a small margin. */
   --text-tertiary: #6b6e78;
 
-  /* Accent — global default (used outside any [data-world] scope: nav CTA,
-     focus rings, links). Previously an unrelated indigo (#2554e6) sitting
-     right next to --world-leads' cyan-blue (#0091d4) everywhere both appear
-     (most visibly in the Journey section) — four competing primary hues
-     instead of a deliberate triad-plus-neutral. Shifted into the same blue
-     family as --world-leads rather than aliased to it outright: #0091d4
-     itself only clears ~3.5:1 against white, under the 4.5:1 AA floor
-     .btn-primary's white-on-accent text needs — this shade keeps ~4.9:1. */
-  --accent: #0077b6;
-  --accent-hover: #005f8f;
+  /* Accent — Digital Blue, the styling book's primary interaction color
+     ("Buttons, Links, aktive Zustände, Fokus") used both as the global
+     default and as Lead Generation's own world accent. #2563EB on white
+     button text computes to ~5.2:1, clearing the 4.5:1 AA floor. Hover is
+     the book's own rule: "8% dunkler". */
+  --accent: #2563eb;
+  --accent-hover: #225bd8;
 
-  /* Welten-Akzente (etwas vertieft für Kontrast auf hellem Grund) */
-  --world-leads: #0091d4;
-  --world-leads-rgb: 0, 145, 212;
-  --world-creative: #d6169f;
-  --world-creative-rgb: 214, 22, 159;
-  --world-it: #6d28d9;
-  --world-it-rgb: 109, 40, 217;
+  /* Welten-Akzente — Digital Blue (Lead Generation), Creative Purple
+     (Creative Studio), Plus Cyan (IT & Support), per the book's per-world
+     color pages. Plus Magenta is intentionally not assigned to any world:
+     the book restricts it to the gradient's end stop and rare signal
+     moments, never a UI accent. */
+  --world-leads: #2563eb;
+  --world-leads-rgb: 37, 99, 235;
+  --world-creative: #7c3aed;
+  --world-creative-rgb: 124, 58, 237;
+  --world-it: #00c4fb;
+  --world-it-rgb: 0, 196, 251;
 
-  --gradient-signature: linear-gradient(120deg, #0091d4 0%, #6d28d9 50%, #d6169f 100%);
+  /* The Markenverlauf: fixed stops, fixed order, 135° — "wird nie neu
+     gemischt". */
+  --gradient-signature: linear-gradient(135deg, #00c4fb 0%, #2563eb 34%, #7c3aed 62%, #d014f7 100%);
 
-  --bg-rgb: 248, 249, 251;
-  --accent-rgb: 0, 119, 182;
+  --bg-rgb: 246, 248, 251;
+  --accent-rgb: 37, 99, 235;
   --surface-rgb: 255, 255, 255;
 
   --success: #16a34a;
@@ -206,9 +219,12 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Buttons
    ========================================================================== */
 
+/* Button spec is literal from the book's "UI Elemente" page: height 44px,
+   radius 8px, inner padding 20px, hover 8% darker — not the pill shape this
+   used to have. */
 .btn {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.875rem 1.75rem; border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  height: 44px; padding-inline: 1.25rem; border-radius: 8px;
   font-family: var(--font-body); font-weight: 600; font-size: 0.9375rem;
   cursor: pointer; border: 1px solid transparent;
   transition: transform 0.25s var(--ease-cinema), box-shadow 0.25s var(--ease-cinema),
@@ -238,7 +254,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    ========================================================================== */
 
 .card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
   padding: 1.75rem; position: relative; isolation: isolate;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s var(--ease-cinema);
 }
@@ -257,7 +273,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .card-spotlight:hover::before { opacity: 1; }
 
 /* Abstract gradient art card (Pattern 6) */
-.art-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; position: relative; }
+.art-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; }
 .art-top {
   aspect-ratio: 16 / 9;
   background:
@@ -359,13 +375,15 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Links / Tags
    ========================================================================== */
 
+/* The book's "Leistungen" lists (SEO, Google Ads, Branding, Hosting…) render
+   as flat neutral-grey boxes, not colored pills — chips carry status
+   ("Aktiv"/"Neu"), never a service name. */
 .tag {
   display: inline-flex; align-items: center; gap: 0.375rem;
-  padding: 0.3rem 0.75rem; border-radius: 999px;
-  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-  background: rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.12);
-  color: var(--world-accent, var(--accent));
-  border: 1px solid rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.25);
+  padding: 0.5rem 0.85rem; border-radius: 8px;
+  font-size: 0.8125rem; font-weight: 500;
+  background: var(--surface-alt); color: var(--text-secondary);
+  border: 1px solid var(--border);
 }
 /* A real, reusable variant instead of an inline style="{background:
    transparent}" one-off — CaseCard's service tags previously overrode
@@ -498,27 +516,43 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    whichever height that row actually needs, not stop at its own
    min-height and leave the remaining row height empty beside it. */
 .world-detail-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2rem, 5vw, 4rem); }
+/* Replaces a pastel radial-gradient blob with a giant watermark numeral and
+   "ghost word" — an invented treatment with no basis in the brand book and
+   the panel the client flagged as ugly. The book's own per-world pages give
+   each world a real background rule (Lead: 62% Weiss; Creative: 54% Weiss +
+   26% Purple; IT: 58% Schwarz + 22% Anthrazit) and its own recurring
+   signet motif ("Rautenförmige Punktstruktur — steht für Vernetzung,
+   Systeme und Skalierung") — reused here as a generic dot-diamond, not the
+   protected logo file itself. */
 .world-detail-visual {
-  position: relative; overflow: hidden; min-height: 320px; border-radius: 20px;
-  background: linear-gradient(160deg, var(--surface) 0%, var(--surface-alt) 100%);
-  border: 1px solid var(--border); box-shadow: 0 20px 45px rgba(15, 15, 25, 0.08);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+  position: relative; overflow: hidden; min-height: 320px; border-radius: 12px;
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.75rem;
+  padding: 2rem;
 }
-.world-detail-visual::before {
-  content: ''; position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 28% 28%, rgba(var(--world-accent-rgb), 0.18) 0%, transparent 60%),
-    radial-gradient(circle at 76% 74%, rgba(var(--world-accent-rgb), 0.12) 0%, transparent 55%);
+.world-detail-visual[data-world='leads'] { background: var(--surface); }
+.world-detail-visual[data-world='creative'] {
+  background: linear-gradient(160deg, var(--surface) 0%, rgba(var(--world-creative-rgb), 0.07) 100%);
 }
-.world-detail-visual-number {
-  position: relative; font-family: var(--font-display); font-weight: 700; line-height: 1;
-  font-size: clamp(3rem, 7vw, 5rem); color: rgba(var(--world-accent-rgb), 0.22);
+.world-detail-visual[data-world='it'] {
+  background: var(--anthracite); border-color: rgba(255, 255, 255, 0.08);
 }
-.world-detail-visual-word {
-  position: relative; font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(1.25rem, 2.5vw, 1.75rem); letter-spacing: 0.05em; text-transform: uppercase;
+.world-detail-visual-index {
+  position: absolute; top: 1.5rem; left: 1.5rem;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.9375rem;
   color: var(--world-accent);
 }
+.world-detail-visual-motif {
+  width: min(200px, 55%); aspect-ratio: 1;
+  background-image: radial-gradient(circle, rgba(var(--world-accent-rgb), 0.85) 1.6px, transparent 1.8px);
+  background-size: 15px 15px;
+  clip-path: polygon(50% 4%, 96% 50%, 50% 96%, 4% 50%);
+}
+.world-detail-visual-caption {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.8125rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary);
+}
+.world-detail-visual[data-world='it'] .world-detail-visual-caption { color: rgba(255, 255, 255, 0.65); }
 @media (max-width: 900px) {
   .world-detail-grid { grid-template-columns: 1fr; }
   .world-detail-visual { display: none; }
@@ -539,7 +573,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    tool. Gives it its own register: a signature top edge, elevation at
    rest, and a faint world-tinted gradient instead of flat white. */
 .leads-calculator {
-  max-width: 560px; position: relative; overflow: hidden; border-radius: 22px;
+  max-width: 560px; position: relative; overflow: hidden; border-radius: 12px;
   background: linear-gradient(160deg, var(--surface) 0%, rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.05) 100%);
   border-color: rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.18);
   box-shadow: 0 16px 40px rgba(15, 15, 25, 0.10);
@@ -572,13 +606,19 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   box-shadow: inset 0 1px 3px rgba(15, 15, 25, 0.14);
   outline: none; cursor: pointer;
 }
+/* No idle loop on the thumb — the book is explicit that motion stays
+   "ruhig" with "kein permanentes Wackeln"; the ring only grows on genuine
+   interaction (hover/active), not at rest. */
 .range-input::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
   background: var(--surface); border: 3px solid var(--world-accent, var(--accent));
   box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2), 0 0 0 6px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.16);
-  transition: transform 0.2s ease; animation: calcThumbPulse 2.4s ease-in-out infinite;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.range-input::-webkit-slider-thumb:hover, .range-input:active::-webkit-slider-thumb { transform: scale(1.15); animation-play-state: paused; }
+.range-input::-webkit-slider-thumb:hover, .range-input:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2), 0 0 0 8px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.16);
+}
 .range-input::-moz-range-thumb {
   width: 22px; height: 22px; border-radius: 50%; background: var(--surface);
   border: 3px solid var(--world-accent, var(--accent));
@@ -586,10 +626,6 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 }
 .range-input::-moz-range-track { height: 8px; border-radius: 999px; background: var(--surface-alt); box-shadow: inset 0 1px 3px rgba(15, 15, 25, 0.14); }
 .range-input::-moz-range-progress { height: 8px; border-radius: 999px; background: var(--world-accent, var(--accent)); }
-@keyframes calcThumbPulse {
-  0%, 100% { box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2), 0 0 0 6px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.16); }
-  50% { box-shadow: 0 2px 8px rgba(15, 15, 25, 0.2), 0 0 0 10px rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.08); }
-}
 
 .leads-calculator-scale {
   display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.5rem;
@@ -620,7 +656,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 
 .world-scene-stack { position: relative; height: 60vh; min-height: 380px; }
 .world-scene-card {
-  position: absolute; inset: 0; border-radius: 20px; border: 1px solid var(--border);
+  position: absolute; inset: 0; border-radius: 12px; border: 1px solid var(--border);
   background: linear-gradient(160deg, var(--surface) 0%, var(--surface-alt) 100%);
   box-shadow: 0 20px 45px rgba(15, 15, 25, 0.08);
   padding: clamp(1.5rem, 3vw, 2.5rem); display: flex; flex-direction: column; justify-content: flex-end; gap: 0.75rem;
@@ -764,7 +800,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    heavily choreographed pinned world sections. */
 .stat-card {
   text-align: center; padding: 2.5rem 1.5rem; position: relative;
-  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
 }
 .stat-card::before {
   content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
@@ -874,7 +910,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .h-scroll-end {
   flex-shrink: 0; width: min(380px, 70vw);
   display: flex; flex-direction: column; justify-content: center; gap: 1.5rem;
-  background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;
 }
 
 @media (max-width: 768px), (prefers-reduced-motion: reduce) {
@@ -907,9 +943,9 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   position: relative; overflow: hidden; text-align: center; border-radius: 32px;
   margin-inline: var(--container-pad); padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 4rem);
   background:
-    radial-gradient(120% 140% at 12% -10%, rgba(0, 145, 212, 0.38) 0%, transparent 55%),
-    radial-gradient(120% 140% at 90% 110%, rgba(214, 22, 159, 0.32) 0%, transparent 55%),
-    #0b0c10;
+    radial-gradient(120% 140% at 12% -10%, rgba(var(--world-it-rgb), 0.38) 0%, transparent 55%),
+    radial-gradient(120% 140% at 90% 110%, rgba(var(--world-creative-rgb), 0.32) 0%, transparent 55%),
+    var(--ink);
   color: #f5f6fa;
 }
 .final-cta::before {

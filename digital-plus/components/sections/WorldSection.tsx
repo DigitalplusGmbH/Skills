@@ -159,8 +159,9 @@ export default function WorldSection({ world }: { world: World }) {
             {world.key === 'leads' && <LeadsCalculator />}
           </div>
           <div className="world-detail-visual" data-world={world.key} aria-hidden="true">
-            <span className="world-detail-visual-number">{world.number}</span>
-            <span className="world-detail-visual-word">{world.ghostWord}</span>
+            <span className="world-detail-visual-index">{world.number}</span>
+            <span className="world-detail-visual-motif" />
+            <span className="world-detail-visual-caption">{world.ghostWord}</span>
           </div>
         </div>
 

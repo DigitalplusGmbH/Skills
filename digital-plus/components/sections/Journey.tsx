@@ -103,14 +103,18 @@ export default function Journey() {
             <div className="journey-track">
               <svg className="journey-svg" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
                 <defs>
-                  {/* userSpaceOnUse over the full 1200-wide viewBox means the traveling
-                      marker — filled with this same gradient — samples whatever color
-                      sits at its own x position, so it visibly shifts blue → magenta →
-                      violet as it crosses each world instead of staying one flat hue. */}
+                  {/* The brand book's Markenverlauf, fixed stops/order — cyan 0%, blue
+                      34%, purple 62%, magenta 100% — used here as one of its explicitly
+                      sanctioned applications ("dünne Trennlinien und Fortschritts-
+                      Elemente"). userSpaceOnUse over the full 1200-wide viewBox means the
+                      traveling marker — filled with this same gradient — samples
+                      whatever color sits at its own x position, so it visibly shifts
+                      along the same fixed sequence as it crosses the page. */}
                   <linearGradient id="journeyGradient" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stopColor="var(--world-leads)" />
-                    <stop offset="50%" stopColor="var(--world-creative)" />
-                    <stop offset="100%" stopColor="var(--world-it)" />
+                    <stop offset="0%" stopColor="#00c4fb" />
+                    <stop offset="34%" stopColor="#2563eb" />
+                    <stop offset="62%" stopColor="#7c3aed" />
+                    <stop offset="100%" stopColor="#d014f7" />
                   </linearGradient>
                 </defs>
                 <path className="journey-path-bg" d={PATH_D} />
