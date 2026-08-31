@@ -536,14 +536,22 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Journey — scroll-driven marker travelling across the three worlds
    ========================================================================== */
 
-/* Trimmed bottom padding: the sticky pin already needs a full viewport's
-   worth of scroll just to slide off-screen after its animation finishes —
-   the section's own padding shouldn't add a second, purely blank stretch
-   on top of that before the next world begins. */
-.journey-section { position: relative; padding-bottom: clamp(1.5rem, 3vw, 3rem); }
-/* Same reasoning on the other side of the handoff: the Leads section right
-   after Journey doesn't need its own full top padding stacked on top of
-   that already-long sticky exit scroll. */
+/* Trimmed padding on both sides: .journey-pin-inner already centers its
+   content inside a full 100vh sticky box, so a chunk of vertical breathing
+   room exists above/below the heading before any section padding is even
+   added — and on exit, the sticky pin needs a full viewport's worth of
+   scroll just to slide off-screen. Stacking the section's own full padding
+   on top of either is a second, purely blank stretch that isn't needed.
+   Trimming padding here only changes whitespace — the pin's ScrollTrigger
+   tracks .journey-pin's own box (top top / bottom bottom), so none of this
+   touches where the scroll-scrub animation starts, ends, or how it plays. */
+.journey-section { position: relative; padding-block: clamp(1.5rem, 3vw, 3rem); }
+/* Intro doesn't need its own full bottom padding stacked on top of that
+   same centering slack right before Journey begins. */
+#ueber-uns { padding-bottom: clamp(1.5rem, 3vw, 3rem); }
+/* Same reasoning on the other side of the Journey→Leads handoff: the Leads
+   section right after Journey doesn't need its own full top padding
+   stacked on top of that already-long sticky exit scroll. */
 .journey-section + .world-section { padding-top: clamp(1.5rem, 3vw, 3rem); }
 .journey-pin { height: 220vh; }
 .journey-pin-inner { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; }
