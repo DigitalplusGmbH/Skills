@@ -140,11 +140,12 @@ export default function WorldSection({ world }: { world: World }) {
 
       {/* pin-swap-inner is a sticky, 100vh-tall box that only fully clears the
           viewport right at the exact scroll position where this container
-          begins — a zero-tolerance boundary. Sub-pixel rounding (e.g. from
-          fractional OS display scaling) can tip that over into a visible
-          overlap of the still-departing button/tags and this text. A modest
-          buffer absorbs that without adding a noticeable "dead" gap. */}
-      <div className="container" style={{ marginTop: 'clamp(6rem, 12vw, 12rem)' }}>
+          begins — a modest buffer avoids a visible overlap from sub-pixel
+          scroll rounding. At up to 12rem (192px) this was sized for a
+          multi-pixel worst case, not the sub-pixel one it was guarding
+          against, and read as a large dead gap above every world's detail
+          panel — a few pixels of headroom needs nowhere near that much. */}
+      <div className="container" style={{ marginTop: 'clamp(1.5rem, 3vw, 3rem)' }}>
         {/* The pin-swap hero directly above is a confident two-column
             composition (copy left, animated card stack right) — dropping
             straight into a single narrow text column here left roughly half
