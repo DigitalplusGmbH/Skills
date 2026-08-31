@@ -347,13 +347,26 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Worlds Showcase (decision grid — big image cards linking into each world)
    ========================================================================== */
 
+/* This is the very first section on the page — its own top padding plus the
+   next section's top padding otherwise stack into an oversized gap right
+   under the card row, before any content has even started scrolling. */
+.worlds-showcase-section { padding-bottom: clamp(1.5rem, 3vw, 3rem); }
+.worlds-showcase-section + .section { padding-top: clamp(1.5rem, 3vw, 3rem); }
+
 .worlds-showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2vw, 1.75rem); }
 .worlds-showcase-card {
   position: relative; display: block; overflow: hidden; padding: 0;
   min-height: clamp(420px, 46vw, 520px); border-radius: 20px; text-decoration: none; color: #fff;
 }
+/* Split in two: GSAP drives a vertical scroll-parallax on the wrapper (via
+   its own inline transform), while hover-zoom lives as a CSS transform on
+   the <img> itself — the same element can't take both without one clobbering
+   the other, since GSAP's inline style always wins over a CSS class rule.
+   The wrapper is oversized (8% top/bottom bleed) so the parallax travel
+   never exposes an edge past .worlds-showcase-card's own overflow:hidden. */
+.worlds-showcase-image-wrap { position: absolute; inset: -8% 0; z-index: -2; overflow: hidden; }
 .worlds-showcase-image {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2;
+  width: 100%; height: 100%; object-fit: cover;
   transition: transform 0.7s var(--ease-cinema), filter 0.5s ease;
 }
 .worlds-showcase-card::before {
