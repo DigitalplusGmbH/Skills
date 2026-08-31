@@ -566,10 +566,22 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   .world-detail-visual { display: none; }
 }
 
+/* align-items: center in a full 100vh sticky row split the leftover space
+   evenly above and below the left column's content — fine for Leads
+   (653px content, ~123px each side) but IT's own left column runs to
+   766px, leaving only ~67px above, already tight against the 85px nav, and
+   any attempt to shrink the row height to close the *trailing* gap below
+   shrinks that *top* clearance in lockstep and pushes IT's eyebrow row
+   straight under the nav. Content length differs enough per world (653 to
+   766px) that a shared symmetric split isn't safe. A fixed top offset
+   instead guarantees the same nav clearance for all three, and — because
+   it's not forced to match whatever's left below — leaves less of a
+   trailing gap for the shorter-content worlds than centering did. */
 .pin-swap { height: 400vh; }
 .pin-swap-inner {
   position: sticky; top: 0; height: 100vh; display: grid; grid-template-columns: 1fr 1.15fr;
-  gap: clamp(2rem, 5vw, 4rem); align-items: center; padding: 0 var(--container-pad); max-width: var(--container-max); margin: 0 auto;
+  gap: clamp(2rem, 5vw, 4rem); align-items: start; padding-top: clamp(6.5rem, 11vh, 8.5rem);
+  padding-inline: var(--container-pad); max-width: var(--container-max); margin: 0 auto;
 }
 .pin-swap-left { max-width: 460px; }
 .pin-swap-services { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
@@ -708,8 +720,21 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    section right after Journey doesn't need its own full top padding
    stacked on top of that already-long sticky exit scroll. */
 .journey-section + .world-section { padding-top: clamp(1.5rem, 3vw, 3rem); }
-.journey-pin { height: 220vh; }
-.journey-pin-inner { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+/* The sticky pin box was a full 100vh with its content centered inside —
+   the caption/heading block only runs ~550px, so centering it split the
+   ~350px of slack evenly above and below, and that trailing half is exactly
+   what showed up as a big empty gap between the last caption and the next
+   section once the pin released and scrolled off. Same fix as
+   .pin-swap-inner below: a fixed top offset (guaranteeing nav clearance)
+   instead of a centered split lets the box shrink to content height + that
+   offset + a small trailing margin, rather than to content height + 2×
+   whatever offset the nav needs. Container height adjusted by the same
+   amount so the scrub distance (end minus start) stays identical. */
+.journey-pin { height: 175vh; }
+.journey-pin-inner {
+  position: sticky; top: 0; height: 75vh; display: flex; flex-direction: column;
+  justify-content: flex-start; padding-top: clamp(6.5rem, 11vh, 8.5rem);
+}
 /* Fills the large flat zone below the caption that's otherwise on-screen,
    unchanging, for the section's whole long pinned scroll — a faint echo of
    the three world colors instead of empty --bg. */
