@@ -58,7 +58,7 @@ export default function Button({
         ref={ref}
         href={href}
         className={classes}
-        data-cursor="view"
+        data-cursor="ansehen"
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
         onClick={
@@ -80,7 +80,7 @@ export default function Button({
       ref={ref}
       type="button"
       className={classes}
-      data-cursor="view"
+      data-cursor="ansehen"
       onClick={onClick}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}

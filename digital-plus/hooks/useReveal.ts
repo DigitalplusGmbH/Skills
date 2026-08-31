@@ -36,7 +36,7 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(threshold = 0.
 /**
  * Same as useReveal but staggers direct children by data-index order.
  */
-export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(threshold = 0.15) {
+export function useStaggerReveal<T extends Element = HTMLDivElement>(threshold = 0.15) {
   const ref = useRef<T | null>(null);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(thresho
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          const children = Array.from(entry.target.children) as HTMLElement[];
+          const children = Array.from(entry.target.children) as (HTMLElement | SVGElement)[];
           children.forEach((child, i) => {
             child.style.transitionDelay = `${Math.min(i * 0.1, 0.6)}s`;
           });

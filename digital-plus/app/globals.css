@@ -280,6 +280,18 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 }
 .card-spotlight:hover::before { opacity: 1; }
 
+/* Shared dot-diamond signet motif (DotDiamond component) — dots start
+   scaled-down/invisible and animate in with a per-dot stagger (delay set by
+   useStaggerReveal) the first time the SVG scrolls into view, instead of
+   sitting there fully rendered and static. One-time reveal, not a loop. */
+.dot-diamond circle {
+  fill: var(--world-accent, var(--accent));
+  opacity: 0; transform: scale(0.3);
+  transform-box: fill-box; transform-origin: center;
+  transition: opacity 0.5s var(--ease-cinema), transform 0.5s var(--ease-cinema);
+}
+.dot-diamond.in-view circle { opacity: var(--dot-o, 1); transform: scale(1); }
+
 /* Art card top — same flat-surface + dot-diamond language as
    .world-detail-visual, not the three-blob animated gradient blend this used
    to be. That treatment amounted to the same "blurry pastel gradient blob"
@@ -293,19 +305,14 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .art-top[data-world='leads'] { background: var(--surface); }
 .art-top[data-world='creative'] { background: linear-gradient(160deg, var(--surface) 0%, rgba(var(--world-creative-rgb), 0.08) 100%); }
 .art-top[data-world='it'] { background: var(--anthracite); }
-.art-top::before {
-  content: ''; width: 88px; aspect-ratio: 1;
-  background-image: radial-gradient(circle, rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.85) 1.3px, transparent 1.5px);
-  background-size: 12px 12px;
-  clip-path: polygon(50% 4%, 96% 50%, 50% 96%, 4% 50%);
-}
+.art-top-motif { width: 88px; aspect-ratio: 1; }
 
 /* Placeholder cases render through the exact same heading/body styles a
    real client name would — nothing signalled "not live yet" beyond an
    11px caption at the very bottom, so they read as broken content rather
    than an intentional coming-soon state. */
 .art-card.is-placeholder { border-style: dashed; border-color: var(--border-hover); }
-.art-card.is-placeholder .art-top::before { opacity: 0.5; }
+.art-card.is-placeholder .dot-diamond.in-view circle { opacity: calc(var(--dot-o, 1) * 0.55); }
 .art-card.is-placeholder .h3-card { color: var(--text-tertiary); font-style: italic; }
 .art-card-badge {
   position: absolute; top: 0.75rem; right: 0.75rem; z-index: 2;
@@ -461,7 +468,11 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Grids
    ========================================================================== */
 
-.grid-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+/* align-items: start (grid's default is stretch) — service cards otherwise
+   stretch to match the tallest card in their row while their own text stays
+   top-aligned, leaving a dead empty gap below the description on every
+   shorter card. Sized to its own content instead. */
+.grid-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; align-items: start; }
 /* Each world ships exactly 7 serviceDetails, which resolves to 4 columns at
    desktop widths — a 4+3 split leaves one visibly empty cell in the last
    row. When the very last card is also the 3rd item of a trailing row of 4,
@@ -528,12 +539,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   font-family: var(--font-display); font-weight: 700; font-size: 0.9375rem;
   color: var(--world-accent);
 }
-.world-detail-visual-motif {
-  width: min(200px, 55%); aspect-ratio: 1;
-  background-image: radial-gradient(circle, rgba(var(--world-accent-rgb), 0.85) 1.6px, transparent 1.8px);
-  background-size: 15px 15px;
-  clip-path: polygon(50% 4%, 96% 50%, 50% 96%, 4% 50%);
-}
+.world-detail-visual-motif { width: min(200px, 55%); aspect-ratio: 1; }
 .world-detail-visual-caption {
   font-family: var(--font-display); font-weight: 700; font-size: 0.8125rem;
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary);
@@ -697,6 +703,12 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
     radial-gradient(40vw 30vh at 15% 92%, rgba(var(--world-leads-rgb), 0.06) 0%, transparent 70%),
     radial-gradient(40vw 30vh at 50% 96%, rgba(var(--world-creative-rgb), 0.05) 0%, transparent 70%),
     radial-gradient(40vw 30vh at 85% 92%, rgba(var(--world-it-rgb), 0.06) 0%, transparent 70%);
+  /* The radial centers sit near the very bottom edge of this box, so without
+     a mask the wash is close to full strength exactly where the sticky pin
+     releases into the next (flat, untinted) section — a hard color seam at
+     that boundary. Fades it out over the last stretch instead. */
+  mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
 }
 
 /* Height used to scale with width via aspect-ratio, which is exactly wrong

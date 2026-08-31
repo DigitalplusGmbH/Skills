@@ -3,10 +3,15 @@
 import { useEffect, useRef } from 'react';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
 
+// Kept in sync with --world-leads-rgb/--world-creative-rgb/--world-it-rgb in
+// globals.css (Digital Blue / Creative Purple / Plus Cyan per the brand
+// book) — these were still the pre-brand-book hex values, so this fixed
+// full-viewport overlay was washing the whole page in the wrong palette
+// depending on scroll position, on top of whatever else was on screen.
 const ACCENT_RGB: Record<string, string> = {
-  leads: '0, 145, 212',
-  creative: '214, 22, 159',
-  it: '109, 40, 217',
+  leads: '37, 99, 235',
+  creative: '124, 58, 237',
+  it: '0, 196, 251',
 };
 
 /**
@@ -23,7 +28,12 @@ export default function WorldTint() {
     const el = ref.current;
     if (!el) return;
 
-    const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-world]'));
+    // Scoped to the actual world sections, not every small element carrying
+    // data-world (Journey nodes, FinalCTA pills, case-study art panels) —
+    // those are much smaller than the viewport and were winning the
+    // "highest intersection ratio" comparison below in situations that had
+    // nothing to do with actually being in that world's section.
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('.world-section[data-world]'));
     if (!sections.length) return;
 
     const ratios = new Map<Element, number>(sections.map((s) => [s, 0]));

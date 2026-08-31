@@ -12,14 +12,14 @@ if (typeof window !== 'undefined') {
 
 const NODE_X = [150, 600, 1050];
 
-// Ends right at the IT peak instead of continuing into a decorative tail —
-// the marker's arrival at the third node is the section's payoff, so scroll
-// progress reaching 1 should coincide with that arrival instead of spending
-// the pin's last ~10-15% animating past it with nothing left to say. The
-// unused viewBox space beyond x=1050 becomes a right-hand margin that
-// mirrors the left-hand margin before the first node (both ~12.5% of width).
+// Mirrors the lead-in curve before the first node (M0,170 ... 150,50) with a
+// matching close after the last one, instead of stopping dead exactly on the
+// IT peak — a hard stop at the apex read as a cut-off line rather than a
+// deliberate finish. nodeFractions below is sampled from the actual path, so
+// the extra length just means the marker settles into this tail after the
+// last node lights up, rather than the line visually ending mid-arc.
 const PATH_D =
-  'M0,170 C75,170 75,50 150,50 C225,50 300,190 375,190 C450,190 525,50 600,50 C675,50 750,190 825,190 C900,190 975,50 1050,50';
+  'M0,170 C75,170 75,50 150,50 C225,50 300,190 375,190 C450,190 525,50 600,50 C675,50 750,190 825,190 C900,190 975,50 1050,50 C1125,50 1125,170 1200,170';
 
 export default function Journey() {
   const pinRef = useRef<HTMLDivElement>(null);
