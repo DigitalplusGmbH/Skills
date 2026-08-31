@@ -253,9 +253,13 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Cards
    ========================================================================== */
 
+/* A faint resting shadow ("dezent und nie farbig" per the book) instead of
+   flat-on-flat against --bg/--surface-alt — at rest these read as cut-outs
+   with no depth until the much heavier hover shadow suddenly appears. */
 .card {
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
   padding: 1.75rem; position: relative; isolation: isolate;
+  box-shadow: 0 1px 2px rgba(15, 15, 25, 0.03), 0 8px 20px rgba(15, 15, 25, 0.04);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s var(--ease-cinema);
 }
 .card:hover {
@@ -272,55 +276,32 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 }
 .card-spotlight:hover::before { opacity: 1; }
 
-/* Abstract gradient art card (Pattern 6) */
-.art-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; }
+/* Art card top — same flat-surface + dot-diamond language as
+   .world-detail-visual, not the three-blob animated gradient blend this used
+   to be. That treatment amounted to the same "blurry pastel gradient blob"
+   pattern the client already flagged as ugly on the world panels — mixing
+   all three worlds' colors into a wash also worked against the tag right
+   below it, which names exactly one world. */
 .art-top {
-  aspect-ratio: 16 / 9;
-  background:
-    radial-gradient(circle at 30% 40%, var(--world-creative) 0%, transparent 50%),
-    radial-gradient(circle at 70% 60%, var(--world-leads) 0%, transparent 45%),
-    radial-gradient(circle at 50% 80%, var(--world-it) 0%, transparent 40%);
-  background-size: 200% 200%;
-  /* 140% saturation on three overlapping hues washed the middle of every
-     card into a muddy oversaturated lavender — toned down so the blend
-     stays distinct-but-related instead of candy-colored. */
-  filter: saturate(115%);
-  animation: artShift 20s ease-in-out infinite alternate;
+  aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  background: var(--surface-alt);
 }
-@keyframes artShift { to { background-position: 100% 100%; } }
-
-/* Each case study leans into its own world's color as the dominant blob
-   instead of every card blending all three identically — ties the card
-   back to its category tag at a glance. data-variant additionally offsets
-   blob centers per card index, so three cards of the same world (visible
-   together in the horizontal scroller) don't render as identical swatches. */
-.art-top[data-world='leads'] {
-  background:
-    radial-gradient(circle at 30% 35%, var(--world-leads) 0%, transparent 55%),
-    radial-gradient(circle at 75% 70%, var(--world-creative) 0%, transparent 42%),
-    radial-gradient(circle at 60% 15%, var(--world-it) 0%, transparent 35%);
+.art-top[data-world='leads'] { background: var(--surface); }
+.art-top[data-world='creative'] { background: linear-gradient(160deg, var(--surface) 0%, rgba(var(--world-creative-rgb), 0.08) 100%); }
+.art-top[data-world='it'] { background: var(--anthracite); }
+.art-top::before {
+  content: ''; width: 88px; aspect-ratio: 1;
+  background-image: radial-gradient(circle, rgba(var(--world-accent-rgb, var(--accent-rgb)), 0.85) 1.3px, transparent 1.5px);
+  background-size: 12px 12px;
+  clip-path: polygon(50% 4%, 96% 50%, 50% 96%, 4% 50%);
 }
-.art-top[data-world='creative'] {
-  background:
-    radial-gradient(circle at 65% 30%, var(--world-creative) 0%, transparent 55%),
-    radial-gradient(circle at 25% 75%, var(--world-leads) 0%, transparent 42%),
-    radial-gradient(circle at 80% 80%, var(--world-it) 0%, transparent 35%);
-}
-.art-top[data-world='it'] {
-  background:
-    radial-gradient(circle at 40% 65%, var(--world-it) 0%, transparent 55%),
-    radial-gradient(circle at 75% 25%, var(--world-creative) 0%, transparent 42%),
-    radial-gradient(circle at 20% 20%, var(--world-leads) 0%, transparent 35%);
-}
-.art-top[data-variant='1'] { background-position: 30% 70%; }
-.art-top[data-variant='2'] { background-position: 70% 30%; }
 
 /* Placeholder cases render through the exact same heading/body styles a
    real client name would — nothing signalled "not live yet" beyond an
    11px caption at the very bottom, so they read as broken content rather
    than an intentional coming-soon state. */
 .art-card.is-placeholder { border-style: dashed; border-color: var(--border-hover); }
-.art-card.is-placeholder .art-top { filter: grayscale(0.55) saturate(70%); }
+.art-card.is-placeholder .art-top::before { opacity: 0.5; }
 .art-card.is-placeholder .h3-card { color: var(--text-tertiary); font-style: italic; }
 .art-card-badge {
   position: absolute; top: 0.75rem; right: 0.75rem; z-index: 2;
@@ -527,6 +508,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .world-detail-visual {
   position: relative; overflow: hidden; min-height: 320px; border-radius: 12px;
   border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(15, 15, 25, 0.03), 0 8px 20px rgba(15, 15, 25, 0.04);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.75rem;
   padding: 2rem;
 }
@@ -801,6 +783,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .stat-card {
   text-align: center; padding: 2.5rem 1.5rem; position: relative;
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(15, 15, 25, 0.03), 0 8px 20px rgba(15, 15, 25, 0.04);
 }
 .stat-card::before {
   content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
@@ -911,6 +894,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   flex-shrink: 0; width: min(380px, 70vw);
   display: flex; flex-direction: column; justify-content: center; gap: 1.5rem;
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;
+  box-shadow: 0 1px 2px rgba(15, 15, 25, 0.03), 0 8px 20px rgba(15, 15, 25, 0.04);
 }
 
 @media (max-width: 768px), (prefers-reduced-motion: reduce) {

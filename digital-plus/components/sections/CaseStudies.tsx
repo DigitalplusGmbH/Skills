@@ -20,13 +20,13 @@ function worldFromCategory(category: string): WorldKey {
   return 'leads';
 }
 
-function CaseCard({ caseStudy, index }: { caseStudy: CaseStudy; index: number }) {
+function CaseCard({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
     <div
       className={`card art-card card-spotlight h-scroll-card${caseStudy.placeholder ? ' is-placeholder' : ''}`}
       onPointerMove={handleSpotlightMove}
     >
-      <div className="art-top" data-world={worldFromCategory(caseStudy.category)} data-variant={index % 3} />
+      <div className="art-top" data-world={worldFromCategory(caseStudy.category)} />
       {caseStudy.placeholder && <span className="art-card-badge">Bald verfügbar</span>}
       <div style={{ padding: '1.5rem' }}>
         <span className="tag">{caseStudy.category}</span>
@@ -106,8 +106,8 @@ export default function CaseStudies() {
 
       <div className="h-scroll-pin" ref={pinRef}>
         <div className="h-scroll-track" ref={trackRef}>
-          {CASE_STUDIES.map((caseStudy, index) => (
-            <CaseCard key={caseStudy.client + caseStudy.category} caseStudy={caseStudy} index={index} />
+          {CASE_STUDIES.map((caseStudy) => (
+            <CaseCard key={caseStudy.client + caseStudy.category} caseStudy={caseStudy} />
           ))}
           <div className="h-scroll-end">
             <p className="h3-card">Ihr Projekt könnte das nächste sein.</p>
