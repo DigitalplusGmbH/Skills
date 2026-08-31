@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Button from '../ui/Button';
-import DotDiamond from '../ui/DotDiamond';
+import ProductMockup from '../ui/ProductMockup';
 import LeadsCalculator from './LeadsCalculator';
 import type { ServiceDetail, World } from '@/lib/content';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
@@ -161,9 +161,7 @@ export default function WorldSection({ world }: { world: World }) {
             {world.key === 'leads' && <LeadsCalculator />}
           </div>
           <div className="world-detail-visual" data-world={world.key} aria-hidden="true">
-            <span className="world-detail-visual-index">{world.number}</span>
-            <DotDiamond className="world-detail-visual-motif" />
-            <span className="world-detail-visual-caption">{world.ghostWord}</span>
+            <ProductMockup world={world.key} />
           </div>
         </div>
 

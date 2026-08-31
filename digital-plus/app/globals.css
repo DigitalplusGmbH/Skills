@@ -528,43 +528,78 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    Detail". Centering the column's own content in the space it's stretched
    to turns that into an intentional-looking balance instead. */
 .world-detail-text { display: flex; flex-direction: column; justify-content: center; }
-/* Replaces a pastel radial-gradient blob with a giant watermark numeral and
-   "ghost word" — an invented treatment with no basis in the brand book and
-   the panel the client flagged as ugly. The book's own per-world pages give
-   each world a real background rule (Lead: 62% Weiss; Creative: 54% Weiss +
-   26% Purple; IT: 58% Schwarz + 22% Anthrazit) and its own recurring
-   signet motif ("Rautenförmige Punktstruktur — steht für Vernetzung,
-   Systeme und Skalierung") — reused here as a generic dot-diamond, not the
-   protected logo file itself. */
+/* Dark glass-mesh panel instead of a flat light card — a technical/SaaS
+   register (glassmorphism, a colored gradient mesh, a product-style mockup)
+   rather than the flat brand-book surface treatment. */
 .world-detail-visual {
-  position: relative; overflow: hidden; min-height: 280px; border-radius: 12px;
-  border: 1px solid var(--border);
-  box-shadow: 0 1px 2px rgba(15, 15, 25, 0.03), 0 8px 20px rgba(15, 15, 25, 0.04);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
-  padding: 2rem;
+  position: relative; overflow: hidden; min-height: 280px; border-radius: 16px;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  isolation: isolate;
 }
-.world-detail-visual[data-world='leads'] { background: var(--surface); }
-.world-detail-visual[data-world='creative'] {
-  background: linear-gradient(160deg, var(--surface) 0%, rgba(var(--world-creative-rgb), 0.07) 100%);
+.world-detail-visual::before {
+  content: ''; position: absolute; inset: -25%; z-index: 0; filter: blur(50px);
+  background:
+    radial-gradient(40% 40% at 22% 24%, rgba(var(--world-accent-rgb), 0.6) 0%, transparent 70%),
+    radial-gradient(45% 45% at 82% 78%, rgba(var(--world-accent-rgb), 0.32) 0%, transparent 70%);
 }
-.world-detail-visual[data-world='it'] {
-  background: var(--anthracite); border-color: rgba(255, 255, 255, 0.08);
+.world-detail-visual::after {
+  content: ''; position: absolute; inset: 0; z-index: 0; opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(70% 70% at 50% 50%, black 0%, transparent 100%);
 }
-.world-detail-visual-index {
-  position: absolute; top: 1.5rem; left: 1.5rem;
-  font-family: var(--font-display); font-weight: 700; font-size: 0.9375rem;
-  color: var(--world-accent);
-}
-.world-detail-visual-motif { width: min(200px, 55%); aspect-ratio: 1; }
-.world-detail-visual-caption {
-  font-family: var(--font-display); font-weight: 700; font-size: 0.8125rem;
-  letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary);
-}
-.world-detail-visual[data-world='it'] .world-detail-visual-caption { color: rgba(255, 255, 255, 0.65); }
 @media (max-width: 900px) {
   .world-detail-grid { grid-template-columns: 1fr; }
   .world-detail-visual { display: none; }
 }
+
+/* Product mockup — a generic "SaaS dashboard" frame (browser chrome +
+   abstract UI), not a real client screenshot. Frosted glass over the
+   panel's own gradient mesh so it reads as a floating window. */
+.product-mockup {
+  position: relative; z-index: 1; width: 100%; max-width: 380px; border-radius: 14px;
+  overflow: hidden; background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.product-mockup-chrome {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.product-mockup-chrome span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.28); }
+.product-mockup-addr { margin-left: 0.5rem; flex: 1; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.1); }
+.product-mockup-body { padding: 1.5rem; color: #fff; }
+
+.product-mockup-row { display: flex; gap: 1.75rem; margin-bottom: 1.5rem; }
+.product-mockup-stat { display: flex; flex-direction: column; gap: 0.3rem; }
+.product-mockup-stat-value { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; }
+.product-mockup-stat-label { font-size: 0.75rem; color: rgba(255, 255, 255, 0.55); }
+.product-mockup-chart { display: flex; align-items: flex-end; gap: 0.4rem; height: 90px; }
+.product-mockup-chart span {
+  flex: 1; border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, var(--world-accent) 0%, rgba(255, 255, 255, 0.16) 100%);
+}
+
+.product-mockup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+.product-mockup-swatch { aspect-ratio: 1; border-radius: 8px; }
+.product-mockup-swatch.swatch-0 { background: linear-gradient(135deg, var(--world-accent), rgba(255, 255, 255, 0.25)); }
+.product-mockup-swatch.swatch-1 { background: rgba(255, 255, 255, 0.1); }
+.product-mockup-swatch.swatch-2 { background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent); }
+
+.product-mockup-list { display: flex; flex-direction: column; gap: 0.85rem; }
+.product-mockup-list-row {
+  display: flex; align-items: center; gap: 0.6rem; font-size: 0.8125rem; color: rgba(255, 255, 255, 0.82);
+  padding-bottom: 0.85rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.product-mockup-list-row:last-child { border-bottom: none; padding-bottom: 0; }
+.product-mockup-status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; flex-shrink: 0; }
+.product-mockup-list-value { margin-left: auto; color: rgba(255, 255, 255, 0.4); font-size: 0.75rem; }
 
 /* align-items: center in a full 100vh sticky row split the leftover space
    evenly above and below the left column's content — fine for Leads
