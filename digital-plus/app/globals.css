@@ -980,6 +980,32 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .faq-grid { display: grid; grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
 .faq-heading { position: sticky; top: 7rem; }
 .faq-list { display: flex; flex-direction: column; }
+/* Small dark glass-mesh card under the support CTA -- the same visual
+   language as the world panels and case-study cards, scaled down, so the
+   heading column reads as a deliberate composition instead of text that
+   stops partway down a mostly-empty box. */
+.faq-visual {
+  position: relative; overflow: hidden; isolation: isolate; border-radius: 16px;
+  background: var(--ink); padding: 1.5rem; margin-top: 2rem; max-width: 280px;
+}
+.faq-visual::before {
+  content: ''; position: absolute; inset: -25%; z-index: 0; filter: blur(50px);
+  background: radial-gradient(50% 50% at 28% 28%, rgba(var(--accent-rgb), 0.55) 0%, transparent 70%);
+}
+.faq-visual::after {
+  content: ''; position: absolute; inset: 0; z-index: 0; opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(70% 70% at 50% 50%, black 0%, transparent 100%);
+}
+.faq-visual-icon {
+  position: relative; z-index: 1; display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: #fff;
+  margin-bottom: 1rem;
+}
+.faq-visual-caption { position: relative; z-index: 1; color: #fff; font-size: 0.9375rem; max-width: 24ch; }
 @media (max-width: 900px) {
   .faq-grid { grid-template-columns: 1fr; }
   .faq-heading { position: static; margin-bottom: 2rem; }
