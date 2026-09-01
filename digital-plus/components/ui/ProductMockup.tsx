@@ -25,6 +25,7 @@ export default function ProductMockup({ world }: { world: WorldKey }) {
       <div className="product-mockup-body">
         {world === 'leads' && (
           <>
+            <p className="product-mockup-title">Kampagnen-Performance</p>
             <div className="product-mockup-row">
               <div className="product-mockup-stat">
                 <span className="product-mockup-stat-value">1,284</span>
@@ -43,22 +44,28 @@ export default function ProductMockup({ world }: { world: WorldKey }) {
           </>
         )}
         {world === 'creative' && (
-          <div className="product-mockup-grid">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <span key={i} className={`product-mockup-swatch swatch-${i % 3}`} />
-            ))}
-          </div>
+          <>
+            <p className="product-mockup-title">Markenfarben</p>
+            <div className="product-mockup-grid">
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <span key={i} className={`product-mockup-swatch swatch-${i % 3}`} />
+              ))}
+            </div>
+          </>
         )}
         {world === 'it' && (
-          <div className="product-mockup-list">
-            {['API Gateway', 'Datenbank-Cluster', 'Backup-Job', 'CDN-Edge'].map((label) => (
-              <div key={label} className="product-mockup-list-row">
-                <span className="product-mockup-status-dot" />
-                <span>{label}</span>
-                <span className="product-mockup-list-value">Online</span>
-              </div>
-            ))}
-          </div>
+          <>
+            <p className="product-mockup-title">System-Status</p>
+            <div className="product-mockup-list">
+              {['API Gateway', 'Datenbank-Cluster', 'Backup-Job', 'CDN-Edge'].map((label) => (
+                <div key={label} className="product-mockup-list-row">
+                  <span className="product-mockup-status-dot" />
+                  <span>{label}</span>
+                  <span className="product-mockup-list-value">Online</span>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
