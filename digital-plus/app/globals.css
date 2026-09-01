@@ -311,7 +311,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    across the whole page instead of two different treatments. */
 .art-top {
   position: relative; aspect-ratio: 16 / 9; overflow: hidden; isolation: isolate;
-  display: flex; align-items: center; justify-content: center; padding: 1.25rem;
+  display: flex; align-items: stretch; justify-content: center; padding: 1.25rem;
   background: var(--ink);
 }
 .art-top::before {
@@ -328,7 +328,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   background-size: 24px 24px;
   mask-image: radial-gradient(70% 70% at 50% 50%, black 0%, transparent 100%);
 }
-.art-top .product-mockup { max-width: 100%; transform: scale(0.82); }
+.art-top .product-mockup { width: 100%; }
 
 /* Placeholder cases render through the exact same heading/body styles a
    real client name would — nothing signalled "not live yet" beyond an
@@ -548,7 +548,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .world-detail-visual {
   position: relative; overflow: hidden; min-height: 280px; border-radius: 16px;
   background: var(--ink);
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: stretch; justify-content: center;
   padding: clamp(1.5rem, 3vw, 2.5rem);
   isolation: isolate;
 }
@@ -575,38 +575,43 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    abstract UI), not a real client screenshot. Frosted glass over the
    panel's own gradient mesh so it reads as a floating window. */
 .product-mockup {
-  position: relative; z-index: 1; width: 100%; max-width: 380px; border-radius: 14px;
+  position: relative; z-index: 1; width: 100%; border-radius: 14px;
   overflow: hidden; background: rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  display: flex; flex-direction: column;
 }
 .product-mockup-chrome {
-  display: flex; align-items: center; gap: 0.4rem;
+  display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0;
   padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.04);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .product-mockup-chrome span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.28); }
 .product-mockup-addr { margin-left: 0.5rem; flex: 1; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.1); }
-.product-mockup-body { padding: 1.5rem; color: #fff; }
+/* flex:1 so the body — and whichever content variant sits inside it —
+   grows to fill however tall the panel ends up (it stretches to match
+   the text column next to it), instead of staying a small fixed-size
+   card floating in a mostly empty dark box. */
+.product-mockup-body { padding: 1.5rem; color: #fff; flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
 
-.product-mockup-row { display: flex; gap: 1.75rem; margin-bottom: 1.5rem; }
+.product-mockup-row { display: flex; gap: 1.75rem; flex-shrink: 0; }
 .product-mockup-stat { display: flex; flex-direction: column; gap: 0.3rem; }
 .product-mockup-stat-value { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; }
 .product-mockup-stat-label { font-size: 0.75rem; color: rgba(255, 255, 255, 0.55); }
-.product-mockup-chart { display: flex; align-items: flex-end; gap: 0.4rem; height: 90px; }
+.product-mockup-chart { display: flex; align-items: flex-end; gap: 0.4rem; flex: 1; min-height: 90px; }
 .product-mockup-chart span {
   flex: 1; border-radius: 3px 3px 0 0;
   background: linear-gradient(180deg, var(--world-accent) 0%, rgba(255, 255, 255, 0.16) 100%);
 }
 
-.product-mockup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
-.product-mockup-swatch { aspect-ratio: 1; border-radius: 8px; }
+.product-mockup-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 0.6rem; flex: 1; }
+.product-mockup-swatch { border-radius: 8px; }
 .product-mockup-swatch.swatch-0 { background: linear-gradient(135deg, var(--world-accent), rgba(255, 255, 255, 0.25)); }
 .product-mockup-swatch.swatch-1 { background: rgba(255, 255, 255, 0.1); }
 .product-mockup-swatch.swatch-2 { background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent); }
 
-.product-mockup-list { display: flex; flex-direction: column; gap: 0.85rem; }
+.product-mockup-list { display: flex; flex-direction: column; gap: 0.85rem; flex: 1; justify-content: space-between; }
 .product-mockup-list-row {
   display: flex; align-items: center; gap: 0.6rem; font-size: 0.8125rem; color: rgba(255, 255, 255, 0.82);
   padding-bottom: 0.85rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
