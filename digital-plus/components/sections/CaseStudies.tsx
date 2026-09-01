@@ -8,7 +8,7 @@ import { usePerfFlags } from '@/hooks/usePerfFlags';
 import { CASE_STUDIES, type CaseStudy, type WorldKey } from '@/lib/content';
 import ScrollFloatHeading from '../ui/ScrollFloatHeading';
 import Button from '../ui/Button';
-import DotDiamond from '../ui/DotDiamond';
+import ProductMockup from '../ui/ProductMockup';
 import { handleSpotlightMove } from '@/lib/spotlight';
 
 if (typeof window !== 'undefined') {
@@ -28,7 +28,7 @@ function CaseCard({ caseStudy }: { caseStudy: CaseStudy }) {
       onPointerMove={handleSpotlightMove}
     >
       <div className="art-top" data-world={worldFromCategory(caseStudy.category)}>
-        <DotDiamond className="art-top-motif" />
+        <ProductMockup world={worldFromCategory(caseStudy.category)} />
       </div>
       {caseStudy.placeholder && <span className="art-card-badge">Bald verfügbar</span>}
       <div style={{ padding: '1.5rem' }}>
