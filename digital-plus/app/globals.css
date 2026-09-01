@@ -118,9 +118,15 @@ body {
    Ambient overlays — grain texture + per-world background tint
    ========================================================================== */
 
+/* mix-blend-mode: multiply forces the browser to recomposite this
+   full-viewport layer against whatever's changed underneath it on every
+   single scroll frame (a non-normal blend mode can't be cached as an
+   independent layer) -- measured as a meaningful chunk of the site-wide
+   scroll jank, on a purely decorative texture that's imperceptible either
+   way at 5% opacity. normal blending is nearly free by comparison. */
 .grain-overlay {
   position: fixed; inset: 0; z-index: 2; pointer-events: none;
-  opacity: 0.05; mix-blend-mode: multiply;
+  opacity: 0.05; mix-blend-mode: normal;
   /* feTurbulence's raw output is low-contrast pastel static — filter:contrast
      amplifies it into visible grain without having to hand-tune an SVG
      feColorMatrix; opacity above stays low so the amplified version still
@@ -320,7 +326,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   background: var(--ink);
 }
 .art-top::before {
-  content: ''; position: absolute; inset: -25%; z-index: 0; filter: blur(50px);
+  content: ''; position: absolute; inset: -25%; z-index: 0; filter: blur(34px);
   background:
     radial-gradient(40% 40% at 22% 24%, rgba(var(--world-accent-rgb), 0.6) 0%, transparent 70%),
     radial-gradient(45% 45% at 82% 78%, rgba(var(--world-accent-rgb), 0.32) 0%, transparent 70%);
@@ -562,7 +568,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   isolation: isolate;
 }
 .world-detail-visual::before {
-  content: ''; position: absolute; inset: -25%; z-index: 0; filter: blur(50px);
+  content: ''; position: absolute; inset: -25%; z-index: 0; filter: blur(34px);
   background:
     radial-gradient(40% 40% at 22% 24%, rgba(var(--world-accent-rgb), 0.6) 0%, transparent 70%),
     radial-gradient(45% 45% at 82% 78%, rgba(var(--world-accent-rgb), 0.32) 0%, transparent 70%);
@@ -586,7 +592,13 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .product-mockup {
   position: relative; z-index: 1; width: 100%; border-radius: 14px;
   overflow: hidden; background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  /* backdrop-filter is one of the most expensive properties there is --
+     it has to resample and reblur everything behind the element live.
+     20px was overkill against a backdrop that's already just a soft
+     blurred gradient mesh; 10px reads just as "frosted" for a fraction
+     of the cost, and there are up to seven of these composited on one
+     page (three world panels, four case-study cards). */
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.14);
   display: flex; flex-direction: column;
@@ -751,7 +763,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   background: linear-gradient(160deg, var(--surface) 0%, var(--surface-alt) 100%);
   box-shadow: 0 20px 45px rgba(15, 15, 25, 0.08);
   padding: clamp(1.5rem, 3vw, 2.5rem); display: flex; flex-direction: column; justify-content: flex-end; gap: 0.75rem;
-  overflow: hidden; will-change: transform, opacity;
+  overflow: hidden; will-change: transform, opacity, filter;
 }
 .world-scene-card::before {
   content: ''; position: absolute; inset: 0;
@@ -989,7 +1001,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
   background: var(--ink); padding: 1.5rem; margin-top: 2rem; max-width: 280px;
 }
 .faq-visual::before {
-  content: ''; position: absolute; inset: -25%; z-index: 0; filter: blur(50px);
+  content: ''; position: absolute; inset: -25%; z-index: 0; filter: blur(34px);
   background: radial-gradient(50% 50% at 28% 28%, rgba(var(--accent-rgb), 0.55) 0%, transparent 70%);
 }
 .faq-visual::after {
