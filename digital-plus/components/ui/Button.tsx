@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { usePerfFlags } from '@/hooks/usePerfFlags';
 import { useLenis } from '@/hooks/useLenis';
 
@@ -38,6 +38,20 @@ export default function Button({
   function handlePointerLeave() {
     if (ref.current) ref.current.style.transform = '';
   }
+
+  // Scrolling (wheel/trackpad) moves the page under a stationary pointer
+  // without firing pointerleave, so a magnetic offset applied right before
+  // a scroll would otherwise stay stuck on the button for as long as it's
+  // being scrolled — a stale transform on a will-change-heavy element is
+  // exactly the kind of state that causes ghosting during fast scroll.
+  useEffect(() => {
+    if (!magnetic) return;
+    function reset() {
+      if (ref.current) ref.current.style.transform = '';
+    }
+    window.addEventListener('scroll', reset, { passive: true });
+    return () => window.removeEventListener('scroll', reset);
+  }, [magnetic]);
 
   const classes = `btn btn-${variant} ${magnetic ? 'btn-magnetic' : ''} ${className}`.trim();
   const content = (

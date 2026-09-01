@@ -61,7 +61,7 @@ export default function Footer() {
               </li>
               <li>{CONTACT.address}</li>
             </ul>
-            <span className="placeholder-flag">E-Mail-Domain ist ein Platzhalter</span>
+            <span className="placeholder-flag">E-Mail-Domain, Telefonnummer und Adresse sind Platzhalter</span>
           </div>
         </div>
 
