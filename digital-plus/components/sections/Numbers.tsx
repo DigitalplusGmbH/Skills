@@ -53,7 +53,7 @@ function StatCard({ stat }: { stat: Stat }) {
 
 export default function Numbers() {
   return (
-    <section className="section section-alt">
+    <section className="section section-alt numbers-section">
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
           <span className="placeholder-flag">

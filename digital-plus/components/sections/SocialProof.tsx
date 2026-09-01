@@ -36,7 +36,7 @@ export default function SocialProof() {
   const ref = useReveal<HTMLSpanElement>();
 
   return (
-    <section className="section">
+    <section className="section social-proof-section">
       <div className="container">
         <div style={{ maxWidth: 640, marginBottom: '3rem' }}>
           <span ref={ref} className="eyebrow reveal">

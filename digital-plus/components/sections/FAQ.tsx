@@ -31,7 +31,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="section section-alt">
+    <section className="section section-alt faq-section">
       <div className="container">
         <div className="faq-grid">
           <div className="faq-heading">

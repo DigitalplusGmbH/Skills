@@ -74,7 +74,12 @@
   --ease-cinema: cubic-bezier(0.16, 1, 0.3, 1);
   --container-max: 1360px;
   --container-pad: clamp(1.25rem, 5vw, 4rem);
-  --section-pad: clamp(5rem, 10vw, 9rem);
+  /* Was clamp(5rem, 10vw, 9rem) -- 144px a side at desktop widths, so any
+     section boundary without its own override stacked to 288px of dead
+     space between the two. That's most of the boundaries on the page
+     (Numbers/testimonials/FAQ chain, every world-to-world handoff), which
+     is exactly the "gaps are too big everywhere" complaint. */
+  --section-pad: clamp(3.5rem, 6vw, 6rem);
 }
 
 [data-world='leads'] {
@@ -522,7 +527,11 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .world-number { font-family: var(--font-display); font-size: 0.875rem; color: var(--world-accent); letter-spacing: 0.1em; }
 /* The service grid's own bottom --section-pad stacking with the next
    section's top --section-pad produced the same oversized-gap pattern
-   already fixed at the worlds-showcase and Journey handoffs. */
+   already fixed at the worlds-showcase and Journey handoffs. Trimming only
+   the next section's top (as before) still left the service grid's own
+   full-size bottom padding in the mix -- halving that too instead of just
+   one side of the handoff. */
+.world-section { padding-bottom: clamp(2rem, 4vw, 3.5rem); }
 .world-section + .section { padding-top: clamp(2.5rem, 5vw, 5rem); }
 
 /* Gives every world (not just Leads, which used to get its visual weight
@@ -782,6 +791,14 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    section right after Journey doesn't need its own full top padding
    stacked on top of that already-long sticky exit scroll. */
 .journey-section + .world-section { padding-top: clamp(1.5rem, 3vw, 3rem); }
+/* Numbers → testimonials → FAQ: three plain .section/.section-alt blocks
+   back to back that never got this same stacking fix, unlike every other
+   handoff on the page -- each boundary here was the full un-stacked
+   --section-pad on both sides (288px combined, worse than any of the
+   above even after the --section-pad token itself was trimmed). */
+.numbers-section { padding-block: clamp(2.5rem, 5vw, 5rem); }
+.social-proof-section { padding-block: clamp(2.5rem, 5vw, 5rem); }
+.faq-section { padding-top: clamp(2.5rem, 5vw, 5rem); }
 /* The sticky pin box was a full 100vh with its content centered inside —
    the caption/heading block only runs ~550px, so centering it split the
    ~350px of slack evenly above and below, and that trailing half is exactly
