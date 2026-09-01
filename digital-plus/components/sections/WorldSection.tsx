@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Button from '../ui/Button';
 import ProductMockup from '../ui/ProductMockup';
 import LeadsCalculator from './LeadsCalculator';
 import type { ServiceDetail, World } from '@/lib/content';
@@ -114,11 +113,6 @@ export default function WorldSection({ world }: { world: World }) {
                   {service}
                 </span>
               ))}
-            </div>
-            <div style={{ marginTop: '2rem' }}>
-              <Button href={world.ctaHref} variant="world" magnetic>
-                {world.ctaLabel}
-              </Button>
             </div>
           </div>
 

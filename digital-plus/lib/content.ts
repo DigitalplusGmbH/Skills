@@ -26,8 +26,6 @@ export interface World {
   bodyExtra: string;
   services: string[];
   serviceDetails: ServiceDetail[];
-  ctaLabel: string;
-  ctaHref: string;
   scenes: WorldScene[];
   ghostWord: string;
   /** Short copy for the WorldsShowcase decision-grid card. */
@@ -69,8 +67,6 @@ export const WORLDS: World[] = [
       { name: 'Tracking & Attribution', description: 'Serverseitiges Tracking und ein Attributionsmodell, das zeigt, welcher Kanal wirklich Umsatz bringt.' },
       { name: 'Conversion-Optimierung', description: 'Laufende Tests an Text, Layout und Angebot — jede Änderung wird gegen echte Zahlen validiert.' },
     ],
-    ctaLabel: 'Mehr über Leads',
-    ctaHref: '#kontakt',
     showcase: {
       pill: 'Wachstum und Anfragen',
       description: 'SEO, Kampagnen und digitale Prozesse für qualifizierte Anfragen und messbare Resultate.',
@@ -114,8 +110,6 @@ export const WORLDS: World[] = [
       { name: 'Fotografie', description: 'Produkt-, Team- und Eventfotografie, die zur Bildsprache der Marke passt statt generisch zu wirken.' },
       { name: '3D-Visualisierung', description: 'Produkte und Räume, die es noch nicht gibt, fotorealistisch dargestellt — für Kampagnen, Kataloge und Web.' },
     ],
-    ctaLabel: 'Creative entdecken',
-    ctaHref: '#kontakt',
     showcase: {
       pill: 'Marke und Gestaltung',
       description: 'Webdesign, Branding, Video und Content für einen eigenständigen und starken Auftritt.',
@@ -159,8 +153,6 @@ export const WORLDS: World[] = [
       { name: 'Netzwerke', description: 'Stabile, segmentierte Netzwerke, die mit der Anzahl der Geräte und Standorte mitwachsen.' },
       { name: 'Monitoring & Gerätemanagement', description: 'Zentrale Übersicht über jedes Gerät im Unternehmen, mit Alarmierung bevor ein Problem sichtbar wird.' },
     ],
-    ctaLabel: 'IT-Lösungen ansehen',
-    ctaHref: '#kontakt',
     showcase: {
       pill: 'Systeme und Sicherheit',
       description: 'Sichere Infrastruktur, Cloud, CRM, Automatisierungen und persönliche technische Betreuung.',
