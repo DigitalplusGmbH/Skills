@@ -620,8 +620,8 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    chrome bar above them, reading as an empty window before the content
    below finally started. */
 .product-mockup-title {
-  font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.5); flex-shrink: 0;
+  font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--world-accent, #fff); flex-shrink: 0;
 }
 
 .product-mockup-row { display: flex; gap: 1.75rem; flex-shrink: 0; }
