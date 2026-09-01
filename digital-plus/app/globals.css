@@ -632,10 +632,18 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
    it's not forced to match whatever's left below — leaves less of a
    trailing gap for the shorter-content worlds than centering did. */
 .pin-swap { height: 400vh; }
+/* transform: translateZ(0) forces this sticky block onto its own stable
+   compositor layer with a clean boundary. Without it, a sticky element
+   sharing the viewport with several other GPU-promoted layers (the
+   will-change'd card stack in .pin-swap-right, the blurred mesh panel and
+   backdrop-filtered mockup right below it) is a known trigger for Chrome
+   scroll-compositing artifacts, where a stale tile of the sticky content
+   gets painted on top of newly-scrolled-in content for a frame or two. */
 .pin-swap-inner {
   position: sticky; top: 0; height: 100vh; display: grid; grid-template-columns: 1fr 1.15fr;
   gap: clamp(2rem, 5vw, 4rem); align-items: start; padding-top: clamp(6.5rem, 11vh, 8.5rem);
   padding-inline: var(--container-pad); max-width: var(--container-max); margin: 0 auto;
+  transform: translateZ(0);
 }
 .pin-swap-left { max-width: 460px; }
 .pin-swap-services { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
@@ -788,6 +796,7 @@ h3.card-title, .h3-card { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 
 .journey-pin-inner {
   position: sticky; top: 0; height: 75vh; display: flex; flex-direction: column;
   justify-content: flex-start; padding-top: clamp(6.5rem, 11vh, 8.5rem);
+  transform: translateZ(0);
 }
 /* Fills the large flat zone below the caption that's otherwise on-screen,
    unchanging, for the section's whole long pinned scroll — a faint echo of
