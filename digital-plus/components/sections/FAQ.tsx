@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useReveal } from '@/hooks/useReveal';
 import { FAQS } from '@/lib/content';
 import ScrollFloatHeading from '../ui/ScrollFloatHeading';
+import Button from '../ui/Button';
 
 function FaqRow({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
   return (
@@ -40,6 +41,14 @@ export default function FAQ() {
             </span>
             <div style={{ marginTop: '1rem' }}>
               <ScrollFloatHeading text="Bevor Sie fragen müssen" />
+            </div>
+            <p className="body-lg" style={{ marginTop: '1.5rem' }}>
+              Ihre Frage ist nicht dabei? Schreiben Sie uns direkt — wir melden uns persönlich zurück.
+            </p>
+            <div style={{ marginTop: '1.5rem' }}>
+              <Button href="#kontakt" variant="secondary">
+                Frage stellen
+              </Button>
             </div>
           </div>
 
